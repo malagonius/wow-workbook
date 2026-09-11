@@ -1,6 +1,6 @@
 # Canonical Talent Project Format
 
-`config/talent-project.json` is the planned single source of truth for talent-tree structure.
+`config/talent-project.json` is the single source of truth for talent-tree structure.
 
 ## Contract
 
@@ -53,10 +53,12 @@
 - Connections belong to their section. There is no separate canonical connection file.
 - Export/import uses this exact project object.
 - IndexedDB drafts use this exact project object.
-- The Calculator and Designer normalize older project exports for compatibility during migration.
+- The Calculator and Designer consume the canonical project and normalize it through the shared model.
 
-## Migration
+## Repository state
 
-The repository currently still contains the legacy `config/talent-trees.json` and `config/talent-connections.json` files. `scripts/migrate-talent-project.mjs` deterministically converts those files into the v2 canonical format.
+The canonical migration is complete. `config/talent-project.json` now contains the talent-tree data previously split across the legacy tree and connection files.
 
-The final migration step is to generate and commit `config/talent-project.json`, verify the Calculator and Designer against it, and then remove the legacy files.
+The Calculator and Designer load only `config/talent-project.json`; the legacy `config/talent-trees.json` and `config/talent-connections.json` files have been removed.
+
+The old migration script is no longer part of the runtime path because migration has already been performed. Future edits should be made through the canonical project file or the Talent Designer and exported using the same format.

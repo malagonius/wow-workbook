@@ -4,26 +4,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WoW Workbook — Talent Calculator</title>
-<style>
-:root{--gold:#f2c14e;--bg:#080a0d;--panel:#15191f;--panel2:#20252d;--line:#46505c;--text:#f3f4f6;--muted:#9da6b2;--blue:#54b8ff;--purple:#b65cff;--utility:#e0b44f;--locked:#5c6570}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(circle at top,#26303b 0,#101318 52%,#080a0d 100%);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,select{font:inherit}header{padding:24px 18px 18px;text-align:center;border-bottom:1px solid #303741;background:rgba(8,10,13,.88)}h1{margin:0;font-size:clamp(26px,4vw,42px);letter-spacing:.04em;text-shadow:0 2px 10px #000}header p{margin:7px 0 0;color:var(--muted)}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:14px 18px;position:sticky;top:0;z-index:20;background:rgba(10,12,16,.95);backdrop-filter:blur(10px);border-bottom:1px solid #303741}.control{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}select{min-width:210px;padding:10px 34px 10px 11px;color:var(--text);background:var(--panel2);border:1px solid #505965;border-radius:6px}.toolbar{display:flex;gap:8px;margin-left:8px}.btn{border:1px solid #56606c;border-radius:6px;padding:10px 13px;color:var(--text);background:#252c34;cursor:pointer}.btn:hover{border-color:var(--gold)}.btn.primary{background:#3a3020;border-color:#8d6c27;color:#ffd978}main{max-width:1400px;margin:auto;padding:22px 14px 50px}.tree-header{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:14px}.class-name{color:var(--gold);font-weight:700}.tree-header h2{margin:2px 0 4px;font-size:30px}.tree-header p{margin:0;color:var(--muted);max-width:800px}.points{min-width:100px;text-align:right}.points strong{display:block;font-size:22px}.points span{color:var(--muted);font-size:11px;text-transform:uppercase}.tree-wrap{overflow:auto;padding:8px 2px 18px}.tree{position:relative;min-width:850px;min-height:620px;padding:32px 34px 38px;background:linear-gradient(180deg,rgba(31,36,44,.98),rgba(15,18,23,.98));border:1px solid #414a55;border-radius:10px;box-shadow:0 16px 50px #0008}.tiers{position:relative;height:550px;display:grid;grid-template-rows:repeat(4,1fr);gap:5px}.tier{position:relative;display:grid;grid-template-columns:repeat(4,1fr);align-items:center}.tier-label{position:absolute;left:-20px;top:3px;color:#68727e;font-size:10px;font-weight:700;letter-spacing:.12em}.connections{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}.connections line{stroke:var(--line);stroke-width:2;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.9}.connections line.active{stroke:#d2a843;filter:drop-shadow(0 0 3px #d2a84366)}.node{position:relative;z-index:2;width:100px;height:100px;margin:auto;padding:7px;display:flex;align-items:center;justify-content:center;text-align:center;color:#e9edf2;background:linear-gradient(145deg,#323a44,#171b21);border:3px solid #69737f;border-radius:12px;box-shadow:0 4px 12px #000b;cursor:pointer;transition:.15s}.node:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 7px 20px #000c,0 0 14px #f2c14e33}.node.rune{border-color:var(--blue)}.node.rp{border-color:var(--purple)}.node.utility{border-color:var(--utility)}.node.locked{filter:grayscale(.65);opacity:.48;cursor:not-allowed}.node.locked:hover{transform:none;border-color:var(--locked);box-shadow:0 4px 12px #000b}.node.selected{background:linear-gradient(145deg,#51472d,#211d14);border-color:var(--gold);box-shadow:0 0 16px #f2c14e55,0 5px 15px #000b}.node.selected.rune{border-color:var(--blue);box-shadow:0 0 16px #54b8ff55}.node.selected.rp{border-color:var(--purple);box-shadow:0 0 16px #b65cff55}.node strong{display:block;font-size:12px;line-height:1.12}.node small{display:block;margin-top:5px;color:#aeb7c2;font-size:9px;line-height:1.15}.node .rank{position:absolute;right:-7px;bottom:-7px;min-width:24px;padding:3px 5px;border-radius:10px;background:#11151a;border:1px solid #747d87;font-size:10px}.legend{display:flex;flex-wrap:wrap;gap:14px;margin:2px 4px 0;color:var(--muted);font-size:12px}.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:3px;border:2px solid;vertical-align:-1px}.legend .rune::before{border-color:var(--blue)}.legend .rp::before{border-color:var(--purple)}.legend .utility::before{border-color:var(--utility)}.details{margin-top:16px;padding:16px;background:rgba(21,25,31,.9);border:1px solid #343d47;border-radius:8px}.details h3{margin:0 0 7px}.details p{margin:0;color:var(--muted);line-height:1.5}.empty{min-height:500px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px dashed #48515d;border-radius:10px;color:var(--muted);background:rgba(20,24,30,.7)}.empty .icon{font-size:48px;opacity:.55;margin-bottom:8px}.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:#000b}.modal.open{display:flex}.modal-card{width:min(760px,100%);max-height:min(80vh,760px);overflow:auto;background:#15191f;border:1px solid #515b67;border-radius:10px;box-shadow:0 25px 80px #000e}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #343d47}.modal-head h3{margin:0}.close{border:0;background:transparent;color:#aeb7c2;font-size:25px;cursor:pointer}.spell{padding:14px 18px;border-bottom:1px solid #303741}.spell:last-child{border-bottom:0}.spell-title{display:flex;justify-content:space-between;gap:12px}.spell-title strong{font-size:16px}.badge{font-size:10px;text-transform:uppercase;color:var(--muted);padding:4px 7px;border:1px solid #4c5661;border-radius:5px}.spell-meta{display:flex;gap:15px;flex-wrap:wrap;margin:7px 0;color:#b9c1cb;font-size:12px}.spell p{margin:0;color:var(--muted);line-height:1.45}@media(max-width:700px){.controls{justify-content:stretch}.control{flex:1 1 100%}.control select{width:100%}.toolbar{width:100%;margin:0}.toolbar .btn{flex:1}.tree-header{display:block}.points{text-align:left;margin-top:10px}.tree{min-width:760px}.node{width:86px;height:86px}.tier-label{left:-14px}}
-</style>
+<link rel="stylesheet" href="css/talent-calculator.css">
 </head>
 <body>
-<header><h1>WoW Workbook</h1><p>Homebrew class &amp; specialization talent calculator</p></header>
-<section class="controls"><label class="control">Class <select id="classSelect"></select></label><label class="control">Specialization <select id="specSelect"></select></label><div class="toolbar"><button class="btn" id="resetBtn">Reset</button><button class="btn primary" id="spellsBtn">View Spells</button></div></section>
-<main><div class="tree-header"><div><div class="class-name" id="className"></div><h2 id="specName"></h2><p id="specDescription"></p></div><div class="points"><strong id="pointCount">0 / 0</strong><span>Talent points</span></div></div><div class="tree-wrap" id="treeContainer"></div><div class="legend"><span class="rune">Rune / resource</span><span class="rp">Runic Power / spender</span><span class="utility">Utility / passive</span></div><div class="details" id="details"></div></main>
-<div class="modal" id="spellModal" aria-hidden="true"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle">Spellbook</h3><button class="close" id="closeModal" aria-label="Close">×</button></div><div id="spellList"></div></div></div>
-<script>
-const CONFIG_URL='config/talent-trees.json',SPELLS_URL='config/spells.json';let config=null,spells=null,selected=new Set();const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=$('specSelect'),treeContainer=$('treeContainer');
-async function loadConfig(){try{const[a,b]=await Promise.all([fetch(CONFIG_URL),fetch(SPELLS_URL)]);if(!a.ok||!b.ok)throw Error('Configuration files could not be loaded');config=await a.json();spells=await b.json();Object.keys(config.classes).forEach(c=>classSelect.add(new Option(c,c)));classSelect.value='Death Knight';populateSpecs()}catch(e){treeContainer.innerHTML='<div class="empty"><div class="icon">⚠</div><strong>Configuration could not be loaded</strong><span>Open the calculator through GitHub Pages or another web server.</span></div>';console.error(e)}}
-function currentKey(){return `${classSelect.value}/${specSelect.value}`}function getTree(){return config?.trees[currentKey()]}function populateSpecs(){selected.clear();specSelect.innerHTML='';(config?.classes[classSelect.value]||[]).forEach(s=>specSelect.add(new Option(s,s)));if(classSelect.value==='Death Knight'&&[...specSelect.options].some(o=>o.value==='Lichborn'))specSelect.value='Lichborn';render()}
-function isUnlocked(n,d){return n.requires.every(id=>selected.has(id))}function hasDependents(id,d){return d.nodes.some(n=>n.requires.includes(id)&&selected.has(n.id))}function toggleNode(id){const d=getTree(),n=d?.nodes.find(x=>x.id===id);if(!n)return;if(selected.has(id)){if(hasDependents(id,d))return;selected.delete(id)}else if(isUnlocked(n,d)&&selected.size<d.maxPoints)selected.add(id);render()}
-function render(){const d=getTree();$('className').textContent=classSelect.value;$('specName').textContent=specSelect.value;$('specDescription').textContent=d?.description||'No homebrew talent tree has been defined for this specialization yet.';$('pointCount').textContent=`${selected.size} / ${d?.maxPoints||0}`;$('details').innerHTML=`<h3>${d?'Tree notes':'Ready for design'}</h3><p>${d?'Click an available node to spend a point. A node becomes available only after all configured prerequisites are selected. Selected nodes with dependent talents cannot be removed until those dependents are removed.':'This specialization has no custom tree yet. Add it to <code>config/talent-trees.json</code> without changing the UI.'}</p>`;if(!d){treeContainer.innerHTML='<div class="empty"><div class="icon">✦</div><strong>No custom tree yet</strong><span>This slot is ready for future homebrew specialization work.</span></div>';return}const nodes=d.nodes,byId=Object.fromEntries(nodes.map(n=>[n.id,n]));let html='<div class="tree"><div class="tiers"><svg class="connections" aria-hidden="true">';
-nodes.forEach(n=>n.requires.forEach(req=>{const f=byId[req];if(!f)return;const fromCol=(f.column-.5)*25,toCol=(n.column-.5)*25;html+=`<line class="${selected.has(req)&&selected.has(n.id)?'active':''}" data-from="${req}" data-to="${n.id}" x1="${fromCol}%" y1="${(f.tier-.5)*25}%" x2="${toCol}%" y2="${(n.tier-.5)*25}%"/>`}));html+='</svg>';
-for(let tier=1;tier<=4;tier++){html+=`<div class="tier"><span class="tier-label">TIER ${tier}</span>`;for(let col=1;col<=4;col++){const n=nodes.find(x=>x.tier===tier&&x.column===col);if(!n){html+='<div></div>';continue}const unlocked=isUnlocked(n,d),sel=selected.has(n.id),dependent=hasDependents(n.id,d);html+=`<button class="node ${n.type} ${sel?'selected':''} ${!unlocked&&!sel?'locked':''}" data-id="${n.id}" title="${unlocked?'Select talent':dependent?'Remove dependent talents first':'Requires: '+n.requires.map(id=>byId[id]?.name||id).join(', ')}"><div><strong>${n.name}</strong><small>${n.spell||'Talent'}</small></div>${sel?'<span class="rank">✓</span>':''}</button>`}html+='</div>'}html+='</div></div>';treeContainer.innerHTML=html;treeContainer.querySelectorAll('.node').forEach(b=>b.addEventListener('click',()=>toggleNode(b.dataset.id)))}
-function openSpells(){const list=spells?.[currentKey()]||[];$('modalTitle').textContent=`${specSelect.value} — Spellbook`;$('spellList').innerHTML=list.length?list.map(s=>`<article class="spell"><div class="spell-title"><strong>${s.name}</strong><span class="badge">${s.school}</span></div><div class="spell-meta"><span>Range: ${s.range}</span><span>Cost: ${s.cost}</span></div><p>${s.effect}</p></article>`).join(''):'<div class="spell"><p>No spell configuration exists for this specialization yet.</p></div>';$('spellModal').classList.add('open');$('spellModal').setAttribute('aria-hidden','false')}
-$('closeModal').addEventListener('click',()=>{$('spellModal').classList.remove('open');$('spellModal').setAttribute('aria-hidden','true')});$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')$('closeModal').click()});$('spellsBtn').addEventListener('click',openSpells);$('resetBtn').addEventListener('click',()=>{selected.clear();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{selected.clear();render()});loadConfig();
-</script>
+<header>
+  <h1>WoW Workbook</h1>
+  <p>Homebrew class &amp; specialization talent calculator</p>
+</header>
+
+<section class="controls">
+  <label class="control">Class <select id="classSelect"></select></label>
+  <label class="control">Specialization <select id="specSelect"></select></label>
+  <div class="toolbar">
+    <button class="btn" id="resetBtn">Reset</button>
+    <button class="btn primary" id="spellsBtn">View Spells</button>
+  </div>
+</section>
+
+<main>
+  <div class="tree-header">
+    <div>
+      <div class="class-name" id="className"></div>
+      <h2 id="specName"></h2>
+      <p id="specDescription"></p>
+    </div>
+    <div class="points">
+      <strong id="pointCount">0 / 0</strong>
+      <span>Talent points</span>
+    </div>
+  </div>
+
+  <div class="tree-wrap" id="treeContainer"></div>
+
+  <div class="legend">
+    <span class="rune">Rune / resource</span>
+    <span class="rp">Runic Power / spender</span>
+    <span class="utility">Utility / passive</span>
+  </div>
+
+  <div class="details" id="details"></div>
+</main>
+
+<div class="modal" id="spellModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="modalTitle">Spellbook</h3>
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+    </div>
+    <div id="spellList"></div>
+  </div>
+</div>
+
+<script src="js/talent-calculator.js"></script>
 </body>
 </html>

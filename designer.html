@@ -6,8 +6,11 @@
   <title>WoW Workbook — Talent Designer</title>
   <link rel="stylesheet" href="css/talent-calculator.css">
   <link rel="stylesheet" href="css/talent-designer.css">
+  <link rel="stylesheet" href="css/app-navigation.css">
 </head>
 <body class="designer-page">
+  <div id="app-header"></div>
+
   <main class="designer">
     <header class="designer-header">
       <div>
@@ -15,7 +18,6 @@
         <h1>Talent Designer</h1>
         <p>Design the tree visually. The JSON remains the source of truth.</p>
       </div>
-      <a href="index.html" class="designer-link">← Calculator</a>
     </header>
 
     <section class="designer-toolbar">
@@ -82,6 +84,7 @@
     </form>
   </dialog>
 
+  <script type="module" src="js/app-navigation.js"></script>
   <script type="module" src="js/talent-designer.js"></script>
 </body>
 </html>

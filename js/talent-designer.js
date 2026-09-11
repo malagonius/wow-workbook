@@ -1,9 +1,7 @@
-import { cloneProject, makeNode, makeConnection, normalizeProject, projectFromLegacy, validateSection, TALENT_PROJECT_FORMAT, TALENT_PROJECT_VERSION } from './talent-model.js';
+import { cloneProject, makeNode, makeConnection, normalizeProject, validateSection, TALENT_PROJECT_FORMAT, TALENT_PROJECT_VERSION } from './talent-model.js';
 import { loadDraft, saveDraft, clearDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
 
 const PROJECT_URL = 'config/talent-project.json';
-const TREES_URL = 'config/talent-trees.json';
-const CONNECTIONS_URL = 'config/talent-connections.json';
 
 let project;
 let baselineProject;
@@ -223,15 +221,9 @@ async function resetDraft() {
 }
 
 async function loadRepositoryProject() {
-  try {
-    const response = await fetch(PROJECT_URL);
-    if (!response.ok) throw new Error(`Canonical project unavailable (${response.status})`);
-    return normalizeProject(await response.json());
-  } catch (canonicalError) {
-    const [treeResponse, connectionResponse] = await Promise.all([fetch(TREES_URL), fetch(CONNECTIONS_URL)]);
-    if (!treeResponse.ok || !connectionResponse.ok) throw canonicalError;
-    return projectFromLegacy(await treeResponse.json(), await connectionResponse.json());
-  }
+  const response = await fetch(PROJECT_URL);
+  if (!response.ok) throw new Error(`Canonical project unavailable (${response.status})`);
+  return normalizeProject(await response.json());
 }
 
 async function init() {

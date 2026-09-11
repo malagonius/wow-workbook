@@ -1,102 +1,43 @@
 {
   "content": {
-    "Death Knight": ["Blood", "Frost", "Unholy", "Lichborn"]
+    "Death Knight": ["Blood", "Frost", "Unholy", "Lichborn"],
+    "Demon Hunter": ["Havoc", "Vengeance", "Devourer"],
+    "Druid": ["Balance", "Feral", "Guardian", "Restoration"],
+    "Evoker": ["Devastation", "Preservation", "Augmentation"],
+    "Hunter": ["Beast Mastery", "Marksmanship", "Survival"],
+    "Mage": ["Arcane", "Fire", "Frost"],
+    "Monk": ["Brewmaster", "Mistweaver", "Windwalker"],
+    "Paladin": ["Holy", "Protection", "Retribution"],
+    "Priest": ["Discipline", "Holy", "Shadow"],
+    "Rogue": ["Assassination", "Outlaw", "Subtlety"],
+    "Shaman": ["Elemental", "Enhancement", "Restoration"],
+    "Warlock": ["Affliction", "Demonology", "Destruction"],
+    "Warrior": ["Arms", "Fury", "Protection"]
   },
   "trees": {
     "Death Knight/Blood": {
-      "description": "Blood Death Knight — Midnight talent tree, including class, specialization, Apex and Hero talents.",
+      "description": "Blood Death Knight — Midnight talent tree, including the full class tree, specialization tree, Apex and Hero talents.",
       "sections": [
-        {"id":"class","title":"Death Knight","type":"class","maxPoints":34,"rows":[
-          ["Icebound Fortitude","Death Strike","Raise Dead",null],
-          ["Runic Attenuation","Improved Death Strike","Cleaving Strikes",null],
-          ["Mind Freeze","Blinding Sleet","Gloom Ward","Wraith Walk / March of Darkness"],
-          ["Freezing Tempest","Control Undead","Enfeeble","Coldthirst"],
-          ["Proliferating Chill","Permafrost","Veteran of the Third War","Death Pact"],
-          ["Brittle","Blood Bond","Icy Talons","Death Notes"],
-          ["Anti-Magic Zone","Death Defiance","Unholy Bond","Ice Prison"],
-          ["Asphyxiate / Death's Reach","Assimilation","Anti-Magic Barrier","Grip of the Dead"],
-          ["Suppression","Blood Scent","Unholy Endurance","Osmosis"],
-          ["Insidious Chill","Runic Protection","Blood Draw","Rune Mastery"],
-          ["Subduing Grasp","Will of the Necropolis","Null Magic","Unyielding Will","Death's Echo","Vestigial Shell"]
-        ]},
-        {"id":"spec","title":"Blood","type":"spec","maxPoints":34,"rows":[
-          ["Heart Strike",null,null,null],
-          ["Marrowrend","Blood Boil",null,null],
-          ["Vampiric Blood","Bone Collector",null,null],
-          ["Ossuary","Improved Vampiric Blood","Improved Heart Strike","Ossified Vitriol"],
-          ["Leeching Strike","Heartbreaker","Foul Bulwark","Dancing Rune Weapon"],
-          ["Hemostasis","Perseverance of the Ebon Blade","Bloodworms","Gorefiend's Grasp / Abomination Limb"],
-          ["Improved Bone Shield","Insatiable Blade","Deadly Reach","Rapid Decomposition"],
-          ["Boiling Point","Lifeblood","Everlasting Bond","Voracious"],
-          ["Blood Feast","Plague Infusion","Bloody Reflection","Iron Heart"],
-          ["Bloodied Blade","Coagulopathy","Blood Mist","Sanguine Ground","Bloodshot","Consumption","Red Thirst","Sanguinary Burst","Purgatory","Carnage","Umbilicus Eternus"]
-        ]},
+        {"id":"class","title":"Death Knight","type":"class","maxPoints":34,"rows":[["Icebound Fortitude","Death Strike","Raise Dead","Runic Attenuation"],["Improved Death Strike","Cleaving Strikes","Mind Freeze","Blinding Sleet"],["Gloom Ward","Wraith Walk / March of Darkness","Freezing Tempest","Control Undead"],["Enfeeble","Coldthirst","Proliferating Chill","Permafrost"],["Veteran of the Third War","Death Pact","Brittle","Blood Bond"],["Icy Talons","Death Notes","Anti-Magic Zone","Death Defiance"],["Unholy Bond","Ice Prison","Asphyxiate / Death's Reach","Assimilation"],["Anti-Magic Barrier","Grip of the Dead","Suppression","Blood Scent"],["Unholy Endurance","Osmosis","Insidious Chill","Runic Protection"],["Blood Draw","Rune Mastery","Subduing Grasp","Will of the Necropolis"],["Null Magic","Unyielding Will","Death's Echo","Vestigial Shell"]]},
+        {"id":"spec","title":"Blood","type":"spec","maxPoints":34,"rows":[["Heart Strike","Marrowrend","Blood Boil","Vampiric Blood"],["Bone Collector","Ossuary","Improved Vampiric Blood","Improved Heart Strike"],["Ossified Vitriol","Leeching Strike","Heartbreaker","Foul Bulwark"],["Dancing Rune Weapon","Hemostasis","Perseverance of the Ebon Blade","Bloodworms"],["Gorefiend's Grasp / Abomination Limb","Improved Bone Shield","Insatiable Blade","Deadly Reach"],["Rapid Decomposition","Boiling Point","Lifeblood","Everlasting Bond"],["Voracious","Blood Feast","Plague Infusion","Bloody Reflection"],["Iron Heart","Bloodied Blade","Coagulopathy","Blood Mist"],["Sanguine Ground","Bloodshot","Consumption","Red Thirst"],["Sanguinary Burst","Purgatory","Carnage","Umbilicus Eternus"]]},
         {"id":"apex","title":"Apex — Dance of Midnight","type":"apex","maxPoints":4,"rows":[["Dance of Midnight — Rank 1",null,null,null],["Dance of Midnight — Rank 2",null,null,null],["Dance of Midnight — Rank 3",null,null,null],[null,null,null,null]]},
         {"id":"hero","title":"Hero Talents — San'layn","type":"hero","maxPoints":13,"rows":[["Vampiric Strike",null,null,null],["Essence of the Blood Queen","Thrill of Blood",null,null],["Frenzied Bloodthirst","Vampiric Speed","Vampiric Aura",null],["Gift of the San'layn","Blood-Soaked Ground","Sanguine Ritual","San'layn's Might"]]}
       ]
     },
     "Death Knight/Frost": {
-      "description": "Frost Death Knight — Midnight talent tree, including class, specialization, Apex and Hero talents.",
+      "description": "Frost Death Knight — Midnight talent tree, including the full class tree, specialization tree, Apex and Hero talents.",
       "sections": [
-        {"id":"class","title":"Death Knight","type":"class","maxPoints":34,"rows":[
-          ["Icebound Fortitude","Death Strike","Raise Dead",null],
-          ["Runic Attenuation","Improved Death Strike","Cleaving Strikes",null],
-          ["Mind Freeze","Blinding Sleet","Gloom Ward","Wraith Walk / March of Darkness"],
-          ["Freezing Tempest","Control Undead","Enfeeble","Coldthirst"],
-          ["Proliferating Chill","Permafrost","Veteran of the Third War","Death Pact"],
-          ["Brittle","Blood Bond","Icy Talons","Death Notes"],
-          ["Anti-Magic Zone","Death Defiance","Unholy Bond","Ice Prison"],
-          ["Asphyxiate / Death's Reach","Assimilation","Anti-Magic Barrier","Grip of the Dead"],
-          ["Suppression","Blood Scent","Unholy Endurance","Osmosis"],
-          ["Insidious Chill","Runic Protection","Blood Draw","Rune Mastery"],
-          ["Subduing Grasp","Will of the Necropolis","Null Magic","Unyielding Will","Death's Echo","Vestigial Shell"]
-        ]},
-        {"id":"spec","title":"Frost","type":"spec","maxPoints":34,"rows":[
-          ["Frost Strike",null,null,null],
-          ["Obliterate","Howling Blast",null,null],
-          ["Killing Machine","Empower Rune Weapon","Frostscythe",null],
-          ["Arctic Assault","Frostbound Will","Runic Overflow","Runic Command"],
-          ["Biting Cold","Inexorable Assault","Frostreaper","Pillar of Frost"],
-          ["Icy Onslaught","Gathering Storm","Murderous Efficiency","Rage of the Frozen Champion"],
-          ["Enduring Strength","Frozen Dominion","Frigid Executioner","Howling Blades"],
-          ["Cryogenic Chamber","Frostwyrm's Fury","Everfrost","Northwinds"],
-          ["Bonegrinder","Smothering Offense","Avalanche","Icebreaker"],
-          ["Obliteration","Icy Death Torrent","Shattering Blade","Hyperpyrexia"],
-          ["Killing Streak","The Long Winter","Frostbane","Breath of Sindragosa"]
-        ]},
+        {"id":"class","title":"Death Knight","type":"class","maxPoints":34,"rows":[["Icebound Fortitude","Death Strike","Raise Dead","Runic Attenuation"],["Improved Death Strike","Cleaving Strikes","Mind Freeze","Blinding Sleet"],["Gloom Ward","Wraith Walk / March of Darkness","Freezing Tempest","Control Undead"],["Enfeeble","Coldthirst","Proliferating Chill","Permafrost"],["Veteran of the Third War","Death Pact","Brittle","Blood Bond"],["Icy Talons","Death Notes","Anti-Magic Zone","Death Defiance"],["Unholy Bond","Ice Prison","Asphyxiate / Death's Reach","Assimilation"],["Anti-Magic Barrier","Grip of the Dead","Suppression","Blood Scent"],["Unholy Endurance","Osmosis","Insidious Chill","Runic Protection"],["Blood Draw","Rune Mastery","Subduing Grasp","Will of the Necropolis"],["Null Magic","Unyielding Will","Death's Echo","Vestigial Shell"]]},
+        {"id":"spec","title":"Frost","type":"spec","maxPoints":34,"rows":[["Frost Strike","Obliterate","Howling Blast","Killing Machine"],["Empower Rune Weapon","Frostscythe","Arctic Assault","Frostbound Will"],["Runic Overflow","Runic Command","Biting Cold","Inexorable Assault"],["Frostreaper","Pillar of Frost","Icy Onslaught","Gathering Storm"],["Murderous Efficiency","Rage of the Frozen Champion","Enduring Strength","Frozen Dominion"],["Frigid Executioner","Howling Blades","Cryogenic Chamber","Frostwyrm's Fury"],["Everfrost","Northwinds","Bonegrinder","Smothering Offense"],["Avalanche","Icebreaker","Obliteration","Icy Death Torrent"],["Shattering Blade","Hyperpyrexia","Killing Streak","The Long Winter"],["Frostbane","Breath of Sindragosa",null,null]]},
         {"id":"apex","title":"Apex — Chosen of Frostbrood","type":"apex","maxPoints":4,"rows":[["Chosen of Frostbrood — Rank 1",null,null,null],["Chosen of Frostbrood — Rank 2",null,null,null],["Chosen of Frostbrood — Rank 3",null,null,null],[null,null,null,null]]},
         {"id":"hero","title":"Hero Talents — Rider of the Apocalypse","type":"hero","maxPoints":13,"rows":[["Rider's Champion",null,null,null],["On a Paler Horse / Death Charge","Mograine's Might","Horsemen's Aid / Pact of the Apocalypse",null],["Ride or Die!","Whitemane's Famine","Nazgrim's Conquest","Trollbane's Icy Fury"],["Let Terror Reign","Hungering Thirst","Fury of the Horsemen / A Feast of Souls","Mawsworn Menace"],["Unholy Armaments","Apocalypse Now",null,null]]}
       ]
     },
     "Death Knight/Unholy": {
-      "description": "Unholy Death Knight — Midnight talent tree, including class, specialization, Apex and Hero talents.",
+      "description": "Unholy Death Knight — Midnight talent tree, including the full class tree, specialization tree, Apex and Hero talents.",
       "sections": [
-        {"id":"class","title":"Death Knight","type":"class","maxPoints":34,"rows":[
-          ["Icebound Fortitude","Death Strike","Raise Dead",null],
-          ["Runic Attenuation","Improved Death Strike","Cleaving Strikes",null],
-          ["Mind Freeze","Blinding Sleet","Gloom Ward","Wraith Walk / March of Darkness"],
-          ["Freezing Tempest","Control Undead","Enfeeble","Coldthirst"],
-          ["Proliferating Chill","Permafrost","Veteran of the Third War","Death Pact"],
-          ["Brittle","Blood Bond","Icy Talons","Death Notes"],
-          ["Anti-Magic Zone","Death Defiance","Unholy Bond","Ice Prison"],
-          ["Asphyxiate / Death's Reach","Assimilation","Anti-Magic Barrier","Grip of the Dead"],
-          ["Suppression","Blood Scent","Unholy Endurance","Osmosis"],
-          ["Insidious Chill","Runic Protection","Blood Draw","Rune Mastery"],
-          ["Subduing Grasp","Will of the Necropolis","Null Magic","Unyielding Will","Death's Echo","Vestigial Shell"]
-        ]},
-        {"id":"spec","title":"Unholy","type":"spec","maxPoints":34,"rows":[
-          ["Outbreak",null,null,null],
-          ["Scourge Strike","Sudden Doom",null,null],
-          ["Clawing Shadows","Putrefy","Dark Transformation",null],
-          ["Foul Infections","Plague Mastery / Grave Mastery","Necromancer's Cunning","Ebon Fever"],
-          ["Festering Scythe","Superstrain","Soul Reaper","Magus of the Dead"],
-          ["Infected Claws","Cycle of Death","Coil of Devastation","Army of the Dead"],
-          ["Reaping","Menacing Magus","Ghoulish Frenzy","Morbidity"],
-          ["Harbinger of Doom","Raise Abomination / Summon Gargoyle","Unholy Devotion","All Will Serve"],
-          ["Blightburst","Putrid Echoes","Doomed Bidding","Scourging"],
-          ["Ancient Power","Unholy Aura","Commander of the Dead","Blightfall"],
-          ["Reanimation / Lord of the Dead","Outnumber",null,null]
-        ]},
+        {"id":"class","title":"Death Knight","type":"class","maxPoints":34,"rows":[["Icebound Fortitude","Death Strike","Raise Dead","Runic Attenuation"],["Improved Death Strike","Cleaving Strikes","Mind Freeze","Blinding Sleet"],["Gloom Ward","Wraith Walk / March of Darkness","Freezing Tempest","Control Undead"],["Enfeeble","Coldthirst","Proliferating Chill","Permafrost"],["Veteran of the Third War","Death Pact","Brittle","Blood Bond"],["Icy Talons","Death Notes","Anti-Magic Zone","Death Defiance"],["Unholy Bond","Ice Prison","Asphyxiate / Death's Reach","Assimilation"],["Anti-Magic Barrier","Grip of the Dead","Suppression","Blood Scent"],["Unholy Endurance","Osmosis","Insidious Chill","Runic Protection"],["Blood Draw","Rune Mastery","Subduing Grasp","Will of the Necropolis"],["Null Magic","Unyielding Will","Death's Echo","Vestigial Shell"]]},
+        {"id":"spec","title":"Unholy","type":"spec","maxPoints":34,"rows":[["Outbreak","Scourge Strike","Sudden Doom","Clawing Shadows"],["Putrefy","Dark Transformation","Foul Infections","Plague Mastery / Grave Mastery"],["Necromancer's Cunning","Ebon Fever","Festering Scythe","Superstrain"],["Soul Reaper","Magus of the Dead","Infected Claws","Cycle of Death"],["Coil of Devastation","Army of the Dead","Reaping","Menacing Magus"],["Ghoulish Frenzy","Morbidity","Harbinger of Doom","Raise Abomination / Summon Gargoyle"],["Unholy Devotion","All Will Serve","Blightburst","Putrid Echoes"],["Doomed Bidding","Scourging","Ancient Power","Unholy Aura"],["Commander of the Dead","Blightfall","Reanimation / Lord of the Dead","Outnumber"]]},
         {"id":"apex","title":"Apex — Forbidden Knowledge","type":"apex","maxPoints":4,"rows":[["Forbidden Knowledge — Rank 1",null,null,null],["Forbidden Knowledge — Rank 2",null,null,null],["Forbidden Knowledge — Rank 3",null,null,null],[null,null,null,null]]},
         {"id":"hero","title":"Hero Talents — Rider of the Apocalypse","type":"hero","maxPoints":13,"rows":[["Rider's Champion",null,null,null],["On a Paler Horse / Death Charge","Mograine's Might","Horsemen's Aid / Pact of the Apocalypse",null],["Ride or Die!","Whitemane's Famine","Nazgrim's Conquest","Trollbane's Icy Fury"],["Let Terror Reign","Hungering Thirst","Fury of the Horsemen / A Feast of Souls","Mawsworn Menace"],["Unholy Armaments","Apocalypse Now",null,null]]}
       ]

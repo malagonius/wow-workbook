@@ -1,0 +1,33 @@
+{
+  "classes": {
+    "Death Knight": ["Blood", "Frost", "Unholy", "Lichborn"],
+    "Demon Hunter": ["Havoc", "Vengeance", "Devourer"],
+    "Druid": ["Balance", "Feral", "Guardian", "Restoration"],
+    "Evoker": ["Devastation", "Preservation", "Augmentation"],
+    "Hunter": ["Beast Mastery", "Marksmanship", "Survival"],
+    "Mage": ["Arcane", "Fire", "Frost"],
+    "Monk": ["Brewmaster", "Mistweaver", "Windwalker"],
+    "Paladin": ["Holy", "Protection", "Retribution"],
+    "Priest": ["Discipline", "Holy", "Shadow"],
+    "Rogue": ["Assassination", "Outlaw", "Subtlety"],
+    "Shaman": ["Elemental", "Enhancement", "Restoration"],
+    "Warlock": ["Affliction", "Demonology", "Destruction"],
+    "Warrior": ["Arms", "Fury", "Protection"]
+  },
+  "trees": {
+    "Death Knight/Lichborn": {
+      "description": "Fourth Death Knight specialization — dominion, inevitability, and the progressive loss of enemy agency.",
+      "maxPoints": 8,
+      "nodes": [
+        {"id":"dominate","tier":1,"column":2,"name":"Dominate","type":"rune","spell":"Dominate","requires":[]},
+        {"id":"deaths-grasp","tier":1,"column":3,"name":"Death's Grasp","type":"rune","spell":"Death's Grasp","requires":[]},
+        {"id":"consume-fear","tier":2,"column":1,"name":"Consume Fear","type":"rune","spell":"Consume Fear","requires":["dominate"]},
+        {"id":"remorseless-strike","tier":2,"column":4,"name":"Remorseless Strike","type":"rune","spell":"Remorseless Strike","requires":["deaths-grasp"]},
+        {"id":"impending-doom","tier":3,"column":2,"name":"Impending Doom","type":"rp","spell":"Impending Doom","requires":["consume-fear"]},
+        {"id":"deaths-presence","tier":3,"column":3,"name":"Death's Presence","type":"rp","spell":"Death's Presence","requires":["impending-doom"]},
+        {"id":"dominate-mind","tier":4,"column":1,"name":"Dominate Mind","type":"rp","spell":"Dominate Mind","requires":["impending-doom"]},
+        {"id":"betrayal","tier":4,"column":4,"name":"Betrayal","type":"utility","spell":"Betrayal","requires":["deaths-presence"]}
+      ]
+    }
+  }
+}

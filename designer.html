@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WoW Workbook — Talent Designer</title>
+  <link rel="stylesheet" href="css/talent-calculator.css">
+  <link rel="stylesheet" href="css/talent-designer.css">
+</head>
+<body class="designer-page">
+  <main class="designer">
+    <header class="designer-header">
+      <div>
+        <p class="eyebrow">WOW WORKBOOK</p>
+        <h1>Talent Designer</h1>
+        <p>Design the tree visually. The JSON remains the source of truth.</p>
+      </div>
+      <a href="index.html" class="designer-link">← Calculator</a>
+    </header>
+
+    <section class="designer-toolbar">
+      <label>Class
+        <select id="designer-class"></select>
+      </label>
+      <label>Spec
+        <select id="designer-spec"></select>
+      </label>
+      <label>Section
+        <select id="designer-section"></select>
+      </label>
+      <button id="add-node">＋ Add node</button>
+      <button id="connect-mode" type="button">Connect nodes</button>
+      <button id="show-json" type="button">&lt;&gt; JSON</button>
+    </section>
+
+    <section class="designer-workspace">
+      <div id="designer-tree" class="designer-tree"></div>
+
+      <aside class="designer-panel">
+        <h2>Node</h2>
+        <p id="selection-hint">Select a node to edit it.</p>
+        <form id="node-form" hidden>
+          <label>ID<input id="node-id" required></label>
+          <label>Name<input id="node-name"></label>
+          <label>Description<textarea id="node-description" rows="5"></textarea></label>
+          <label>Icon<input id="node-icon" placeholder="icons/example.png"></label>
+          <div class="designer-grid-fields">
+            <label>Row<input id="node-row" type="number" min="0"></label>
+            <label>Column<input id="node-column" type="number" min="0"></label>
+          </div>
+          <div class="designer-actions">
+            <button type="submit">Save node</button>
+            <button type="button" id="delete-node">Delete</button>
+          </div>
+        </form>
+
+        <div id="connection-panel" hidden>
+          <h2>Connections</h2>
+          <p id="connection-help">Choose a source node, then a target node.</p>
+          <button id="cancel-connect" type="button">Cancel</button>
+        </div>
+
+        <div id="validation-panel" class="validation-panel"></div>
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="json-dialog">
+    <form method="dialog" class="json-dialog-content">
+      <header><h2>Tree JSON</h2><button aria-label="Close">×</button></header>
+      <textarea id="json-output" spellcheck="false"></textarea>
+      <div class="designer-actions">
+        <button type="button" id="apply-json">Apply JSON</button>
+        <button type="button" id="copy-json">Copy JSON</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="js/talent-designer.js"></script>
+</body>
+</html>

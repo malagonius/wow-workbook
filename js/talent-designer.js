@@ -9,6 +9,7 @@ let selectedNodeId = null;
 let connectMode = false;
 let connectSource = null;
 let saveTimer;
+let contentCreationMode = null;
 
 const $ = id => document.getElementById(id);
 const classSelect = $('designer-class');
@@ -55,15 +56,17 @@ function scheduleSave() {
 function sectionNodes(section) { return section.nodes || []; }
 function sectionConnections(section) { return section.connections || []; }
 
-function populateSelectors() {
-  const classes = Object.keys(project.content);
-  classSelect.innerHTML = classes.map(value => `<option>${escapeHtml(value)}</option>`).join('');
-  updateSpecs();
+function populateSelectors(preferredClass = classSelect.value, preferredSpec = specSelect.value) {
+  const classes = Object.keys(project.content || {});
+  classSelect.innerHTML = classes.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+  classSelect.value = classes.includes(preferredClass) ? preferredClass : classes[0] || '';
+  updateSpecs(preferredSpec);
 }
 
-function updateSpecs() {
+function updateSpecs(preferredSpec = specSelect.value) {
   const specs = project.content[classSelect.value] || [];
-  specSelect.innerHTML = specs.map(value => `<option>${escapeHtml(value)}</option>`).join('');
+  specSelect.innerHTML = specs.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+  specSelect.value = specs.includes(preferredSpec) ? preferredSpec : specs[0] || '';
   updateSections();
 }
 
@@ -83,7 +86,12 @@ function nodePosition(node, section) {
 
 function render() {
   const section = currentSection();
-  if (!section) return;
+  if (!section) {
+    treeEl.innerHTML = '<div class="empty"><div class="icon">＋</div><strong>No specialization tree yet</strong><span>Create a specialization to start designing its talent tree.</span></div>';
+    updatePanel();
+    renderConnections();
+    return;
+  }
   const nodes = sectionNodes(section);
   const edges = sectionConnections(section);
   const cols = Math.max(4, ...nodes.map(n => n.column + 1));
@@ -165,6 +173,7 @@ function renderConnections() {
 
 function addNode() {
   const section = currentSection();
+  if (!section) return alert('Create a specialization before adding talents.');
   const nodes = sectionNodes(section);
   let index = nodes.length;
   let id = `${section.id}-${Date.now()}`;
@@ -208,6 +217,73 @@ function addConnection(from, to) {
   if (section.connections.some(connection => connection.from === from && connection.to === to)) return;
   section.connections.push(makeConnection(from, to));
   scheduleSave();
+}
+
+function makeEmptySection(id, title, type, rows, maxPoints) {
+  const nodes = [];
+  for (let row = 0; row < rows; row += 1) {
+    for (let column = 0; column < 4; column += 1) {
+      nodes.push(makeNode({ id: `${id}-${row}-${column}`, row, column }));
+    }
+  }
+  return { id, title, type, maxPoints, selectableEmpty: true, nodes, connections: [] };
+}
+
+function createClass(name) {
+  const cleanName = name.trim();
+  if (!cleanName) return;
+  if (project.content[cleanName]) return alert(`Class "${cleanName}" already exists.`);
+  project.content[cleanName] = [];
+  scheduleSave();
+  populateSelectors(cleanName, '');
+  setStatus(`Created class "${cleanName}". Add a specialization to start its tree.`, 'saved');
+}
+
+function createSpec(className, specName, description = '') {
+  const cleanClass = className.trim();
+  const cleanSpec = specName.trim();
+  if (!cleanClass || !cleanSpec) return;
+  project.content[cleanClass] ||= [];
+  if (project.content[cleanClass].includes(cleanSpec) || project.trees[`${cleanClass}/${cleanSpec}`]) return alert(`Specialization "${cleanSpec}" already exists for ${cleanClass}.`);
+
+  project.content[cleanClass].push(cleanSpec);
+  project.trees[`${cleanClass}/${cleanSpec}`] = {
+    class: cleanClass,
+    spec: cleanSpec,
+    description: description.trim(),
+    sections: [
+      makeEmptySection('class', cleanClass, 'class', 10, 34),
+      makeEmptySection('spec', cleanSpec, 'spec', 10, 34),
+      makeEmptySection('apex', 'Apex', 'apex', 3, 4),
+      makeEmptySection('hero', 'Hero Talents', 'hero', 5, 13)
+    ]
+  };
+
+  scheduleSave();
+  populateSelectors(cleanClass, cleanSpec);
+  setStatus(`Created ${cleanClass} / ${cleanSpec}.`, 'saved');
+}
+
+function openContentDialog(mode) {
+  contentCreationMode = mode;
+  const isClass = mode === 'class';
+  $('content-dialog-title').textContent = isClass ? 'Create class' : 'Create specialization';
+  $('content-dialog-help').textContent = isClass
+    ? 'Create a new class. You can add its first specialization immediately afterwards.'
+    : `Create a new specialization for ${classSelect.value || 'the selected class'}. An empty class, spec, Apex and Hero tree will be created for you.`;
+  $('content-description-label').hidden = isClass;
+  $('content-name').value = '';
+  $('content-description').value = '';
+  $('content-dialog').showModal();
+  $('content-name').focus();
+}
+
+function createContentFromDialog() {
+  const name = $('content-name').value.trim();
+  if (!name) return;
+  if (contentCreationMode === 'class') createClass(name);
+  else createSpec(classSelect.value, name, $('content-description').value);
+  $('content-dialog').close();
 }
 
 function showJson() {
@@ -272,6 +348,9 @@ async function init() {
   sectionSelect.addEventListener('change', () => { selectedNodeId = null; render(); });
   $('node-form').addEventListener('submit', saveNode); $('delete-node').addEventListener('click', deleteNode);
   $('add-node').addEventListener('click', addNode); $('show-json').addEventListener('click', showJson);
+  $('add-class').addEventListener('click', () => openContentDialog('class')); $('add-spec').addEventListener('click', () => openContentDialog('spec'));
+  $('create-content').addEventListener('click', createContentFromDialog);
+  $('content-form').addEventListener('submit', event => { event.preventDefault(); createContentFromDialog(); });
   $('apply-json').addEventListener('click', applyJson); $('copy-json').addEventListener('click', () => navigator.clipboard.writeText($('json-output').value));
   $('connect-mode').addEventListener('click', () => { connectMode = !connectMode; connectSource = null; render(); });
   $('cancel-connect').addEventListener('click', () => { connectMode = false; connectSource = null; render(); });

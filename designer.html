@@ -30,6 +30,8 @@
       <label>Section
         <select id="designer-section"></select>
       </label>
+      <button id="add-class" type="button">＋ New class</button>
+      <button id="add-spec" type="button">＋ New spec</button>
       <button id="add-node">＋ Add node</button>
       <button id="connect-mode" type="button">Connect nodes</button>
       <button id="show-json" type="button">&lt;&gt; JSON</button>
@@ -67,11 +69,22 @@
           <button id="cancel-connect" type="button">Cancel</button>
         </div>
         <div id="connection-list" class="connection-list"></div>
-
         <div id="validation-panel" class="validation-panel"></div>
       </aside>
     </section>
   </main>
+
+  <dialog id="content-dialog">
+    <form method="dialog" class="json-dialog-content" id="content-form">
+      <header><h2 id="content-dialog-title">Create</h2><button aria-label="Close">×</button></header>
+      <p id="content-dialog-help"></p>
+      <label>Name<input id="content-name" required autocomplete="off"></label>
+      <label id="content-description-label">Description<textarea id="content-description" rows="3"></textarea></label>
+      <div class="designer-actions">
+        <button type="button" id="create-content">Create</button>
+      </div>
+    </form>
+  </dialog>
 
   <dialog id="json-dialog">
     <form method="dialog" class="json-dialog-content">

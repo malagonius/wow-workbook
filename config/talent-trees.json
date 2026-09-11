@@ -43,10 +43,11 @@
       ]
     },
     "Death Knight/Lichborn": {
-      "description": "Fourth Death Knight specialization — dominion, inevitability, and the progressive loss of enemy agency.",
+      "description": "Fourth Death Knight specialization — talent slots are intentionally empty while the Lichborn tree is being designed.",
       "sections": [
-        {"id":"spec","title":"Lichborn","type":"spec","maxPoints":8,"rows":[["Dominate","Death's Grasp",null,null],["Consume Fear",null,null,"Remorseless Strike"],[null,"Impending Doom","Death's Presence",null],["Dominate Mind",null,null,"Betrayal"]]},
-        {"id":"apex","title":"Apex — Lichborn","type":"apex","maxPoints":4,"rows":[["Apex Talent — Rank 1",null,null,null],["Apex Talent — Rank 2",null,null,null],["Apex Talent — Rank 3",null,null,null],[null,null,null,null]]}
+        {"id":"spec","title":"Lichborn","type":"spec","maxPoints":34,"selectableEmpty":true,"rows":[["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""],["","","",""]]},
+        {"id":"apex","title":"Apex — Lichborn","type":"apex","maxPoints":4,"selectableEmpty":true,"rows":[["","","",""],["","","",""],["","","",""]]},
+        {"id":"hero","title":"Hero Talents — Lichborn","type":"hero","maxPoints":13,"selectableEmpty":true,"rows":[["","","",""],["","","",""],["","","",""],["","","",""],["","","",""]]}
       ]
     }
   }

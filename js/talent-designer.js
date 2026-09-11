@@ -30,6 +30,10 @@ function projectPayload() {
   });
 }
 
+function escapeHtml(value = '') {
+  return String(value).replace(/[&<>\"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;' }[character]));
+}
+
 function setStatus(text, state = '') {
   statusEl.textContent = text;
   statusEl.dataset.state = state;
@@ -53,19 +57,19 @@ function sectionConnections(section) { return section.connections || []; }
 
 function populateSelectors() {
   const classes = Object.keys(project.content);
-  classSelect.innerHTML = classes.map(value => `<option>${value}</option>`).join('');
+  classSelect.innerHTML = classes.map(value => `<option>${escapeHtml(value)}</option>`).join('');
   updateSpecs();
 }
 
 function updateSpecs() {
   const specs = project.content[classSelect.value] || [];
-  specSelect.innerHTML = specs.map(value => `<option>${value}</option>`).join('');
+  specSelect.innerHTML = specs.map(value => `<option>${escapeHtml(value)}</option>`).join('');
   updateSections();
 }
 
 function updateSections() {
   const tree = currentTree();
-  sectionSelect.innerHTML = (tree?.sections || []).map(section => `<option value="${section.id}">${section.title}</option>`).join('');
+  sectionSelect.innerHTML = (tree?.sections || []).map(section => `<option value="${escapeHtml(section.id)}">${escapeHtml(section.title)}</option>`).join('');
   selectedNodeId = null;
   render();
 }
@@ -90,7 +94,8 @@ function render() {
     if (!node.name && !node.description) classes.push('empty');
     if (node.id === selectedNodeId) classes.push('selected');
     if (node.id === connectSource) classes.push('connect-source');
-    return `<div class="designer-node-wrap" style="left:${p.x}%;top:${p.y}%;transform:translate(-50%,-50%)"><button class="${classes.join(' ')}" data-node-id="${node.id}" title="${node.name || node.id}"><span class="designer-node-label">${node.name || ''}</span></button></div>`;
+    const label = escapeHtml(node.name || '');
+    return `<div class="designer-node-wrap" style="left:${p.x}%;top:${p.y}%;transform:translate(-50%,-50%)"><button class="${classes.join(' ')}" data-node-id="${escapeHtml(node.id)}" title="${escapeHtml(node.name || node.id)}"><span class="designer-node-label">${label}</span></button></div>`;
   }).join('')}</div>`;
 
   const canvas = treeEl.querySelector('.designer-canvas');
@@ -108,6 +113,7 @@ function render() {
   }
   canvas.querySelectorAll('[data-node-id]').forEach(node => node.addEventListener('click', () => selectNode(node.dataset.nodeId)));
   updatePanel();
+  renderConnections();
   validate();
 }
 
@@ -132,6 +138,29 @@ function updatePanel() {
   $('node-id').value = node.id; $('node-name').value = node.name || '';
   $('node-description').value = node.description || ''; $('node-icon').value = node.icon || '';
   $('node-row').value = node.row ?? 0; $('node-column').value = node.column ?? 0;
+}
+
+function renderConnections() {
+  const section = currentSection();
+  const list = $('connection-list');
+  if (!section) { list.innerHTML = ''; return; }
+  const nodes = new Map(sectionNodes(section).map(node => [node.id, node]));
+  const connections = sectionConnections(section);
+  if (!connections.length) {
+    list.innerHTML = '<p class="connection-empty">No connections in this section.</p>';
+    return;
+  }
+  list.innerHTML = `<h3>Edges</h3>${connections.map((connection, index) => {
+    const from = nodes.get(connection.from)?.name || connection.from;
+    const to = nodes.get(connection.to)?.name || connection.to;
+    return `<div class="connection-item"><span>${escapeHtml(from)} → ${escapeHtml(to)}</span><button type="button" data-delete-connection="${index}" aria-label="Delete connection">×</button></div>`;
+  }).join('')}`;
+  list.querySelectorAll('[data-delete-connection]').forEach(button => button.addEventListener('click', () => {
+    const index = Number(button.dataset.deleteConnection);
+    section.connections.splice(index, 1);
+    scheduleSave();
+    render();
+  }));
 }
 
 function addNode() {
@@ -176,10 +205,9 @@ function deleteNode() {
 function addConnection(from, to) {
   const section = currentSection();
   section.connections ||= [];
-  if (!section.connections.some(connection => connection.from === from && connection.to === to)) {
-    section.connections.push(makeConnection(from, to));
-    scheduleSave();
-  }
+  if (section.connections.some(connection => connection.from === from && connection.to === to)) return;
+  section.connections.push(makeConnection(from, to));
+  scheduleSave();
 }
 
 function showJson() {
@@ -200,7 +228,7 @@ function validate() {
   const section = currentSection(); if (!section) return;
   const result = validateSection(section);
   const panel = $('validation-panel');
-  panel.innerHTML = result.valid && !result.warnings.length ? '<span class="validation-ok">✓ Tree section is valid</span>' : `${result.errors.map(e => `<div class="validation-error">✕ ${e}</div>`).join('')}${result.warnings.map(w => `<div class="validation-warning">⚠ ${w}</div>`).join('')}`;
+  panel.innerHTML = result.valid && !result.warnings.length ? '<span class="validation-ok">✓ Tree section is valid</span>' : `${result.errors.map(e => `<div class="validation-error">✕ ${escapeHtml(e)}</div>`).join('')}${result.warnings.map(w => `<div class="validation-warning">⚠ ${escapeHtml(w)}</div>`).join('')}`;
 }
 
 async function importProject() {
@@ -253,4 +281,4 @@ async function init() {
   render();
 }
 
-init().catch(error => { treeEl.innerHTML = `<p class="validation-error">Unable to load designer data: ${error.message}</p>`; setStatus(error.message, 'error'); });
+init().catch(error => { treeEl.innerHTML = `<p class="validation-error">Unable to load designer data: ${escapeHtml(error.message)}</p>`; setStatus(error.message, 'error'); });

@@ -1,28 +1,16 @@
-import { projectFromLegacy, normalizeProject } from './talent-model.js';
+import { normalizeProject } from './talent-model.js';
 
 const PROJECT_URL='config/talent-project.json';
 const SPELLS_URL='config/spells.json';
-const CONFIG_URL='config/talent-trees.json';
-const CONNECTIONS_URL='config/talent-connections.json';
 let project=null,spells=null,selected=new Set();
 const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=$('specSelect'),treeContainer=$('treeContainer');
 
 async function loadConfig(){
   try{
-    const spellPromise=fetch(SPELLS_URL);
-    let loadedProject;
-    try{
-      const response=await fetch(PROJECT_URL);
-      if(!response.ok)throw Error(`Canonical project unavailable (${response.status})`);
-      loadedProject=normalizeProject(await response.json());
-    }catch{
-      const [a,c]=await Promise.all([fetch(CONFIG_URL),fetch(CONNECTIONS_URL)]);
-      if(!a.ok||!c.ok)throw Error('Talent configuration could not be loaded');
-      loadedProject=projectFromLegacy(await a.json(),await c.json());
-    }
-    const spellResponse=await spellPromise;
+    const [projectResponse,spellResponse]=await Promise.all([fetch(PROJECT_URL),fetch(SPELLS_URL)]);
+    if(!projectResponse.ok)throw Error(`Canonical talent project unavailable (${projectResponse.status})`);
     if(!spellResponse.ok)throw Error('Spell configuration could not be loaded');
-    project=loadedProject;
+    project=normalizeProject(await projectResponse.json());
     spells=await spellResponse.json();
     Object.keys(project.content||{}).forEach(x=>classSelect.add(new Option(x,x)));
     classSelect.value='Death Knight';

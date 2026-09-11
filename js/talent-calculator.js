@@ -12,11 +12,15 @@ async function loadConfig(){
     if(!spellResponse.ok)throw Error('Spell configuration could not be loaded');
     project=normalizeProject(await projectResponse.json());
     spells=await spellResponse.json();
-    Object.keys(project.content||{}).forEach(x=>classSelect.add(new Option(x,x)));
-    classSelect.value='Death Knight';
+    const classes=Object.keys(project.content||{});
+    classSelect.innerHTML=classes.map(x=>new Option(x,x));
+    if(!classes.length)throw Error('No classes are defined in the talent project. Open Talent Designer to create one.');
+    classSelect.value=classes[0];
     populateSpecs();
   }catch(e){
-    treeContainer.innerHTML='<div class="empty"><div class="icon">⚠</div><strong>Configuration could not be loaded</strong><span>Open the calculator through GitHub Pages or another web server.</span></div>';
+    classSelect.innerHTML='<option value="">Unavailable</option>';
+    specSelect.innerHTML='<option value="">Unavailable</option>';
+    treeContainer.innerHTML=`<div class="empty"><div class="icon">⚠</div><strong>Configuration could not be loaded</strong><span>${e.message}</span></div>`;
     console.error(e);
   }
 }
@@ -25,8 +29,9 @@ function currentKey(){return `${classSelect.value}/${specSelect.value}`}
 function getTree(){return project?.trees[currentKey()]}
 function populateSpecs(){
   selected.clear();specSelect.innerHTML='';
-  (project?.content?.[classSelect.value]||[]).forEach(s=>specSelect.add(new Option(s,s)));
-  if(classSelect.value==='Death Knight'&&[...specSelect.options].some(o=>o.value==='Lichborn'))specSelect.value='Lichborn';
+  const specs=project?.content?.[classSelect.value]||[];
+  specs.forEach(s=>specSelect.add(new Option(s,s)));
+  if(specs.length)specSelect.value=specs[0];
   render();
 }
 function sectionNodes(section){return section?.nodes||[]}
@@ -52,7 +57,7 @@ function render(){
   const d=getTree();
   $('className').textContent=classSelect.value;$('specName').textContent=specSelect.value;
   $('specDescription').textContent=d?.description||'No homebrew talent tree has been defined for this specialization yet.';
-  if(!d){$('pointCount').textContent='0 / 0';treeContainer.innerHTML='<div class="empty"><div class="icon">✦</div><strong>No custom tree yet</strong><span>This slot is ready for future homebrew specialization work.</span></div>';return}
+  if(!d){$('pointCount').textContent='0 / 0';treeContainer.innerHTML='<div class="empty"><div class="icon">✦</div><strong>No custom tree yet</strong><span>This specialization has no talent tree yet. Open Talent Designer to create it.</span></div>';return}
   const sections=d.sections||[],total=sections.reduce((a,s)=>a+sectionCount(s),0),max=sections.reduce((a,s)=>a+(s.maxPoints||0),0);
   $('pointCount').textContent=`${total} / ${max}`;
   $('details').innerHTML='<h3>Talent tree</h3><p>Talent connections are defined by the canonical project JSON. Starting nodes are selectable first; every later node requires a selected connected parent.</p>';

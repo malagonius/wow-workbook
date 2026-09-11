@@ -1,0 +1,12 @@
+{
+  "Death Knight/Lichborn": [
+    {"name":"Dominate","school":"Rune","range":"Melee","cost":"1 Rune","effect":"Minor damage. Applies Death's Claim."},
+    {"name":"Death's Grasp","school":"Rune","range":"30 yd","cost":"2 Runes","effect":"Minor damage. Applies Death's Claim."},
+    {"name":"Consume Fear","school":"Rune","range":"15 yd","cost":"3 Runes","effect":"Minor damage. Generates Runic Power based on the number of targets. Applies Death's Claim."},
+    {"name":"Remorseless Strike","school":"Rune","range":"Melee","cost":"3 Runes","effect":"Heavy single-target damage with moderate splash damage."},
+    {"name":"Impending Doom","school":"Runic Power","range":"TBD","cost":"TBD","effect":"Exploits Death's Claim by applying the Impending Doom effect/DoT."},
+    {"name":"Death's Presence","school":"Runic Power","range":"30 yd","cost":"TBD","effect":"Applies the same Impending Doom effect to all targets in range. Higher Runic Power cost than the single-target version."},
+    {"name":"Dominate Mind","school":"Runic Power","range":"Melee","cost":"TBD","effect":"The target reflects damage it deals back to itself. The threshold/scaling increases with Death's Claim."},
+    {"name":"Betrayal","school":"Runic Power","range":"TBD","cost":"TBD","effect":"Reduces the target's damage dealt, scaling with Death's Claim. Intended as a defensive/situational ability rather than a core rotational spell."}
+  ]
+}

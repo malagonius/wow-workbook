@@ -1,16 +1,15 @@
-import { cloneTree, makeNode, makeConnection, validateSection } from './talent-model.js';
+import { cloneProject, makeNode, makeConnection, normalizeProject, projectFromLegacy, validateSection, TALENT_PROJECT_FORMAT, TALENT_PROJECT_VERSION } from './talent-model.js';
 import { loadDraft, saveDraft, clearDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
 
+const PROJECT_URL = 'config/talent-project.json';
 const TREES_URL = 'config/talent-trees.json';
 const CONNECTIONS_URL = 'config/talent-connections.json';
 
-let config;
-let connections;
+let project;
+let baselineProject;
 let selectedNodeId = null;
 let connectMode = false;
 let connectSource = null;
-let baselineConfig;
-let baselineConnections;
 let saveTimer;
 
 const $ = id => document.getElementById(id);
@@ -21,17 +20,16 @@ const treeEl = $('designer-tree');
 const statusEl = $('storage-status');
 
 function currentKey() { return `${classSelect.value}/${specSelect.value}`; }
-function currentTree() { return config.trees[currentKey()]; }
-function currentSection() { return currentTree().sections.find(section => section.id === sectionSelect.value); }
+function currentTree() { return project.trees[currentKey()]; }
+function currentSection() { return currentTree()?.sections.find(section => section.id === sectionSelect.value); }
 
 function projectPayload() {
-  return {
-    format: 'wow-workbook-talent-project',
-    version: 1,
-    activeTreeKey: currentKey(),
-    trees: cloneTree(config.trees),
-    connections: cloneTree(connections)
-  };
+  return cloneProject({
+    format: TALENT_PROJECT_FORMAT,
+    version: TALENT_PROJECT_VERSION,
+    content: project.content,
+    trees: project.trees
+  });
 }
 
 function setStatus(text, state = '') {
@@ -52,46 +50,32 @@ function scheduleSave() {
   }, 250);
 }
 
-function sectionNodes(section) {
-  if (Array.isArray(section.nodes)) return section.nodes;
-  const nodes = [];
-  (section.rows || []).forEach((row, rowIndex) => row.forEach((raw, columnIndex) => {
-    const id = raw && typeof raw === 'object' ? raw.id : `${section.id}-${rowIndex}-${columnIndex}`;
-    nodes.push(typeof raw === 'object' && raw ? { ...raw, row: raw.row ?? rowIndex, column: raw.column ?? columnIndex } : makeNode({ id, row: rowIndex, column: columnIndex }));
-  }));
-  section.nodes = nodes;
-  return nodes;
-}
-
-function sectionConnections(section) {
-  const raw = connections?.[currentKey()]?.[section.id] || [];
-  return raw.map(pair => Array.isArray(pair) ? makeConnection(
-    `${section.id}-${pair[0].split('-').slice(1).join('-')}`,
-    `${section.id}-${pair[1].split('-').slice(1).join('-')}`
-  ) : pair);
-}
+function sectionNodes(section) { return section.nodes || []; }
+function sectionConnections(section) { return section.connections || []; }
 
 function populateSelectors() {
-  const classes = Object.keys(config.content);
+  const classes = Object.keys(project.content);
   classSelect.innerHTML = classes.map(value => `<option>${value}</option>`).join('');
   updateSpecs();
 }
 
 function updateSpecs() {
-  const specs = config.content[classSelect.value] || [];
+  const specs = project.content[classSelect.value] || [];
   specSelect.innerHTML = specs.map(value => `<option>${value}</option>`).join('');
   updateSections();
 }
 
 function updateSections() {
   const tree = currentTree();
-  sectionSelect.innerHTML = tree.sections.map(section => `<option value="${section.id}">${section.title}</option>`).join('');
+  sectionSelect.innerHTML = (tree?.sections || []).map(section => `<option value="${section.id}">${section.title}</option>`).join('');
+  selectedNodeId = null;
   render();
 }
 
 function nodePosition(node, section) {
-  const rows = Math.max(1, ...sectionNodes(section).map(n => n.row + 1));
-  const cols = Math.max(4, ...sectionNodes(section).map(n => n.column + 1));
+  const nodes = sectionNodes(section);
+  const rows = Math.max(1, ...nodes.map(n => n.row + 1));
+  const cols = Math.max(4, ...nodes.map(n => n.column + 1));
   return { x: ((node.column + .5) / cols) * 100, y: ((node.row + .5) / rows) * 100 };
 }
 
@@ -155,7 +139,9 @@ function updatePanel() {
 function addNode() {
   const section = currentSection();
   const nodes = sectionNodes(section);
-  const id = `${section.id}-${Date.now()}`;
+  let index = nodes.length;
+  let id = `${section.id}-${Date.now()}`;
+  while (nodes.some(node => node.id === id)) id = `${section.id}-${Date.now()}-${++index}`;
   nodes.push(makeNode({ id, row: 0, column: nodes.length % 4 }));
   selectedNodeId = id; scheduleSave(); render();
 }
@@ -175,13 +161,9 @@ function saveNode(event) {
 }
 
 function renameConnections(section, oldId, newId) {
-  const list = connections[currentKey()]?.[section.id];
-  if (!Array.isArray(list)) return;
-  for (const pair of list) {
-    const from = `${section.id}-${pair[0].split('-').slice(1).join('-')}`;
-    const to = `${section.id}-${pair[1].split('-').slice(1).join('-')}`;
-    if (from === oldId) pair[0] = newId;
-    if (to === oldId) pair[1] = newId;
+  for (const connection of sectionConnections(section)) {
+    if (connection.from === oldId) connection.from = newId;
+    if (connection.to === oldId) connection.to = newId;
   }
 }
 
@@ -189,17 +171,17 @@ function deleteNode() {
   const section = currentSection();
   if (!selectedNodeId || !section) return;
   section.nodes = sectionNodes(section).filter(node => node.id !== selectedNodeId);
-  const list = connections[currentKey()]?.[section.id];
-  if (Array.isArray(list)) connections[currentKey()][section.id] = list.filter(pair => !pair.includes(selectedNodeId));
+  section.connections = sectionConnections(section).filter(connection => connection.from !== selectedNodeId && connection.to !== selectedNodeId);
   selectedNodeId = null; scheduleSave(); render();
 }
 
 function addConnection(from, to) {
-  const key = currentKey(), section = currentSection();
-  connections[key] ||= {}; connections[key][section.id] ||= [];
-  const pair = [from, to];
-  if (!connections[key][section.id].some(existing => existing[0] === pair[0] && existing[1] === pair[1])) connections[key][section.id].push(pair);
-  scheduleSave();
+  const section = currentSection();
+  section.connections ||= [];
+  if (!section.connections.some(connection => connection.from === from && connection.to === to)) {
+    section.connections.push(makeConnection(from, to));
+    scheduleSave();
+  }
 }
 
 function showJson() {
@@ -207,19 +189,18 @@ function showJson() {
   $('json-dialog').showModal();
 }
 
-async function applyJson() {
+function applyJson() {
   try {
-    const replacement = JSON.parse($('json-output').value);
-    if (replacement.format === 'wow-workbook-talent-project') {
-      config.trees = replacement.trees; connections = replacement.connections || {};
-    } else config.trees[currentKey()] = replacement;
-    scheduleSave(); updateSections(); $('json-dialog').close();
+    project = normalizeProject(JSON.parse($('json-output').value));
+    scheduleSave();
+    populateSelectors();
+    $('json-dialog').close();
   } catch (error) { alert(`Invalid JSON: ${error.message}`); }
 }
 
 function validate() {
   const section = currentSection(); if (!section) return;
-  const result = validateSection(section, sectionConnections(section));
+  const result = validateSection(section);
   const panel = $('validation-panel');
   panel.innerHTML = result.valid && !result.warnings.length ? '<span class="validation-ok">✓ Tree section is valid</span>' : `${result.errors.map(e => `<div class="validation-error">✕ ${e}</div>`).join('')}${result.warnings.map(w => `<div class="validation-warning">⚠ ${w}</div>`).join('')}`;
 }
@@ -228,9 +209,7 @@ async function importProject() {
   const file = $('project-file').files[0];
   if (!file) return;
   try {
-    const payload = await readProjectFile(file);
-    if (payload.format !== 'wow-workbook-talent-project' || !payload.trees) throw new Error('This is not a valid WoW Workbook project file.');
-    config.trees = payload.trees; connections = payload.connections || {};
+    project = normalizeProject(await readProjectFile(file));
     scheduleSave(); populateSelectors(); $('project-file').value = '';
     setStatus('Project imported and saved locally.', 'saved');
   } catch (error) { alert(`Import failed: ${error.message}`); }
@@ -239,17 +218,35 @@ async function importProject() {
 async function resetDraft() {
   if (!confirm('Discard the local draft and restore the repository data?')) return;
   await clearDraft();
-  config = cloneTree(baselineConfig); connections = cloneTree(baselineConnections);
+  project = cloneProject(baselineProject);
   selectedNodeId = null; populateSelectors(); setStatus('Local draft reset.', 'saved');
 }
 
+async function loadRepositoryProject() {
+  try {
+    const response = await fetch(PROJECT_URL);
+    if (!response.ok) throw new Error(`Canonical project unavailable (${response.status})`);
+    return normalizeProject(await response.json());
+  } catch (canonicalError) {
+    const [treeResponse, connectionResponse] = await Promise.all([fetch(TREES_URL), fetch(CONNECTIONS_URL)]);
+    if (!treeResponse.ok || !connectionResponse.ok) throw canonicalError;
+    return projectFromLegacy(await treeResponse.json(), await connectionResponse.json());
+  }
+}
+
 async function init() {
-  const [treeResponse, connectionResponse] = await Promise.all([fetch(TREES_URL), fetch(CONNECTIONS_URL)]);
-  baselineConfig = await treeResponse.json(); baselineConnections = await connectionResponse.json();
-  config = cloneTree(baselineConfig); connections = cloneTree(baselineConnections);
+  baselineProject = await loadRepositoryProject();
+  project = cloneProject(baselineProject);
   const draft = await loadDraft();
-  if (draft?.trees) { config.trees = draft.trees; connections = draft.connections || {}; setStatus(`Restored local draft · ${new Date(draft.savedAt).toLocaleString()}`, 'saved'); }
-  else setStatus('Using repository baseline.', 'saved');
+  if (draft) {
+    try {
+      project = normalizeProject(draft);
+      setStatus(`Restored local draft · ${new Date(draft.savedAt).toLocaleString()}`, 'saved');
+    } catch {
+      setStatus('Saved draft was incompatible; using repository baseline.', 'error');
+    }
+  } else setStatus('Using repository baseline.', 'saved');
+
   populateSelectors();
   classSelect.addEventListener('change', updateSpecs); specSelect.addEventListener('change', updateSections);
   sectionSelect.addEventListener('change', () => { selectedNodeId = null; render(); });

@@ -4,29 +4,35 @@ These are unresolved questions. Do not treat them as decisions.
 
 ## Current highest-priority question
 
-### What does 100% Dominion actually mean?
+### What should the first Runic Power spender(s) actually do?
 
-This is likely to become the spec's signature mechanic.
+The current resource architecture is:
 
-Possible directions to explore:
+**Runes → build Death's Claim → generate Runic Power → exploit Death's Claim through Runic Power spenders.**
 
-- The enemy becomes fully subject to the Lich's will.
-- A major action/ability lockout state.
-- A temporary domination/control window.
-- A deterministic execution/death state.
-- A transformation of the target into a servant.
-- A powerful choice for the Lich between killing, controlling, or claiming the target.
+The next step is to brainstorm actual WoW abilities around this loop. The first useful test case is likely a simple single-target damage spender whose effectiveness scales with the target's Death's Claim.
 
-No option is currently selected.
+Do not start with numbers or final spell names. First establish the functions and gameplay roles of the abilities.
 
-## Other open questions
+## Current unresolved design questions
 
-- Is Dominion represented as a literal percentage/meter, stacks, or another state?
-- What exactly causes Dominion to increase?
-- How does the Lich choose between damage, control, and other expressions?
-- What are the limits/counterplay rules for domination of powerful enemies?
-- How exactly does enemy death translate Dominion into a temporary servant/pet?
-- Should different expressions produce different kinds of servants?
-- How much of the spec's power is tied to proximity?
-- What happens if the Lich changes targets?
-- What is the appropriate pacing for a slow juggernaut in PvE and PvP?
+- What exactly should Runic Power spenders do with Death's Claim?
+- Which effects should be DPS and which should be utility?
+- Should the spec have a Breath of Sindragosa-like high-Runic-Power gameplay mode, and if so, should it be a major part of the spec or an optional route?
+- How should Death's Claim interact with multiple targets: active spreading, automatic cleave, or both through talents?
+- What happens when changing targets, especially in Mythic+ and PvP?
+- What forms of domination/control are appropriate for WoW PvP without becoming unbalanceable?
+- Should Death's Claim truly be indefinite in practical gameplay, and what natural limits/counterplay should exist?
+- What happens to Death's Claim when the target dies?
+- Do undead/pet consequences remain part of the gameplay at all, or mainly as occasional thematic payoff?
+
+## Questions deliberately deprioritized
+
+The following are not currently worth solving until the basic spell kit works:
+
+- Exact stack numbers.
+- Exact damage scaling.
+- Exact cooldowns.
+- Exact talent-node structure.
+- Exact duration formulas.
+- Exact UI representation.

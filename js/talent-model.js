@@ -2,21 +2,21 @@
 // The Designer and Calculator both consume the same normalized structure.
 
 export const TALENT_PROJECT_FORMAT = 'wow-workbook-talent-project';
-export const TALENT_PROJECT_VERSION = 3;
+export const TALENT_PROJECT_VERSION = 5;
 
-export const DEFAULT_COLUMNS = 4;
+export const DEFAULT_COLUMNS = 7;
 export const NODE_KINDS = ['active', 'passive', 'choice'];
 export const SECTION_TYPES = ['class', 'spec', 'apex', 'hero'];
 
 // Reserved keys are rebuilt by the normalizer; anything else on a node is preserved as-is.
-const RESERVED_NODE_KEYS = new Set(['id', 'name', 'description', 'icon', 'row', 'column', 'type', 'kind', 'maxRank', 'choices']);
+const RESERVED_NODE_KEYS = new Set(['id', 'name', 'description', 'icon', 'row', 'column', 'type', 'kind', 'maxRank', 'cost', 'range', 'charges', 'castTime', 'cooldown', 'choices']);
 const RESERVED_SECTION_KEYS = new Set(['id', 'title', 'type', 'maxPoints', 'columns', 'rowCount', 'selectableEmpty', 'nodes', 'connections', 'rows']);
 
 export function makeChoice({ name = '', description = '', icon = '' } = {}) {
   return { name, description, icon };
 }
 
-export function makeNode({ id, name = '', description = '', icon = '', row = 0, column = 0, type = 'talent', kind = 'active', maxRank = 1, choices, ...extra }) {
+export function makeNode({ id, name = '', description = '', icon = '', row = 0, column = 0, type = 'talent', kind = 'active', maxRank = 1, cost = '', range = '', charges = '', castTime = '', cooldown = '', choices, ...extra }) {
   const node = {
     ...extra,
     id,
@@ -27,7 +27,12 @@ export function makeNode({ id, name = '', description = '', icon = '', row = 0, 
     column,
     type,
     kind: NODE_KINDS.includes(kind) ? kind : 'active',
-    maxRank: Number.isInteger(maxRank) && maxRank > 0 ? maxRank : 1
+    maxRank: Number.isInteger(maxRank) && maxRank > 0 ? maxRank : 1,
+    cost,
+    range,
+    charges,
+    castTime,
+    cooldown
   };
   if (node.kind === 'choice' || (Array.isArray(choices) && choices.length)) {
     node.choices = (Array.isArray(choices) ? choices : []).map(choice => makeChoice(choice));
@@ -46,7 +51,7 @@ export function makeSection({ id, title = id, type = 'spec', maxPoints = 0, colu
     title,
     type: SECTION_TYPES.includes(type) ? type : 'spec',
     maxPoints: Number.isFinite(maxPoints) ? maxPoints : 0,
-    columns: Number.isInteger(columns) && columns > 0 ? columns : DEFAULT_COLUMNS,
+    columns: Number.isInteger(columns) && columns > 0 ? Math.max(DEFAULT_COLUMNS, columns) : DEFAULT_COLUMNS,
     rowCount: Number.isInteger(rowCount) && rowCount > 0 ? rowCount : 0,
     selectableEmpty: !!selectableEmpty,
     nodes,
@@ -58,7 +63,7 @@ export function makeSection({ id, title = id, type = 'spec', maxPoints = 0, colu
 export function sectionColumns(section) {
   const declared = Number.isInteger(section?.columns) && section.columns > 0 ? section.columns : 0;
   const used = Math.max(0, ...(section?.nodes || []).map(node => node.column + 1));
-  return Math.max(declared || DEFAULT_COLUMNS, used);
+  return Math.max(DEFAULT_COLUMNS, declared, used);
 }
 
 export function sectionRows(section) {
@@ -72,7 +77,7 @@ export function nodeAt(section, row, column) {
 }
 
 export function isEmptyNode(node) {
-  return !node?.name && !node?.description && !(node?.choices || []).some(choice => choice.name);
+  return !node?.name && !node?.description && !node?.cost && !node?.range && !node?.charges && !node?.castTime && !node?.cooldown && !(node?.choices || []).some(choice => choice.name);
 }
 
 export function nodeLabel(node) {
@@ -126,6 +131,11 @@ export function normalizeNode(node, row = 0, column = 0, sectionId = 'section') 
     type: node?.type || 'talent',
     kind: node?.kind,
     maxRank: node?.maxRank,
+    cost: node?.cost || '',
+    range: node?.range || '',
+    charges: node?.charges || '',
+    castTime: node?.castTime || '',
+    cooldown: node?.cooldown || '',
     choices
   });
 }
@@ -316,7 +326,7 @@ export function createTree({ className, specName, description = '' }) {
     sections: [
       createEmptySection({ id: 'class', title: className, type: 'class', rows: 10, maxPoints: 34 }),
       createEmptySection({ id: 'spec', title: specName, type: 'spec', rows: 10, maxPoints: 34 }),
-      createEmptySection({ id: 'apex', title: 'Apex', type: 'apex', rows: 3, columns: 1, maxPoints: 4 }),
+      createEmptySection({ id: 'apex', title: 'Apex', type: 'apex', rows: 3, maxPoints: 4 }),
       createEmptySection({ id: 'hero', title: 'Hero Talents', type: 'hero', rows: 5, maxPoints: 13 })
     ]
   };

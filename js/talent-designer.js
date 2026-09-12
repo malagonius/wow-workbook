@@ -1,6 +1,6 @@
 import {
   cloneProject, createEmptySection, createTree, makeChoice, makeConnection, makeNode,
-  normalizeProject, sectionColumns, sectionRows, uniqueNodeId, validateSection,
+  isEmptyNode, normalizeProject, sectionColumns, sectionRows, uniqueNodeId, validateSection,
   NODE_KINDS, SECTION_TYPES, TALENT_PROJECT_FORMAT, TALENT_PROJECT_VERSION
 } from './talent-model.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
@@ -148,7 +148,7 @@ function render() {
       connectSourceId,
       getSectionSummary: current => `${current.nodes.length} talents · ${current.maxPoints || 0} points`,
       getNodeState: (current, node) => ({ available: true, title: nodeTooltip(node) }),
-      handlers: { onNodeClick, onSocketClick, onNodeMove, onNodeSwap, onConnect, onEdgeClick, onHandleClick }
+      handlers: { onNodeClick, onSocketClick, onNodeMove, onNodeSwap, onConnect, onConnectToSocket, onEdgeClick, onHandleClick }
     });
   }
 
@@ -180,11 +180,23 @@ function onHandleClick(node) {
 }
 
 function onSocketClick(section, row, column) {
+  const from = connectSourceId;
+  connectSourceId = null;
+  createNodeAtSocket(section, row, column, from);
+}
+
+function createNodeAtSocket(section, row, column, from = null) {
   mutate(() => {
     const id = newNodeId(section, row, column);
     section.nodes.push(makeNode({ id, row, column }));
+    if (from && from !== id) section.connections.push(makeConnection(from, id));
     selectedNodeId = id;
   });
+}
+
+function onConnectToSocket(from, section, row, column) {
+  connectSourceId = null;
+  createNodeAtSocket(section, row, column, from);
 }
 
 function onNodeMove(id, row, column, section) {
@@ -216,7 +228,10 @@ function onConnect(from, to, section) {
     render();
     return;
   }
-  mutate(() => section.connections.push(makeConnection(from, to)));
+  mutate(() => {
+    section.connections.push(makeConnection(from, to));
+    if (isEmptyNode(section.nodes.find(node => node.id === to))) selectedNodeId = to;
+  });
 }
 
 function onEdgeClick(index, section) {
@@ -249,6 +264,12 @@ function updateNodeForm() {
   $('node-icon').value = node.icon || '';
   $('node-kind').value = node.kind;
   $('node-max-rank').value = node.maxRank;
+  $('node-cost').value = node.cost || '';
+  $('node-range').value = node.range || '';
+  $('node-charges').value = node.charges || '';
+  $('node-cast-time').value = node.castTime || '';
+  $('node-cooldown').value = node.cooldown || '';
+  $('active-spell-fields').hidden = node.kind !== 'active';
   $('node-row').value = node.row;
   $('node-column').value = node.column;
 
@@ -283,6 +304,11 @@ function applyNodeForm() {
   node.icon = $('node-icon').value;
   node.kind = NODE_KINDS.includes($('node-kind').value) ? $('node-kind').value : 'active';
   node.maxRank = Math.max(1, Number($('node-max-rank').value) || 1);
+  node.cost = node.kind === 'active' ? $('node-cost').value : '';
+  node.range = node.kind === 'active' ? $('node-range').value : '';
+  node.charges = node.kind === 'active' ? $('node-charges').value : '';
+  node.castTime = node.kind === 'active' ? $('node-cast-time').value : '';
+  node.cooldown = node.kind === 'active' ? $('node-cooldown').value : '';
   node.row = Math.max(0, Number($('node-row').value) || 0);
   node.column = Math.max(0, Number($('node-column').value) || 0);
 
@@ -374,6 +400,11 @@ function clearNode() {
     node.icon = '';
     node.kind = 'active';
     node.maxRank = 1;
+    node.cost = '';
+    node.range = '';
+    node.charges = '';
+    node.castTime = '';
+    node.cooldown = '';
     delete node.choices;
   });
 }
@@ -462,9 +493,22 @@ function deleteSection() {
   updateSections();
 }
 
+function clearSection() {
+  const section = currentSection();
+  if (!section || (!section.nodes.length && !section.connections.length)) return;
+  if (!confirm(`Clear every talent and connection from "${section.title}"?`)) return;
+
+  mutate(() => {
+    section.nodes = [];
+    section.connections = [];
+    selectedNodeId = null;
+    connectSourceId = null;
+  });
+}
+
 function updateTreeForm() {
   const tree = currentTree();
-  ['tree-description', 'rename-spec', 'duplicate-spec', 'delete-spec', 'add-section', 'add-node'].forEach(id => { $(id).disabled = !tree; });
+  ['tree-description', 'rename-spec', 'duplicate-spec', 'delete-spec', 'add-section', 'add-node', 'clear-section'].forEach(id => { $(id).disabled = !tree; });
   ['rename-class', 'delete-class', 'add-spec'].forEach(id => { $(id).disabled = !classSelect.value; });
   $('tree-description').value = tree?.description || '';
 }
@@ -661,7 +705,7 @@ async function loadRepositoryProject() {
   return normalizeProject(await response.json());
 }
 
-const TEXT_FIELDS = ['node-name', 'node-description', 'node-icon', 'choice-a-name', 'choice-a-description', 'choice-b-name', 'choice-b-description'];
+const TEXT_FIELDS = ['node-name', 'node-description', 'node-icon', 'node-cost', 'node-range', 'node-charges', 'node-cast-time', 'node-cooldown', 'choice-a-name', 'choice-a-description', 'choice-b-name', 'choice-b-description'];
 const COMMIT_FIELDS = ['node-id', 'node-kind', 'node-max-rank', 'node-row', 'node-column'];
 
 function wireNodeForm() {
@@ -762,6 +806,7 @@ async function init() {
   $('import-project').addEventListener('click', () => $('project-file').click());
   $('project-file').addEventListener('change', importProject);
   $('reset-draft').addEventListener('click', resetDraft);
+  $('clear-section').addEventListener('click', clearSection);
   window.addEventListener('resize', () => layoutConnections(treeEl));
 
   render();

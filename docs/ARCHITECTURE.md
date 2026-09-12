@@ -62,12 +62,12 @@ If you need a new visual state, add it to `getNodeState` rather than branching o
 
 Talents live on a **row/column grid**, not on free x/y coordinates. Rows and columns give responsive layouts, predictable structure and simple validation for free.
 
-- `section.columns` — declared grid width (defaults to 4).
+- `section.columns` — declared grid width (minimum and default: 7).
 - `section.rowCount` — declared grid height, so a section can contain empty rows.
 - Both are floors: if a node sits beyond them, the grid grows to fit rather than hiding the node.
 - The CSS grid reads the width from a `--cols` custom property set on `.tree-graph`.
 
-Any cell without a node renders as a socket: inert in the calculator, a click-to-create drop target in the designer.
+Any cell without a node renders as a socket: inert in the calculator, a click-to-create drop target in the designer. Dropping a connection handle on one creates the target node and connection together.
 
 ## Connections
 

@@ -23,14 +23,16 @@ What the Talent Designer can do today. For *how* it is built see [ARCHITECTURE.m
 
 - Click an empty socket to create a talent there; click a talent to edit it.
 - Edit name, description, icon, kind, max rank, grid position and node ID.
+- Active abilities expose cost, range, charges, cast time and cooldown fields; both the Designer and Calculator show them in the shared talent tooltip.
 - Kinds follow the WoW convention: `active` (square), `passive` (circle), `choice` (octagon with two options).
 - Max rank drives the `0/N` badge that the calculator then fills in.
 - Duplicate, clear and delete talents; `Delete` key works on the selected talent.
+- Clear every talent and connection from the current section in one undoable action.
 
 **Layout and connections**
 
 - Drag a talent onto an empty socket to move it, or onto another talent to swap them.
-- Drag the gold dot onto another talent to connect them, or click the dot and then the target.
+- Drag the gold dot onto another talent or an empty socket to connect them, or click the dot and then the target. Empty targets are created and selected automatically.
 - Click a connection line to delete it, or remove it from the connection list.
 - Connections are stored on the section and are never inferred.
 

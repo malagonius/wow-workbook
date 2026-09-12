@@ -78,7 +78,8 @@ function nodeState(section,node){
   if(node.description)lines.push(node.description);
   if(node.kind==='choice'&&choiceCount(node))lines.push(node.choices.map(c=>c.name).filter(Boolean).join(' or '));
   lines.push(selected?(canRemove(section,node.id)?'Right-click to refund a rank':'Another selected talent depends on this'):(available?'Click to spend a point':'Requires a connected talent'));
-  return {rank,selected,available,partial:selected&&rank<node.maxRank,choiceIndex:choices.has(node.id)?choices.get(node.id):-1,title:lines.join('\n')};
+  const tooltipFooter=selected?(canRemove(section,node.id)?'Right-click to refund a rank':'Another selected talent depends on this'):(available?'Click to spend a point':'Requires a connected talent');
+  return {rank,selected,available,partial:selected&&rank<node.maxRank,choiceIndex:choices.has(node.id)?choices.get(node.id):-1,title:lines.join('\n'),tooltipFooter};
 }
 function render(){
   const tree=getTree();

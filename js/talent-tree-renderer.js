@@ -9,6 +9,62 @@ const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
 
 // dataTransfer contents cannot be read during dragover, so the active payload is kept here.
 let dragPayload = null;
+let activeTooltip = null;
+
+function addTooltipText(parent, className, text) {
+  if (!text) return;
+  const element = document.createElement('span');
+  element.className = className;
+  element.textContent = text;
+  parent.appendChild(element);
+}
+
+function showTooltip(button, node, label, state) {
+  activeTooltip?.remove();
+  const tooltip = document.createElement('div');
+  tooltip.className = 'talent-tooltip';
+  tooltip.setAttribute('role', 'tooltip');
+
+  const title = document.createElement('strong');
+  title.className = 'talent-tooltip-title';
+  title.textContent = label || node.id;
+  tooltip.appendChild(title);
+
+  if (node.kind === 'active') {
+    const primary = document.createElement('div');
+    primary.className = 'talent-tooltip-row';
+    addTooltipText(primary, 'talent-tooltip-cost', node.cost);
+    addTooltipText(primary, 'talent-tooltip-range', node.range);
+    if (primary.childElementCount) tooltip.appendChild(primary);
+
+    const timing = document.createElement('div');
+    timing.className = 'talent-tooltip-row';
+    addTooltipText(timing, '', node.castTime);
+    addTooltipText(timing, '', node.cooldown);
+    if (timing.childElementCount) tooltip.appendChild(timing);
+    addTooltipText(tooltip, 'talent-tooltip-charges', node.charges);
+  }
+
+  if (node.kind === 'choice') {
+    addTooltipText(tooltip, 'talent-tooltip-choice', (node.choices || []).map(choice => choice.name).filter(Boolean).join(' / '));
+  }
+  addTooltipText(tooltip, 'talent-tooltip-description', node.description);
+  addTooltipText(tooltip, 'talent-tooltip-footer', state.tooltipFooter);
+
+  document.body.appendChild(tooltip);
+  activeTooltip = tooltip;
+  const anchor = button.getBoundingClientRect();
+  const box = tooltip.getBoundingClientRect();
+  const left = Math.max(8, Math.min(window.innerWidth - box.width - 8, anchor.left + anchor.width / 2 - box.width / 2));
+  const above = anchor.top - box.height - 10;
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${above >= 8 ? above : anchor.bottom + 10}px`;
+}
+
+function hideTooltip() {
+  activeTooltip?.remove();
+  activeTooltip = null;
+}
 
 function buildIcon(node) {
   const icon = document.createElement('span');
@@ -44,7 +100,7 @@ function buildNode(section, node, options) {
   if (node.id === options.selectedNodeId) classes.push('editing');
   if (node.id === options.connectSourceId) classes.push('connect-source');
   button.className = classes.join(' ');
-  button.title = state.title || label || node.id;
+  button.setAttribute('aria-label', state.title || label || node.id);
   if (options.mode === 'calculator' && !state.selected && !state.available) button.disabled = true;
 
   button.appendChild(buildIcon(node));
@@ -62,6 +118,10 @@ function buildNode(section, node, options) {
   }
 
   button.addEventListener('click', event => options.handlers?.onNodeClick?.(node, section, event));
+  button.addEventListener('mouseenter', () => showTooltip(button, node, label, state));
+  button.addEventListener('mouseleave', hideTooltip);
+  button.addEventListener('focus', () => showTooltip(button, node, label, state));
+  button.addEventListener('blur', hideTooltip);
   button.addEventListener('contextmenu', event => {
     if (!options.handlers?.onNodeAlt) return;
     event.preventDefault();
@@ -139,17 +199,21 @@ function buildSocket(section, row, column, options) {
   socket.textContent = '+';
   socket.addEventListener('click', () => options.handlers?.onSocketClick?.(section, row, column));
   socket.addEventListener('dragover', event => {
-    if (dragPayload?.op !== 'move') return;
+    if (!['move', 'connect'].includes(dragPayload?.op)) return;
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = dragPayload.op === 'connect' ? 'link' : 'move';
     socket.classList.add('drop-target');
   });
   socket.addEventListener('dragleave', () => socket.classList.remove('drop-target'));
   socket.addEventListener('drop', event => {
     event.preventDefault();
     socket.classList.remove('drop-target');
-    if (dragPayload?.op !== 'move') return;
-    options.handlers?.onNodeMove?.(dragPayload.id, row, column, section);
+    if (!dragPayload) return;
+    if (dragPayload.op === 'connect') {
+      options.handlers?.onConnectToSocket?.(dragPayload.id, section, row, column);
+    } else if (dragPayload.op === 'move') {
+      options.handlers?.onNodeMove?.(dragPayload.id, row, column, section);
+    }
     dragPayload = null;
   });
   return socket;
@@ -254,6 +318,7 @@ export function layoutConnections(container) {
 }
 
 export function renderSections(container, sections, options = {}) {
+  hideTooltip();
   container.innerHTML = '';
   container.classList.toggle('designer-mode', options.mode === 'designer');
   sections.forEach(section => container.appendChild(buildSection(section, options)));

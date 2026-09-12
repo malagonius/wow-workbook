@@ -34,6 +34,7 @@
       <button id="add-class" type="button">＋ Class</button>
       <button id="add-spec" type="button">＋ Spec</button>
       <button id="add-node" type="button">＋ Talent</button>
+      <button id="clear-section" type="button">Clear section</button>
       <button id="undo" type="button" title="Undo (Ctrl+Z)">↶ Undo</button>
       <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
       <button id="show-json" type="button">&lt;&gt; JSON</button>
@@ -43,7 +44,7 @@
       <input id="project-file" type="file" accept="application/json,.json" hidden>
     </section>
     <p id="storage-status" class="storage-status" role="status">Loading local draft…</p>
-    <p class="designer-hint">Drag a talent to move it · click an empty socket to create one · drag the gold dot onto another talent to connect them (or click the dot, then click the target) · click a connection line to delete it</p>
+    <p class="designer-hint">Drag a talent to move it · click an empty socket to create one · drag the gold dot onto a talent or empty socket to connect them (or click the dot, then click the target) · click a connection line to delete it</p>
 
     <section class="designer-workspace">
       <div id="designer-tree" class="designer-tree"></div>
@@ -64,6 +65,18 @@
             <label>Kind<select id="node-kind"></select></label>
             <label>Max rank<input id="node-max-rank" type="number" min="1" max="20"></label>
           </div>
+          <fieldset id="active-spell-fields">
+            <legend>Spell details</legend>
+            <div class="designer-grid-fields">
+              <label>Cost<input id="node-cost" placeholder="30 Runic Power"></label>
+              <label>Range<input id="node-range" placeholder="40 yd"></label>
+            </div>
+            <div class="designer-grid-fields">
+              <label>Charges<input id="node-charges" placeholder="1 Charge"></label>
+              <label>Cast time<input id="node-cast-time" placeholder="Instant"></label>
+            </div>
+            <label>Cooldown<input id="node-cooldown" placeholder="6 sec cooldown"></label>
+          </fieldset>
           <div class="designer-grid-fields">
             <label>Row<input id="node-row" type="number" min="0"></label>
             <label>Column<input id="node-column" type="number" min="0"></label>

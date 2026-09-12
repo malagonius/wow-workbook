@@ -3,7 +3,7 @@
 
 /* Grid width is data-driven: --cols comes from the section's column count. */
 .tree-grid {
-  grid-template-columns: repeat(var(--cols, 4), minmax(80px, 1fr));
+  grid-template-columns: repeat(var(--cols, 7), minmax(80px, 1fr));
 }
 
 /* Node shapes follow the WoW convention: square = active, circle = passive, octagon = choice. */
@@ -73,6 +73,8 @@
 .node.editing { outline: 2px solid var(--blue); outline-offset: 3px; }
 .node.connect-source { border-color: var(--blue); box-shadow: 0 0 18px #54b8ff88; }
 
+.designer-mode .connections { z-index: 3; }
+
 .connect-handle {
   position: absolute;
   left: 50%;
@@ -95,6 +97,30 @@
 .connections line.clickable:hover { stroke: #ff8f8f; stroke-width: 5; }
 .connections line.broken { display: none; }
 
+.talent-tooltip {
+  position: fixed;
+  z-index: 1000;
+  width: min(330px, calc(100vw - 16px));
+  padding: 10px 12px;
+  color: #f5f7ff;
+  background: #050817f5;
+  border: 1px solid #aab3c4;
+  border-radius: 3px;
+  box-shadow: 0 8px 24px #000b;
+  font: 14px/1.25 Arial, sans-serif;
+  pointer-events: none;
+}
+.talent-tooltip-title { display: block; margin-bottom: 2px; font-size: 16px; }
+.talent-tooltip-row { display: flex; justify-content: space-between; gap: 16px; }
+.talent-tooltip-row > :last-child { text-align: right; }
+.talent-tooltip-charges,
+.talent-tooltip-choice,
+.talent-tooltip-description,
+.talent-tooltip-footer { display: block; }
+.talent-tooltip-description { margin-top: 7px; color: #ffd400; }
+.talent-tooltip-choice { margin-top: 5px; color: #c9b6ff; }
+.talent-tooltip-footer { margin-top: 8px; color: #8f99a8; font-size: 12px; }
+
 .legend .legend-active::before { border-color: var(--blue); border-radius: 3px; }
 .legend .legend-passive::before { border-color: var(--blue); border-radius: 50%; }
 .legend .legend-choice::before {
@@ -104,6 +130,6 @@
 .legend .legend-hint::before { display: none; }
 
 @media (max-width: 700px) {
-  .tree-grid { grid-template-columns: repeat(var(--cols, 4), minmax(60px, 1fr)); }
+  .tree-grid { grid-template-columns: repeat(var(--cols, 7), minmax(60px, 1fr)); }
   .designer-mode .socket.droppable { width: 54px; height: 54px; }
 }

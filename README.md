@@ -5,7 +5,7 @@ A homebrew **talent tree creator** for World of Warcraft classes and specializat
 Two pages, one data file:
 
 - **Talent Calculator** (`index.html`) — spend points in a tree: ranks, unlock rules, connection lines.
-- **Talent Designer** (`designer.html`) — build that tree visually: drag & drop talents, connect them, edit names, descriptions, icons, ranks and node kinds, and create whole new classes and specs.
+- **Talent Designer** (`designer.html`) — build that tree visually: drag & drop talents, connect them, edit names, descriptions, icons, ranks, node kinds and active-spell details, and create whole new classes and specs.
 
 Everything is stored in `config/talent-project.json`, which both pages read.
 

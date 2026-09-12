@@ -1,8 +1,10 @@
-import { normalizeProject } from './talent-model.js';
+import { normalizeProject, nodeLabel } from './talent-model.js';
+import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 
 const PROJECT_URL='config/talent-project.json';
 const SPELLS_URL='config/spells.json';
-let project=null,spells=null,selected=new Set();
+let project=null,spells=null;
+const ranks=new Map(),choices=new Map();
 const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=$('specSelect'),treeContainer=$('treeContainer');
 
 async function loadConfig(){
@@ -13,7 +15,8 @@ async function loadConfig(){
     project=normalizeProject(await projectResponse.json());
     spells=await spellResponse.json();
     const classes=Object.keys(project.content||{});
-    classSelect.innerHTML=classes.map(x=>new Option(x,x));
+    classSelect.innerHTML='';
+    classes.forEach(name=>classSelect.add(new Option(name,name)));
     if(!classes.length)throw Error('No classes are defined in the talent project. Open Talent Designer to create one.');
     classSelect.value=classes[0];
     populateSpecs();
@@ -27,67 +30,76 @@ async function loadConfig(){
 
 function currentKey(){return `${classSelect.value}/${specSelect.value}`}
 function getTree(){return project?.trees[currentKey()]}
+function resetPoints(){ranks.clear();choices.clear()}
 function populateSpecs(){
-  selected.clear();specSelect.innerHTML='';
+  resetPoints();specSelect.innerHTML='';
   const specs=project?.content?.[classSelect.value]||[];
   specs.forEach(s=>specSelect.add(new Option(s,s)));
   if(specs.length)specSelect.value=specs[0];
   render();
 }
 function sectionNodes(section){return section?.nodes||[]}
-function sectionCount(s){return sectionNodes(s).filter(n=>selected.has(n.id)).length}
 function sectionEdges(s){return s?.connections||[]}
+function rankOf(id){return ranks.get(id)||0}
+function sectionPoints(s){return sectionNodes(s).reduce((total,node)=>total+rankOf(node.id),0)}
 function incoming(s,id){return sectionEdges(s).filter(e=>e.to===id).map(e=>e.from)}
 function outgoing(s,id){return sectionEdges(s).filter(e=>e.from===id).map(e=>e.to)}
-function isNodeAvailable(s,id){
-  const node=sectionNodes(s).find(n=>n.id===id);if(!node)return false;
+function isNodeAvailable(s,node){
+  if(!node)return false;
   if(node.row===0)return true;
-  return incoming(s,id).some(parent=>selected.has(parent));
+  return incoming(s,node.id).some(parent=>rankOf(parent)>0);
 }
+// The last rank of a node cannot be refunded while it is the only path to a selected child.
 function canRemove(s,id){
-  return !outgoing(s,id).some(child=>selected.has(child)&&incoming(s,child).filter(parent=>selected.has(parent)).length<=1);
+  if(rankOf(id)>1)return true;
+  return !outgoing(s,id).some(child=>rankOf(child)>0&&incoming(s,child).filter(parent=>rankOf(parent)>0).length<=1);
 }
-function toggleNode(id){
-  const s=(getTree()?.sections||[]).find(x=>sectionNodes(x).some(n=>n.id===id));if(!s)return;
-  if(selected.has(id)){if(canRemove(s,id))selected.delete(id)}
-  else if(sectionCount(s)<s.maxPoints&&isNodeAvailable(s,id))selected.add(id);
-  render();
+function choiceCount(node){return (node.choices||[]).length}
+function addRank(s,node){
+  const current=rankOf(node.id);
+  if(current&&node.kind==='choice'&&choiceCount(node)>1){
+    choices.set(node.id,((choices.get(node.id)??0)+1)%choiceCount(node));
+    return;
+  }
+  if(current>=node.maxRank||sectionPoints(s)>=(s.maxPoints||0)||!isNodeAvailable(s,node))return;
+  ranks.set(node.id,current+1);
+  if(node.kind==='choice'&&!choices.has(node.id))choices.set(node.id,0);
+}
+function removeRank(s,node){
+  const current=rankOf(node.id);
+  if(!current||(current===1&&!canRemove(s,node.id)))return;
+  if(current===1){ranks.delete(node.id);choices.delete(node.id)}
+  else ranks.set(node.id,current-1);
+}
+function nodeState(section,node){
+  const rank=rankOf(node.id),selected=rank>0,available=selected||isNodeAvailable(section,node);
+  const lines=[nodeLabel(node)||'Empty talent slot'];
+  if(node.maxRank>1)lines.push(`Rank ${rank} / ${node.maxRank}`);
+  if(node.description)lines.push(node.description);
+  if(node.kind==='choice'&&choiceCount(node))lines.push(node.choices.map(c=>c.name).filter(Boolean).join(' or '));
+  lines.push(selected?(canRemove(section,node.id)?'Right-click to refund a rank':'Another selected talent depends on this'):(available?'Click to spend a point':'Requires a connected talent'));
+  return {rank,selected,available,partial:selected&&rank<node.maxRank,choiceIndex:choices.has(node.id)?choices.get(node.id):-1,title:lines.join('\n')};
 }
 function render(){
-  const d=getTree();
+  const tree=getTree();
   $('className').textContent=classSelect.value;$('specName').textContent=specSelect.value;
-  $('specDescription').textContent=d?.description||'No homebrew talent tree has been defined for this specialization yet.';
-  if(!d){$('pointCount').textContent='0 / 0';treeContainer.innerHTML='<div class="empty"><div class="icon">✦</div><strong>No custom tree yet</strong><span>This specialization has no talent tree yet. Open Talent Designer to create it.</span></div>';return}
-  const sections=d.sections||[],total=sections.reduce((a,s)=>a+sectionCount(s),0),max=sections.reduce((a,s)=>a+(s.maxPoints||0),0);
-  $('pointCount').textContent=`${total} / ${max}`;
-  $('details').innerHTML='<h3>Talent tree</h3><p>Talent connections are defined by the canonical project JSON. Starting nodes are selectable first; every later node requires a selected connected parent.</p>';
-  let html='';
-  sections.forEach(s=>{
-    const edges=sectionEdges(s),nodes=sectionNodes(s),maxRow=Math.max(0,...nodes.map(n=>n.row));
-    html+=`<section class="talent-section ${s.type}" data-section="${s.id}"><div class="section-head"><div><span class="section-type">${s.type.toUpperCase()}</span><h3>${s.title}</h3></div><strong>${sectionCount(s)} / ${s.maxPoints||0}</strong></div><div class="tree-graph" style="--cols:4"><svg class="connections" aria-hidden="true" preserveAspectRatio="none">${edges.map(e=>`<line data-from="${e.from}" data-to="${e.to}"></line>`).join('')}</svg><div class="tree-grid">`;
-    const byPosition=new Map(nodes.map(n=>[`${n.row}-${n.column}`,n]));
-    for(let r=0;r<=maxRow;r++)for(let c=0;c<4;c++){
-      const node=byPosition.get(`${r}-${c}`);
-      if(!node){html+='<div class="socket empty-socket" aria-hidden="true"></div>';continue}
-      const sel=selected.has(node.id),available=sel||isNodeAvailable(s,node.id),removable=sel&&canRemove(s,node.id);
-      html+=`<button class="node ${s.type} ${node.name?'':'placeholder'} ${sel?'selected':''} ${available?'available':'locked'}" data-id="${node.id}" title="${sel?(removable?'Remove talent':'Cannot remove: another selected talent depends on it'):(available?'Select talent':'Requires a connected talent')}" aria-label="${sel?'Remove talent':available?'Select talent':'Locked talent'}" ${!sel&&!available?'disabled':''}><span class="node-icon">${node.icon|| (node.name?'✦':'')}</span><span class="node-name">${node.name||''}</span>${sel?'<span class="rank">✓</span>':''}</button>`;
+  $('specDescription').textContent=tree?.description||'No homebrew talent tree has been defined for this specialization yet.';
+  if(!tree){
+    $('pointCount').textContent='0 / 0';
+    renderEmptyState(treeContainer,'✦','No custom tree yet','This specialization has no talent tree yet. Open Talent Designer to create it.');
+    return;
+  }
+  const sections=tree.sections||[];
+  $('pointCount').textContent=`${sections.reduce((a,s)=>a+sectionPoints(s),0)} / ${sections.reduce((a,s)=>a+(s.maxPoints||0),0)}`;
+  $('details').innerHTML='<h3>Talent tree</h3><p>Click a talent to spend a point, right-click to refund one. Multi-rank talents fill up one point at a time, and choice talents cycle between their options. Starting nodes are selectable first; every later node requires a selected connected parent.</p>';
+  renderSections(treeContainer,sections,{
+    mode:'calculator',
+    getNodeState:nodeState,
+    getSectionSummary:s=>`${sectionPoints(s)} / ${s.maxPoints||0}`,
+    handlers:{
+      onNodeClick:(node,section)=>{addRank(section,node);render()},
+      onNodeAlt:(node,section)=>{removeRank(section,node);render()}
     }
-    html+='</div></div></section>';
-  });
-  treeContainer.innerHTML=html;
-  treeContainer.querySelectorAll('.node').forEach(b=>b.addEventListener('click',()=>toggleNode(b.dataset.id)));
-  requestAnimationFrame(positionConnections);
-}
-function positionConnections(){
-  treeContainer.querySelectorAll('.talent-section').forEach(section=>{
-    const graph=section.querySelector('.tree-graph'),svg=section.querySelector('.connections');if(!graph||!svg)return;
-    const gr=graph.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${gr.width} ${gr.height}`);svg.setAttribute('width',gr.width);svg.setAttribute('height',gr.height);
-    section.querySelectorAll('.connections line').forEach(line=>{
-      const a=section.querySelector(`[data-id="${line.dataset.from}"]`),b=section.querySelector(`[data-id="${line.dataset.to}"]`);if(!a||!b)return;
-      const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect(),x1=ar.left+ar.width/2-gr.left,y1=ar.top+ar.height-gr.top,x2=br.left+br.width/2-gr.left,y2=br.top-gr.top;
-      line.setAttribute('x1',x1);line.setAttribute('y1',y1);line.setAttribute('x2',x2);line.setAttribute('y2',y2);
-      const active=a.classList.contains('selected')&&b.classList.contains('selected');line.classList.toggle('active',active);line.classList.toggle('available',a.classList.contains('selected')||b.classList.contains('selected'));
-    });
   });
 }
 function openSpells(){
@@ -96,4 +108,4 @@ function openSpells(){
   $('spellModal').classList.add('open');$('spellModal').setAttribute('aria-hidden','false');
 }
 function closeModal(){$('spellModal').classList.remove('open');$('spellModal').setAttribute('aria-hidden','true')}
-$('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('spellsBtn').addEventListener('click',openSpells);$('resetBtn').addEventListener('click',()=>{selected.clear();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{selected.clear();render()});window.addEventListener('resize',positionConnections);loadConfig();
+$('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('spellsBtn').addEventListener('click',openSpells);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();

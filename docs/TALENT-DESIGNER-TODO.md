@@ -10,6 +10,25 @@ The long-term idea is to make `wow-workbook` more than a static talent calculato
 
 ---
 
+## Status
+
+| Phase | State |
+| --- | --- |
+| 1. Editor-friendly data model | ✅ Done — schema v3 |
+| 2. Designer shell | ✅ Done |
+| 3. Node creation and editing | ✅ Done |
+| 4. Connecting nodes | ✅ Done — drag or click-to-connect |
+| 5. Visual node positioning | ✅ Done — drag & drop on the grid |
+| 6. Tree management | ✅ Done — classes, specs, sections |
+| 7. JSON preview and editing | ✅ Done — except syntax highlighting |
+| 8. Validation | ✅ Done — except tree-level metadata rules |
+| 9. Save and export | ✅ Done — except GitHub integration |
+| 10+. Content depth | ○ Open — see the end of this document |
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for how it is built and [DEVELOPMENT.md](DEVELOPMENT.md) for how to work on it.
+
+---
+
 ## Core principle: JSON is the source of truth
 
 The architecture should eventually look like:
@@ -32,13 +51,13 @@ Do **not** build a separate designer-only representation and then invent a fragi
 
 Before building the designer UI, make the JSON schema clean and expressive enough to be edited safely.
 
-- [ ] Define a stable `TalentTree` schema.
-- [ ] Define a stable `Section` schema.
+- [x] Define a stable `TalentTree` schema.
+- [x] Define a stable `Section` schema.
   - Class
   - Spec
   - Apex
   - Hero
-- [ ] Define a stable `TalentNode` schema.
+- [x] Define a stable `TalentNode` schema.
   - ID
   - name
   - description
@@ -47,18 +66,18 @@ Before building the designer UI, make the JSON schema clean and expressive enoug
   - type
   - optional spell reference
   - optional cost/requirements
-- [ ] Define a connection schema.
+- [x] Define a connection schema.
   - `from`
   - `to`
-- [ ] Define tree metadata.
+- [x] Define tree metadata.
   - class
   - spec
   - max points
   - description
   - other metadata as needed
-- [ ] Make empty nodes first-class objects rather than relying on magic `""` values.
-- [ ] Decide which fields are required and which are optional.
-- [ ] Add a schema/version field if useful for future migrations.
+- [x] Make empty nodes first-class objects rather than relying on magic `""` values.
+- [x] Decide which fields are required and which are optional.
+- [x] Add a schema/version field if useful for future migrations.
 
 Example node direction:
 
@@ -124,12 +143,12 @@ Initial layout idea:
 
 Requirements:
 
-- [ ] Reuse the existing calculator tree renderer.
-- [ ] Do not create a visually separate implementation of the talent tree.
-- [ ] Support desktop and mobile layouts.
-- [ ] Allow choosing the tree/class/spec being edited.
-- [ ] Allow choosing the section being edited.
-- [ ] Show the current JSON-backed tree visually.
+- [x] Reuse the existing calculator tree renderer.
+- [x] Do not create a visually separate implementation of the talent tree.
+- [x] Support desktop and mobile layouts.
+- [x] Allow choosing the tree/class/spec being edited.
+- [x] Allow choosing the section being edited.
+- [x] Show the current JSON-backed tree visually.
 
 ---
 
@@ -159,16 +178,16 @@ Example:
 └──────────────────────────────┘
 ```
 
-- [ ] Select a node.
-- [ ] Edit node ID.
-- [ ] Edit name.
-- [ ] Edit description.
-- [ ] Edit icon/reference.
-- [ ] Edit node type where applicable.
-- [ ] Edit cost/requirements where applicable.
-- [ ] Save changes into the in-memory JSON model.
-- [ ] Immediately reflect changes in the tree renderer.
-- [ ] Preserve empty selectable nodes as valid nodes.
+- [x] Select a node.
+- [x] Edit node ID.
+- [x] Edit name.
+- [x] Edit description.
+- [x] Edit icon/reference.
+- [x] Edit node type where applicable. (kind: active / passive / choice)
+- [x] Edit cost/requirements where applicable. (max rank)
+- [x] Save changes into the in-memory JSON model.
+- [x] Immediately reflect changes in the tree renderer.
+- [x] Preserve empty selectable nodes as valid nodes.
 
 ---
 
@@ -210,13 +229,13 @@ becomes conceptually:
 
 Later interaction could support:
 
-- [ ] Click-to-connect.
-- [ ] Drag from one node to another.
-- [ ] Remove an existing connection.
-- [ ] Highlight the connection currently being edited.
-- [ ] Prevent duplicate connections.
-- [ ] Validate that connections reference existing nodes.
-- [ ] Prevent invalid/circular connections where the tree model disallows them.
+- [x] Click-to-connect.
+- [x] Drag from one node to another.
+- [x] Remove an existing connection. (click the line, or the list)
+- [x] Highlight the connection currently being edited.
+- [x] Prevent duplicate connections.
+- [x] Validate that connections reference existing nodes.
+- [x] Prevent invalid/circular connections where the tree model disallows them. (reported by validation)
 
 The **JSON connection data remains authoritative**. Do not return to JavaScript-generated nearest-neighbor connections.
 
@@ -262,12 +281,12 @@ Free-form positioning can be added later if the WoW-style layout actually needs 
 
 Designer requirements:
 
-- [ ] Move a node between columns.
-- [ ] Move a node between rows where valid.
-- [ ] Add rows.
-- [ ] Remove rows.
-- [ ] Keep the renderer and connection system synchronized after movement.
-- [ ] Preserve position data in JSON.
+- [x] Move a node between columns.
+- [x] Move a node between rows where valid.
+- [x] Add rows.
+- [x] Remove rows.
+- [x] Keep the renderer and connection system synchronized after movement.
+- [x] Preserve position data in JSON.
 
 ---
 
@@ -275,22 +294,22 @@ Designer requirements:
 
 The designer should eventually be capable of creating an entire tree without manually touching JSON.
 
-- [ ] Create a new tree.
-- [ ] Delete a tree.
-- [ ] Duplicate a tree.
-- [ ] Rename a tree.
-- [ ] Edit tree description.
-- [ ] Add a section.
-- [ ] Delete a section.
-- [ ] Rename a section.
-- [ ] Add rows.
-- [ ] Delete rows.
-- [ ] Add nodes.
-- [ ] Delete nodes.
-- [ ] Duplicate nodes.
-- [ ] Move nodes.
-- [ ] Connect nodes.
-- [ ] Disconnect nodes.
+- [x] Create a new tree.
+- [x] Delete a tree.
+- [x] Duplicate a tree.
+- [x] Rename a tree.
+- [x] Edit tree description.
+- [x] Add a section.
+- [x] Delete a section.
+- [x] Rename a section.
+- [x] Add rows.
+- [x] Delete rows.
+- [x] Add nodes.
+- [x] Delete nodes.
+- [x] Duplicate nodes.
+- [x] Move nodes.
+- [x] Connect nodes.
+- [x] Disconnect nodes.
 
 Target mental model:
 
@@ -314,15 +333,15 @@ The designer should be able to show the exact JSON it is producing.
 
 Features:
 
-- [ ] Formatted JSON display.
+- [x] Formatted JSON display.
 - [ ] Syntax highlighting if practical.
-- [ ] Copy JSON button.
-- [ ] Download/export JSON.
-- [ ] Show the relevant tree JSON.
-- [ ] Optional full configuration JSON.
-- [ ] Allow manually editing JSON.
-- [ ] Add an **Apply JSON** action.
-- [ ] Re-render the designer after valid JSON is applied.
+- [x] Copy JSON button.
+- [x] Download/export JSON.
+- [x] Show the relevant tree JSON.
+- [x] Optional full configuration JSON.
+- [x] Allow manually editing JSON.
+- [x] Add an **Apply JSON** action.
+- [x] Re-render the designer after valid JSON is applied.
 
 Long-term goal:
 
@@ -340,15 +359,15 @@ Once the designer becomes powerful, validation becomes essential.
 
 Before export/save, validate:
 
-- [ ] All node IDs are unique.
-- [ ] All connection source IDs exist.
-- [ ] All connection target IDs exist.
-- [ ] No invalid/circular connections.
-- [ ] No broken references.
+- [x] All node IDs are unique.
+- [x] All connection source IDs exist.
+- [x] All connection target IDs exist.
+- [x] No invalid/circular connections.
+- [x] No broken references.
 - [ ] Required sections exist.
-- [ ] Max point values are valid.
-- [ ] Node positions are valid.
-- [ ] Empty nodes are allowed where intentionally configured.
+- [x] Max point values are valid.
+- [x] Node positions are valid.
+- [x] Empty nodes are allowed where intentionally configured.
 - [ ] Required tree metadata exists.
 
 Example successful validation:
@@ -391,11 +410,11 @@ Download
 
 Features:
 
-- [ ] Export tree JSON.
-- [ ] Export connection JSON if kept separate.
-- [ ] Import JSON.
-- [ ] Local draft/autosave if useful.
-- [ ] Reset/revert changes.
+- [x] Export tree JSON.
+- [x] Export connection JSON if kept separate. (not applicable — connections live in the section)
+- [x] Import JSON.
+- [x] Local draft/autosave if useful. (IndexedDB)
+- [x] Reset/revert changes.
 
 Long-term GitHub integration:
 
@@ -498,6 +517,33 @@ The designer should manipulate the tree model, while the calculator interprets t
 The editor should not hardcode special behavior for Lichborn, Death Knight, or individual talents.
 
 ---
+
+# Phase 10 — Content depth
+
+The editor is now capable enough that the limiting factor is talent *content*, not tooling.
+
+- [ ] Icon library with real assets and a picker, instead of a free-text icon path.
+- [ ] Convert existing `"A / B"` talent names into proper choice nodes.
+- [ ] Mark passives as `passive` so the trees read correctly at a glance.
+- [ ] Author multi-rank talents where the source trees have them.
+
+# Phase 11 — Calculator depth
+
+- [ ] Point gating: require N points spent before a block of rows unlocks.
+- [ ] A proper choice-node picker instead of cycling on click.
+- [ ] Shareable build URLs.
+- [ ] Summary panel listing every selected talent.
+
+# Phase 12 — Designer depth
+
+- [ ] Edit all sections in one scrollable view rather than one at a time.
+- [ ] Multi-select and move groups of talents.
+- [ ] Copy/paste talents between sections and specs.
+- [ ] Project-wide validation view (currently validation is per-section).
+
+# Phase 13 — Save to GitHub
+
+See Phase 9. Still the intended endgame for publishing without a manual export/commit.
 
 # Future ideas / nice-to-have features
 

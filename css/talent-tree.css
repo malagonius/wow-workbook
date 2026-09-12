@@ -1,0 +1,109 @@
+/* Shared talent tree visuals used by the Calculator and the Designer.
+   Loaded after talent-calculator.css so it can refine the base node styling. */
+
+/* Grid width is data-driven: --cols comes from the section's column count. */
+.tree-grid {
+  grid-template-columns: repeat(var(--cols, 4), minmax(80px, 1fr));
+}
+
+/* Node shapes follow the WoW convention: square = active, circle = passive, octagon = choice. */
+.node.kind-active { border-radius: 10px; }
+.node.kind-passive { border-radius: 50%; }
+.node.kind-choice {
+  border-radius: 4px;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.node.kind-choice::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent calc(50% - 1px), #ffffff40 50%, transparent calc(50% + 1px));
+  pointer-events: none;
+}
+
+.node-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+.node-icon:has(.node-img) {
+  position: absolute;
+  inset: 2px;
+  margin: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.node:has(.node-img) .node-name {
+  position: absolute;
+  bottom: -2px;
+  z-index: 2;
+  text-shadow: 0 1px 3px #000, 0 0 6px #000;
+}
+
+.node .rank {
+  z-index: 3;
+  color: var(--muted);
+  font-weight: 700;
+}
+.node.selected .rank { color: var(--gold); border-color: var(--gold); }
+.node.partial { border-style: double; }
+
+/* ---------- Designer-only affordances ---------- */
+
+.designer-mode .socket.droppable {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: auto;
+  color: #5b6673;
+  font-size: 20px;
+  background: transparent;
+  border: 2px dashed #39434e;
+  border-radius: 10px;
+  opacity: .35;
+  cursor: pointer;
+  transition: opacity .15s, border-color .15s;
+}
+.designer-mode .socket.droppable:hover { opacity: 1; border-color: var(--gold); color: var(--gold); }
+
+.drop-target { border-color: var(--gold) !important; opacity: 1 !important; box-shadow: 0 0 14px #f2c14e66; }
+.node.dragging { opacity: .35; }
+.node.editing { outline: 2px solid var(--blue); outline-offset: 3px; }
+.node.connect-source { border-color: var(--blue); box-shadow: 0 0 18px #54b8ff88; }
+
+.connect-handle {
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  background: #11151a;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  cursor: grab;
+  transition: opacity .15s;
+}
+.node:hover .connect-handle,
+.connect-handle:hover,
+.node.editing .connect-handle { opacity: 1; }
+
+.connections line.clickable { pointer-events: stroke; cursor: pointer; }
+.connections line.clickable:hover { stroke: #ff8f8f; stroke-width: 5; }
+.connections line.broken { display: none; }
+
+.legend .legend-active::before { border-color: var(--blue); border-radius: 3px; }
+.legend .legend-passive::before { border-color: var(--blue); border-radius: 50%; }
+.legend .legend-choice::before {
+  border-color: var(--blue);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.legend .legend-hint::before { display: none; }
+
+@media (max-width: 700px) {
+  .tree-grid { grid-template-columns: repeat(var(--cols, 4), minmax(60px, 1fr)); }
+  .designer-mode .socket.droppable { width: 54px; height: 54px; }
+}

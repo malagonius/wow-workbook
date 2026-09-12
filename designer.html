@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>WoW Workbook — Talent Designer</title>
   <link rel="stylesheet" href="css/talent-calculator.css">
+  <link rel="stylesheet" href="css/talent-tree.css">
   <link rel="stylesheet" href="css/talent-designer.css">
   <link rel="stylesheet" href="css/app-navigation.css">
 </head>
@@ -30,45 +31,105 @@
       <label>Section
         <select id="designer-section"></select>
       </label>
-      <button id="add-class" type="button">＋ New class</button>
-      <button id="add-spec" type="button">＋ New spec</button>
-      <button id="add-node">＋ Add node</button>
-      <button id="connect-mode" type="button">Connect nodes</button>
+      <button id="add-class" type="button">＋ Class</button>
+      <button id="add-spec" type="button">＋ Spec</button>
+      <button id="add-node" type="button">＋ Talent</button>
+      <button id="undo" type="button" title="Undo (Ctrl+Z)">↶ Undo</button>
+      <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
       <button id="show-json" type="button">&lt;&gt; JSON</button>
-      <button id="export-project" type="button">Export project</button>
-      <button id="import-project" type="button">Import project</button>
+      <button id="export-project" type="button">Export</button>
+      <button id="import-project" type="button">Import</button>
       <button id="reset-draft" type="button">Reset draft</button>
       <input id="project-file" type="file" accept="application/json,.json" hidden>
     </section>
     <p id="storage-status" class="storage-status" role="status">Loading local draft…</p>
+    <p class="designer-hint">Drag a talent to move it · click an empty socket to create one · drag the gold dot onto another talent to connect them (or click the dot, then click the target) · click a connection line to delete it</p>
 
     <section class="designer-workspace">
       <div id="designer-tree" class="designer-tree"></div>
 
       <aside class="designer-panel">
-        <h2>Node</h2>
-        <p id="selection-hint">Select a node to edit it.</p>
-        <form id="node-form" hidden>
-          <label>ID<input id="node-id" required></label>
+        <h2>Talent</h2>
+        <p id="selection-hint">Select a talent to edit it.</p>
+        <form id="node-form" hidden autocomplete="off">
           <label>Name<input id="node-name"></label>
-          <label>Description<textarea id="node-description" rows="5"></textarea></label>
-          <label>Icon<input id="node-icon" placeholder="icons/example.png"></label>
+          <label>Description<textarea id="node-description" rows="4"></textarea></label>
+          <label>Icon
+            <span class="icon-field">
+              <input id="node-icon" placeholder="icons/frost-strike.png or ❄">
+              <span id="node-icon-preview" class="icon-preview" aria-hidden="true"></span>
+            </span>
+          </label>
+          <div class="designer-grid-fields">
+            <label>Kind<select id="node-kind"></select></label>
+            <label>Max rank<input id="node-max-rank" type="number" min="1" max="20"></label>
+          </div>
           <div class="designer-grid-fields">
             <label>Row<input id="node-row" type="number" min="0"></label>
             <label>Column<input id="node-column" type="number" min="0"></label>
           </div>
+
+          <fieldset id="choice-fields" hidden>
+            <legend>Choice options</legend>
+            <label>Option A name<input id="choice-a-name"></label>
+            <label>Option A description<textarea id="choice-a-description" rows="2"></textarea></label>
+            <label>Option B name<input id="choice-b-name"></label>
+            <label>Option B description<textarea id="choice-b-description" rows="2"></textarea></label>
+          </fieldset>
+
+          <details class="advanced">
+            <summary>Advanced</summary>
+            <label>Node ID<input id="node-id"></label>
+          </details>
+
           <div class="designer-actions">
-            <button type="submit">Save node</button>
+            <button type="button" id="duplicate-node">Duplicate</button>
+            <button type="button" id="clear-node">Clear</button>
             <button type="button" id="delete-node">Delete</button>
           </div>
         </form>
 
-        <div id="connection-panel" hidden>
-          <h2>Connections</h2>
-          <p id="connection-help">Choose a source node, then a target node.</p>
-          <button id="cancel-connect" type="button">Cancel</button>
-        </div>
-        <div id="connection-list" class="connection-list"></div>
+        <details class="panel-group">
+          <summary>Section settings</summary>
+          <div class="panel-form">
+            <label>Title<input id="section-title"></label>
+            <div class="designer-grid-fields">
+              <label>Type<select id="section-type"></select></label>
+              <label>Max points<input id="section-max-points" type="number" min="0"></label>
+            </div>
+            <div class="designer-grid-fields">
+              <label>Columns<input id="section-columns" type="number" min="1" max="12"></label>
+              <label>Rows<input id="section-rows" type="number" min="1" max="30"></label>
+            </div>
+            <label class="checkbox"><input id="section-selectable" type="checkbox"> Empty sockets are selectable</label>
+            <div class="designer-actions">
+              <button type="button" id="add-section">Add section</button>
+              <button type="button" id="delete-section">Delete section</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-group">
+          <summary>Tree settings</summary>
+          <div class="panel-form">
+            <label>Specialization description<textarea id="tree-description" rows="3"></textarea></label>
+            <div class="designer-actions">
+              <button type="button" id="rename-spec">Rename spec</button>
+              <button type="button" id="duplicate-spec">Duplicate spec</button>
+              <button type="button" id="delete-spec">Delete spec</button>
+            </div>
+            <div class="designer-actions">
+              <button type="button" id="rename-class">Rename class</button>
+              <button type="button" id="delete-class">Delete class</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-group" open>
+          <summary>Connections</summary>
+          <div id="connection-list" class="connection-list"></div>
+        </details>
+
         <div id="validation-panel" class="validation-panel"></div>
       </aside>
     </section>
@@ -88,7 +149,7 @@
 
   <dialog id="json-dialog">
     <form method="dialog" class="json-dialog-content">
-      <header><h2>Tree JSON</h2><button aria-label="Close">×</button></header>
+      <header><h2>Project JSON</h2><button aria-label="Close">×</button></header>
       <textarea id="json-output" spellcheck="false"></textarea>
       <div class="designer-actions">
         <button type="button" id="apply-json">Apply JSON</button>

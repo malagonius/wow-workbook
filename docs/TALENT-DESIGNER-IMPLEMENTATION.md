@@ -1,53 +1,50 @@
-# Talent Designer — Initial Implementation Notes
+# Talent Designer — Implementation Status
 
-This document records what is implemented after the first Talent Designer milestone.
+What the Talent Designer can do today. For *how* it is built see [ARCHITECTURE.md](ARCHITECTURE.md); for *how to work on it* see [DEVELOPMENT.md](DEVELOPMENT.md).
 
-## Implemented
+## Files
 
-- `designer.html` provides a dedicated visual designer page.
-- `css/talent-designer.css` provides the designer workspace and responsive layout.
-- `js/talent-model.js` provides shared editor-oriented helpers for nodes, connections, cloning, and validation.
-- `js/talent-designer.js` loads the existing tree and connection JSON and provides the first editing interactions.
+- `designer.html` — the designer page.
+- `js/talent-designer.js` — editing logic, history, persistence.
+- `js/talent-tree-renderer.js` — shared renderer, also used by the calculator.
+- `js/talent-model.js` — canonical schema, construction and validation.
+- `js/talent-designer-storage.js` — IndexedDB drafts, import/export.
+- `css/talent-tree.css`, `css/talent-designer.css` — tree visuals and designer chrome.
 
-## Current interactions
+## Capabilities
 
-- Choose class, specialization, and section.
-- Existing row-based configuration is normalized into editor nodes at runtime.
-- Select a node and edit:
-  - ID
-  - name
-  - description
-  - icon
-  - row
-  - column
-- Add an empty node.
-- Delete a node.
-- Connect two nodes using **Connect nodes** mode.
-- Display the resulting tree connections visually.
-- Open a JSON preview for the current tree.
-- Apply edited JSON back into the current in-memory tree.
-- Copy the JSON to the clipboard.
-- Run basic section validation.
+**Content**
 
-## Important limitation of this first milestone
+- Create, rename, duplicate and delete classes and specializations.
+- A new spec is scaffolded with empty Class, Spec, Apex and Hero sections.
+- Add, rename, retype and delete sections; set max points, columns and rows.
 
-The repository currently has two related representations:
+**Talents**
 
-1. `config/talent-trees.json` — existing row-based talent content.
-2. `config/talent-connections.json` — explicit connection data, currently populated for Lichborn.
+- Click an empty socket to create a talent there; click a talent to edit it.
+- Edit name, description, icon, kind, max rank, grid position and node ID.
+- Kinds follow the WoW convention: `active` (square), `passive` (circle), `choice` (octagon with two options).
+- Max rank drives the `0/N` badge that the calculator then fills in.
+- Duplicate, clear and delete talents; `Delete` key works on the selected talent.
 
-The designer currently bridges these representations at runtime instead of migrating the whole repository immediately. This is intentional: the next architectural task is to define and migrate to a canonical editor-friendly schema without accidentally breaking the calculator's existing trees.
+**Layout and connections**
 
-Likewise, the current JSON preview shows the tree object, while connection persistence remains in the separate connection configuration. A later milestone should decide whether connections become part of the canonical tree schema or remain a separate first-class JSON document, then make the designer export/import both consistently.
+- Drag a talent onto an empty socket to move it, or onto another talent to swap them.
+- Drag the gold dot onto another talent to connect them, or click the dot and then the target.
+- Click a connection line to delete it, or remove it from the connection list.
+- Connections are stored on the section and are never inferred.
 
-## Next work
+**Safety and data**
 
-1. Define the canonical node/section/tree schema.
-2. Migrate Lichborn to that schema first as a safe test case.
-3. Update the calculator to consume the canonical representation.
-4. Migrate existing Blood/Frost/Unholy/class trees.
-5. Make connection editing persist cleanly in the chosen canonical JSON format.
-6. Add robust validation, including connection and graph validation.
-7. Add undo/redo and stronger editor UX.
-8. Add import/export of complete tree data.
-9. Eventually add optional GitHub save/commit/PR workflows.
+- Undo/redo (`Ctrl+Z` / `Ctrl+Shift+Z`) across every change, with text edits grouped per field.
+- Live validation: duplicate IDs, overlapping positions, out-of-grid nodes, invalid ranks, broken or circular connections, unreachable nodes, impossible point totals.
+- Autosave to IndexedDB, plus Export, Import, Reset draft and a full JSON view with Apply.
+
+## Current limitations
+
+- Only one section is edited at a time.
+- Icons are entered as a path or a glyph; there is no icon browser.
+- Validation runs on the current section, not the whole project at once.
+- Publishing is manual: export, replace `config/talent-project.json`, commit.
+- Renaming and duplicating use browser `prompt`/`confirm` dialogs rather than styled ones.
+

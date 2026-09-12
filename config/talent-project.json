@@ -3159,8 +3159,8 @@
             },
             {
               "id": "class-3-0",
-              "name": "",
-              "description": "",
+              "name": "Stronger Lighting/Vegefull Lighting",
+              "description": "Stronger Lighting:\nScudo di fulmini infligge piu danni\n\nVegefull Lighting:\nScudo di fulmini riflette una % di danno al bersaglio",
               "icon": "",
               "row": 3,
               "column": 0,
@@ -3555,8 +3555,8 @@
             },
             {
               "id": "class-6-3",
-              "name": "",
-              "description": "",
+              "name": "Harsh Lighting/Overcharged Shield",
+              "description": "Harsh Lighting:\nScudo di fulmini ha una bassa probabilità di stunnare il bersaglio. Puo verificarsi 1 volta ogni 30 secondi per bersaglio\n\nOvercharged Shield:\nScudo di fulmini ha una piccolissima probabilità di stunnare ogni creatura a 5yd da te. Puo verificarsi una volta ogni minuto\n",
               "icon": "",
               "row": 5,
               "column": 1,
@@ -3583,8 +3583,8 @@
             },
             {
               "id": "class-6-4",
-              "name": "",
-              "description": "",
+              "name": "Way of the Tidal water/Smart Waters",
+              "description": "Way of the Tidal water:\nWay of the water puo anche usare Catena di Guarigione se appresa al 200% di efficacia\n\nSmart Waters:\nWay of the waters puo staccare fino a 2 volte.",
               "icon": "",
               "row": 6,
               "column": 6,
@@ -3787,8 +3787,8 @@
             },
             {
               "id": "class-8-2",
-              "name": "",
-              "description": "",
+              "name": "Spontaneous Elements/Faster Elements",
+              "description": "Spontaneous Elements:\nQuando fast tracking si attiva aumenta una statistica secondaria in base all'elemento\nFulmine --> Haste\nAcqua --> Mastery\nTerra --> Versatility\n\nFaster Elements:\nRaddoppia la possibilità di attivare Fast Tracking",
               "icon": "",
               "row": 8,
               "column": 4,
@@ -4160,8 +4160,8 @@
               "to": "class-5-2"
             },
             {
-              "from": "class-9-3",
-              "to": "class-6-3"
+              "from": "class-6-3",
+              "to": "class-9-3"
             },
             {
               "from": "class-4-1",

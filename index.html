@@ -10,57 +10,22 @@
 </head>
 <body>
 <div id="app-header"></div>
-
-<header>
-  <h1>WoW Workbook</h1>
-  <p>Homebrew class &amp; specialization talent calculator</p>
-</header>
-
+<header><h1>WoW Workbook</h1><p>Homebrew class &amp; specialization talent calculator</p></header>
 <section class="controls">
   <label class="control">Class <select id="classSelect"></select></label>
   <label class="control">Specialization <select id="specSelect"></select></label>
   <div class="toolbar">
     <button class="btn" id="resetBtn">Reset</button>
     <button class="btn primary" id="spellsBtn">View Spells</button>
+    <button class="btn" id="abilitiesBtn">Class / Spec Abilities</button>
   </div>
 </section>
-
 <main>
-  <div class="tree-header">
-    <div>
-      <div class="class-name" id="className"></div>
-      <h2 id="specName"></h2>
-      <p id="specDescription"></p>
-    </div>
-    <div class="points">
-      <strong id="pointCount">0 / 0</strong>
-      <span>Talent points</span>
-    </div>
-  </div>
-
+  <div class="tree-header"><div><div class="class-name" id="className"></div><h2 id="specName"></h2><p id="specDescription"></p></div><div class="points"><strong id="pointCount">0 / 0</strong><span>Talent points</span></div></div>
   <div class="tree-wrap" id="treeContainer"></div>
-
-  <div class="legend">
-    <span class="legend-active">Active ability</span>
-    <span class="legend-passive">Passive</span>
-    <span class="legend-choice">Choice node</span>
-    <span class="legend-hint">Left-click spends a point · right-click refunds</span>
-  </div>
-
+  <div class="legend"><span class="legend-active">Active ability</span><span class="legend-passive">Passive</span><span class="legend-choice">Choice node</span><span class="legend-hint">Left-click spends a point · right-click refunds</span></div>
   <div class="details" id="details"></div>
 </main>
-
-<div class="modal" id="spellModal" aria-hidden="true">
-  <div class="modal-card">
-    <div class="modal-head">
-      <h3 id="modalTitle">Spellbook</h3>
-      <button class="close" id="closeModal" aria-label="Close">×</button>
-    </div>
-    <div id="spellList"></div>
-  </div>
-</div>
-
-<script type="module" src="js/app-navigation.js"></script>
-<script type="module" src="js/talent-calculator.js"></script>
-</body>
-</html>
+<div class="modal" id="spellModal" aria-hidden="true"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle">Spellbook</h3><button class="close" id="closeModal" aria-label="Close">×</button></div><div id="spellList"></div></div></div>
+<script type="module" src="js/app-navigation.js"></script><script type="module" src="js/talent-calculator.js"></script>
+</body></html>

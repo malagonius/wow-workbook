@@ -73,7 +73,8 @@
 .node.editing { outline: 2px solid var(--blue); outline-offset: 3px; }
 .node.connect-source { border-color: var(--blue); box-shadow: 0 0 18px #54b8ff88; }
 
-.designer-mode .connections { z-index: 3; }
+/* Connection lines stay behind the talent nodes in both Calculator and Designer. */
+.designer-mode .connections { z-index: 1; }
 
 .connect-handle {
   position: absolute;

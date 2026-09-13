@@ -284,6 +284,28 @@ function buildSection(section, options) {
   return element;
 }
 
+function pointOnNodeBoundary(centerX, centerY, targetX, targetY, node) {
+  const dx = targetX - centerX;
+  const dy = targetY - centerY;
+  const length = Math.hypot(dx, dy);
+  if (!length) return { x: centerX, y: centerY };
+
+  const rect = node.getBoundingClientRect();
+  const halfWidth = rect.width / 2;
+  const halfHeight = rect.height / 2;
+
+  // Apex nodes are circular, so use the actual radius rather than the
+  // rectangular bounding box. Other nodes use their visual box edge.
+  if (node.classList.contains('apex')) {
+    const radius = Math.min(halfWidth, halfHeight);
+    const scale = Math.max(0, radius / length);
+    return { x: centerX + dx * scale, y: centerY + dy * scale };
+  }
+
+  const scale = Math.min(halfWidth / Math.abs(dx || Number.EPSILON), halfHeight / Math.abs(dy || Number.EPSILON));
+  return { x: centerX + dx * scale, y: centerY + dy * scale };
+}
+
 export function layoutConnections(container) {
   container.querySelectorAll('.talent-section').forEach(section => {
     const graph = section.querySelector('.tree-graph');
@@ -304,12 +326,34 @@ export function layoutConnections(container) {
         return;
       }
       line.classList.remove('broken');
+
       const a = from.getBoundingClientRect();
       const b = to.getBoundingClientRect();
-      line.setAttribute('x1', a.left + a.width / 2 - box.left);
-      line.setAttribute('y1', a.top + a.height / 2 - box.top);
-      line.setAttribute('x2', b.left + b.width / 2 - box.left);
-      line.setAttribute('y2', b.top + b.height / 2 - box.top);
+      const fromCenter = {
+        x: a.left + a.width / 2 - box.left,
+        y: a.top + a.height / 2 - box.top
+      };
+      const toCenter = {
+        x: b.left + b.width / 2 - box.left,
+        y: b.top + b.height / 2 - box.top
+      };
+
+      // Start/end the connector at the actual node boundary instead of its
+      // center. This makes the visual connection stop at the node border even
+      // when stacking/clip-path rules differ between Calculator and Designer.
+      const start = pointOnNodeBoundary(fromCenter.x, fromCenter.y, toCenter.x, toCenter.y, from);
+      const end = pointOnNodeBoundary(toCenter.x, toCenter.y, fromCenter.x, fromCenter.y, to);
+      const dx = end.x - start.x;
+      const dy = end.y - start.y;
+      const distance = Math.hypot(dx, dy);
+      const inset = Math.min(1.5, distance / 4);
+      const nx = distance ? dx / distance : 0;
+      const ny = distance ? dy / distance : 0;
+
+      line.setAttribute('x1', start.x + nx * inset);
+      line.setAttribute('y1', start.y + ny * inset);
+      line.setAttribute('x2', end.x - nx * inset);
+      line.setAttribute('y2', end.y - ny * inset);
       const active = from.classList.contains('selected') && to.classList.contains('selected');
       line.classList.toggle('active', active);
       line.classList.toggle('available', !active && (from.classList.contains('selected') || to.classList.contains('selected')));

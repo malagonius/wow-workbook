@@ -1,0 +1,8 @@
+{
+  "Death Knight": [],
+  "Death Knight/Lichborn": [
+    {"name":"Death Coil","type":"Class Ability","description":"A baseline Death Knight ability available independently of the specialization talent tree."},
+    {"name":"Raise Dead","type":"Class Ability","description":"Summons an undead servant according to the class rules."},
+    {"name":"Lichborn's Presence","type":"Specialization Ability","description":"A baseline Lichborn ability that is part of the specialization identity rather than a talent node."}
+  ]
+}

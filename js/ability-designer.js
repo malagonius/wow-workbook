@@ -140,18 +140,21 @@ function inject() {
 
   const dialog = document.createElement('dialog');
   dialog.id = 'ability-dialog';
+  dialog.className = 'designer-modal';
   dialog.innerHTML = `
     <form method="dialog" class="json-dialog-content">
-      <header><h2>Ability</h2><button aria-label="Close">×</button></header>
-      <label>Name<input id="ability-name" required autocomplete="off"></label>
-      <label>Scope<select id="ability-scope"><option value="spec">Specialization</option><option value="class">Class</option></select></label>
-      <label>Type<input id="ability-type" value="Class Ability"></label>
-      <label>Icon<input id="ability-icon" placeholder="icons/ability.png or ✦"></label>
-      <label>Description<textarea id="ability-description" rows="4"></textarea></label>
-      <input type="hidden" id="ability-key">
-      <input type="hidden" id="ability-index">
-      <div class="designer-actions">
-        <button type="button" id="save-ability">Save Ability</button>
+      <header class="modal-header"><h2>Ability</h2><button type="button" class="modal-close" id="ability-dialog-close" aria-label="Close">×</button></header>
+      <div class="modal-body">
+        <label>Name<input id="ability-name" required autocomplete="off"></label>
+        <label>Scope<select id="ability-scope"><option value="spec">Specialization</option><option value="class">Class</option></select></label>
+        <label>Type<input id="ability-type" value="Class Ability"></label>
+        <label>Icon<input id="ability-icon" placeholder="icons/ability.png or ✦"></label>
+        <label>Description<textarea id="ability-description" rows="4"></textarea></label>
+        <input type="hidden" id="ability-key">
+        <input type="hidden" id="ability-index">
+        <div class="modal-footer">
+          <button type="button" id="save-ability" class="primary">Save Ability</button>
+        </div>
       </div>
     </form>
   `;
@@ -160,6 +163,7 @@ function inject() {
   button.addEventListener('click', () => openEditor());
   $('create-ability').addEventListener('click', () => openEditor());
   $('save-ability').addEventListener('click', saveAbility);
+  $('ability-dialog-close').addEventListener('click', () => $('ability-dialog').close());
   $('designer-class').addEventListener('change', renderAbilities);
   $('designer-spec').addEventListener('change', renderAbilities);
   renderAbilities();

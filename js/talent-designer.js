@@ -71,7 +71,6 @@ function pushHistory(entry) {
   redoStack.length = 0;
 }
 
-// Every structural change goes through mutate() so undo/redo stays complete.
 function mutate(mutation) {
   const before = snapshot();
   mutation();
@@ -80,7 +79,6 @@ function mutate(mutation) {
   render();
 }
 
-// Typing in a field should produce one history entry per edit, not one per keystroke.
 function beginEdit() { if (pendingSnapshot === null) pendingSnapshot = snapshot(); }
 function commitEdit() {
   if (pendingSnapshot === null) return;
@@ -100,7 +98,6 @@ function updateHistoryButtons() {
   $('undo').disabled = !undoStack.length;
   $('redo').disabled = !redoStack.length;
 }
-
 
 function populateSelectors(preferredClass = classSelect.value, preferredSpec = specSelect.value, preferredSection = sectionSelect.value) {
   const classes = Object.keys(project.content || {});
@@ -172,7 +169,6 @@ function onNodeClick(node, section) {
   render();
 }
 
-// Clicking the handle arms a connection; the next talent clicked becomes the target.
 function onHandleClick(node) {
   connectSourceId = connectSourceId === node.id ? null : node.id;
   setStatus(connectSourceId ? `Connecting from "${node.name || node.id}" — click the target talent, or press Escape.` : 'Connection cancelled.', 'dirty');
@@ -323,7 +319,6 @@ function applyNodeForm() {
   scheduleSave();
 }
 
-// Patch the tree in place while typing so the text field keeps focus.
 function patchSelectedNode() {
   const node = selectedNode();
   if (!node) return;
@@ -354,7 +349,6 @@ function renderConnections() {
     onEdgeClick(Number(button.dataset.deleteConnection), section);
   }));
 }
-
 
 function newNodeId(section, row, column) {
   const preferred = `${section.id}-${row}-${column}`;
@@ -797,6 +791,8 @@ async function init() {
   $('add-spec').addEventListener('click', () => openContentDialog('spec'));
   $('create-content').addEventListener('click', createContentFromDialog);
   $('content-form').addEventListener('submit', event => { event.preventDefault(); createContentFromDialog(); });
+  $('content-dialog-close').addEventListener('click', () => $('content-dialog').close());
+  $('json-dialog-close').addEventListener('click', () => $('json-dialog').close());
   $('undo').addEventListener('click', () => travelHistory(undoStack, redoStack));
   $('redo').addEventListener('click', () => travelHistory(redoStack, undoStack));
   $('show-json').addEventListener('click', showJson);
@@ -816,4 +812,3 @@ init().catch(error => {
   renderEmptyState(treeEl, '⚠', 'Unable to load designer data', error.message);
   setStatus(error.message, 'error');
 });
-

@@ -2,13 +2,73 @@
   "format": "wow-workbook-talent-project",
   "version": 2,
   "content": {
-    "Shaman": [
-      "Elemental",
-      "Enhancement",
-      "Restoration",
-      "Primal Weaver"
-    ],
+    "Shaman": ["Primal Weaver"],
     "Thinker": []
   },
-  "trees": {}
+  "trees": {
+    "Shaman/Primal Weaver": {
+      "class": "Shaman",
+      "spec": "Primal Weaver",
+      "description": "Tank shaman",
+      "sections": [
+        {
+          "id": "class",
+          "title": "Shaman",
+          "type": "class",
+          "maxPoints": 34,
+          "columns": 7,
+          "rowCount": 10,
+          "selectableEmpty": true,
+          "nodes": [
+            {"id":"class-0-0","name":"Mastery: Primal Guard","description":"Le tue abilità hanno una possibilità [%mastery] di fornire uno scudo pari a [%mastery]","row":0,"column":0},
+            {"id":"class-0-3","name":"Call on the Elements","description":"Richiama gli elementi attorno a te danneggiando i nemici vicini.","row":0,"column":3},
+            {"id":"class-1-2","name":"Overcharged","description":"Call of the Elements ottiene una seconda carica.","row":1,"column":2},
+            {"id":"class-1-3","name":"Fast Tracking","description":"Call of the Elements ha una piccola probabilità di rendere la prossima Lightning Bolt, Chain Lightning o Healing Wave istantanea, o di azzerare il recupero di Sunder.","row":1,"column":3},
+            {"id":"class-1-4","name":"Shielding Affinity","description":"Aumenta di 1 il numero di scudi elementali che puoi avere attivi su di te.","row":1,"column":4},
+            {"id":"class-2-1","name":"Storm Shield","description":"Sostituisce Scudo di Fulmini. Gli attacchi in mischia infliggono danni ai bersagli vicini.","row":2,"column":1},
+            {"id":"class-2-2","name":"Earthen Shield","description":"Sostituisce Earth Shield. Aumenta le cure ricevute e fornisce guarigione quando subisci danni.","row":2,"column":3},
+            {"id":"class-2-3","name":"Primal Call","description":"Aumenta le stack di Call of the Elements e ne riduce il recupero. Alterna gli elementi.","row":9,"column":3},
+            {"id":"class-2-5","name":"Water Shield","description":"Impara Water Shield. Rigenera mana nel tempo e quando subisci o infliggi danni.","row":2,"column":5},
+            {"id":"class-3-0","name":"Stronger Lightning / Vengeful Lightning","description":"Scegli un potenziamento per Storm Shield.","row":3,"column":0},
+            {"id":"class-3-3","name":"Shield Mastery","description":"Rilanciare uno scudo elementale ne fornisce una seconda carica temporanea.","row":3,"column":4},
+            {"id":"class-3-6","name":"Primal Water","description":"Parare un attacco in mischia ha un'alta probabilità di ricaricare mana. Il mana ricaricato aumenta quando la vita scarseggia.","row":3,"column":6},
+            {"id":"class-4-1","name":"Trick Lightning","description":"Infliggere danni con Storm Shield ha una piccola probabilità di fornire uno scudo elementale casuale.","row":4,"column":1},
+            {"id":"class-4-2","name":"Charged to Mass","description":"Mentre hai più del 90% di vita, Storm Shield infligge il 100% di danni in più.","row":4,"column":2},
+            {"id":"class-4-3","name":"Fission","description":"Aumenta la gittata di Sunder a 60yd.","row":4,"column":3},
+            {"id":"class-4-4","name":"Primal Bulwark","description":"Ogni scudo elementale attivo su di te aumenta la versatilità dell'1%.","row":4,"column":4},
+            {"id":"class-4-5","name":"Earth and Water","description":"Quando scendi sotto il 25% di vita, per 30 secondi gli scudi di terra e acqua contano reciprocamente. Può verificarsi una volta al minuto.","row":4,"column":5},
+            {"id":"class-4-6","name":"Ancestral Conduit","description":"Le cure fornite a te stesso sono aumentate, ma consumano mana proporzionale alla vita ricaricata.","row":4,"column":6},
+            {"id":"class-4-3-primal","name":"Primal Warden","description":"Call on the Elements fornisce uno scudo elementale casuale tra quelli appresi.","row":8,"column":3},
+            {"id":"class-5-0","name":"Flash","description":"Un fulmine ti colpisce e acceca i bersagli vicini, disorientandoli.","row":5,"column":0},
+            {"id":"class-5-1","name":"Sunder","description":"Sbatte contro la terra e infligge danni in una linea davanti a te.","row":3,"column":3},
+            {"id":"class-5-2","name":"Everliving Shield","description":"Mentre Charged to Mass è attivo, parte delle overheal si trasforma in uno scudo.","row":5,"column":2},
+            {"id":"class-5-3","name":"Tough as a Rock","description":"Aumenta la Tempra del 10%.","row":5,"column":3},
+            {"id":"class-5-4","name":"Living Stone","description":"Mentre è attiva non puoi muoverti, ma i danni subiti sono ridotti del 50%.","row":6,"column":3},
+            {"id":"class-5-6","name":"Earthen Guardian","description":"Sostituisce Guardian of the Earth e trasferisce a esso i danni subiti.","row":5,"column":4},
+            {"id":"class-6-3","name":"Harsh Lightning / Overcharged Shield","description":"Scegli un potenziamento di Storm Shield che può stordire i bersagli.","row":5,"column":1},
+            {"id":"class-6-4","name":"Way of the Tidal Water / Smart Waters","description":"Scegli un potenziamento delle cure di Water Shield.","row":6,"column":6},
+            {"id":"class-6-5","name":"Slippery Waters","description":"Water Shield aumenta l'elusione e l'effetto cresce quando la vita diminuisce.","row":6,"column":5},
+            {"id":"class-6-6","name":"Primal Guardian","description":"Se un attacco dovrebbe ucciderti e Earthen Guardian non è in recupero, lo attiva automaticamente.","row":6,"column":4},
+            {"id":"class-7-1","name":"Hasty Storm","description":"Dopo un minuto senza usare Thunderous Entrance, la prossima è istantanea e completamente canalizzata.","row":7,"column":1},
+            {"id":"class-7-3","name":"Ascesa","description":"Fornisce 2 Storm Shield, 2 Earthen Shield e 2 Water Shield per 15 secondi e raddoppia la loro efficacia.","row":7,"column":3},
+            {"id":"class-7-5","name":"Voltaic Blaze","description":"Sostituisce Flame Shock e lo applica al bersaglio e ai nemici adiacenti.","row":7,"column":5},
+            {"id":"class-7-6","name":"Rushing Wind","description":"Wind Shear silenzia anche un altro bersaglio vicino.","row":7,"column":6},
+            {"id":"class-8-2","name":"Spontaneous Elements / Faster Elements","description":"Scegli un potenziamento di Fast Tracking.","row":8,"column":4},
+            {"id":"class-8-3","name":"Thunderous Paw","description":"Durante Ghost Wolf, il prossimo attacco base ha 40yd di gittata, taunta il bersaglio e ti trasporta su di esso.","row":8,"column":2},
+            {"id":"class-8-4","name":"Way of the Water","description":"Quando un alleato è sotto il 25% di vita puoi lanciare Healing Wave fuori dal cooldown al 200% di efficacia.","row":5,"column":6},
+            {"id":"class-8-5","name":"Steam","description":"I danni periodici di Flame Shock hanno una piccola probabilità di ricaricare mana.","row":8,"column":5},
+            {"id":"class-8-6","name":"Vivid Flames","description":"Riduce velocità d'attacco e tempo di lancio dei bersagli affetti da Flame Shock.","row":8,"column":6},
+            {"id":"class-9-1","name":"Ingenuity","description":"Ghost Wolf fornisce Earth Shield e uscirne fornisce Storm Shield.","row":9,"column":1},
+            {"id":"class-9-3","name":"Thunderous Entrance","description":"Richiama il potere dei fulmini, teletrasportandoti nell'area bersaglio e infliggendo danni. Una canalizzazione completa stordisce i bersagli.","row":6,"column":2},
+            {"id":"class-9-5","name":"Steam Barrier","description":"Quando Flame Shock ricarica mana, fornisce anche uno scudo a membri del party.","row":9,"column":5},
+            {"id":"class-9-6","name":"Elemental Flames","description":"I danni di Flame Shock hanno una probabilità di fornire uno scudo elementale.","row":9,"column":6}
+          ],
+          "connections": []
+        },
+        {"id":"spec","title":"Primal Weaver","type":"spec","maxPoints":34,"columns":7,"rowCount":10,"selectableEmpty":true,"nodes":[],"connections":[]},
+        {"id":"apex","title":"Apex","type":"apex","maxPoints":4,"columns":7,"rowCount":3,"selectableEmpty":true,"nodes":[],"connections":[]},
+        {"id":"hero","title":"Hero Talents","type":"hero","maxPoints":13,"columns":7,"rowCount":5,"selectableEmpty":true,"nodes":[],"connections":[]}
+      ]
+    }
+  }
 }

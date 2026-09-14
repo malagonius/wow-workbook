@@ -10,26 +10,30 @@ function saveAbilities(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-function currentKey() {
-  return `${$('designer-class').value}/${$('designer-spec').value}`;
-}
+function classKey() { return $('designer-class').value; }
+function specKey() { return `${classKey()}/${$('designer-spec').value}`; }
 
-function currentList() {
+function currentEntries() {
   const data = loadAbilities();
-  return data[currentKey()] || [];
+  return [
+    ...(data[classKey()] || []).map((ability, index) => ({ ability, key: classKey(), index })),
+    ...(data[specKey()] || []).map((ability, index) => ({ ability, key: specKey(), index }))
+  ];
 }
 
 function escapeHtml(value = '') {
   return String(value).replace(/[&<>\"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;' }[character]));
 }
 
-function openEditor(index = null) {
-  const existing = index === null ? {} : currentList()[index] || {};
+function openEditor(entry = null) {
+  const existing = entry?.ability || {};
   $('ability-name').value = existing.name || '';
+  $('ability-scope').value = entry?.key === classKey() ? 'class' : 'spec';
   $('ability-type').value = existing.type || 'Class Ability';
   $('ability-description').value = existing.description || '';
   $('ability-icon').value = existing.icon || '';
-  $('ability-index').value = index === null ? '' : index;
+  $('ability-key').value = entry?.key || '';
+  $('ability-index').value = entry ? entry.index : '';
   $('ability-dialog').showModal();
   $('ability-name').focus();
 }
@@ -39,9 +43,9 @@ function saveAbility() {
   if (!name) return;
 
   const data = loadAbilities();
-  const key = currentKey();
-  const list = [...(data[key] || [])];
-  const index = $('ability-index').value === '' ? -1 : Number($('ability-index').value);
+  const targetKey = $('ability-scope').value === 'class' ? classKey() : specKey();
+  const previousKey = $('ability-key').value;
+  const previousIndex = $('ability-index').value === '' ? -1 : Number($('ability-index').value);
   const ability = {
     name,
     type: $('ability-type').value.trim(),
@@ -49,18 +53,26 @@ function saveAbility() {
     icon: $('ability-icon').value.trim()
   };
 
-  if (index >= 0 && list[index]) list[index] = ability;
-  else list.push(ability);
+  if (previousIndex >= 0 && previousKey) {
+    const previousList = [...(data[previousKey] || [])];
+    if (previousList[previousIndex]) {
+      previousList.splice(previousIndex, 1);
+      data[previousKey] = previousList;
+    }
+  }
 
-  data[key] = list;
+  const targetList = [...(data[targetKey] || [])];
+  if (previousIndex >= 0 && previousKey === targetKey) targetList.splice(previousIndex, 0, ability);
+  else targetList.push(ability);
+  data[targetKey] = targetList;
+
   saveAbilities(data);
   $('ability-dialog').close();
   renderAbilities();
 }
 
-function deleteAbility(index) {
+function deleteAbility(key, index) {
   const data = loadAbilities();
-  const key = currentKey();
   const list = [...(data[key] || [])];
   if (!list[index]) return;
   if (!confirm(`Delete ability "${list[index].name}"?`)) return;
@@ -72,31 +84,34 @@ function deleteAbility(index) {
 }
 
 function renderAbilities() {
-  const list = currentList();
+  const entries = currentEntries();
   const element = $('designer-abilities-list');
   if (!element) return;
 
-  element.innerHTML = list.length
-    ? list.map((ability, index) => `
+  element.innerHTML = entries.length
+    ? entries.map((entry, displayIndex) => `
         <div class="designer-ability-item">
           <div>
-            <strong>${escapeHtml(ability.name)}</strong>
-            <small>${escapeHtml(ability.type || 'Ability')}</small>
-            <p>${escapeHtml(ability.description || '')}</p>
+            <strong>${escapeHtml(entry.ability.name)}</strong>
+            <small>${entry.key === classKey() ? 'Class' : 'Spec'} · ${escapeHtml(entry.ability.type || 'Ability')}</small>
+            <p>${escapeHtml(entry.ability.description || '')}</p>
           </div>
           <div class="designer-actions">
-            <button type="button" data-edit="${index}">Edit</button>
-            <button type="button" data-delete="${index}">Delete</button>
+            <button type="button" data-edit="${displayIndex}">Edit</button>
+            <button type="button" data-delete="${displayIndex}">Delete</button>
           </div>
         </div>
       `).join('')
     : '<p class="connection-empty">No class/spec abilities created yet.</p>';
 
   element.querySelectorAll('[data-edit]').forEach(button => {
-    button.addEventListener('click', () => openEditor(Number(button.dataset.edit)));
+    button.addEventListener('click', () => openEditor(entries[Number(button.dataset.edit)]));
   });
   element.querySelectorAll('[data-delete]').forEach(button => {
-    button.addEventListener('click', () => deleteAbility(Number(button.dataset.delete)));
+    button.addEventListener('click', () => {
+      const entry = entries[Number(button.dataset.delete)];
+      deleteAbility(entry.key, entry.index);
+    });
   });
 }
 
@@ -129,9 +144,11 @@ function inject() {
     <form method="dialog" class="json-dialog-content">
       <header><h2>Ability</h2><button aria-label="Close">×</button></header>
       <label>Name<input id="ability-name" required autocomplete="off"></label>
+      <label>Scope<select id="ability-scope"><option value="spec">Specialization</option><option value="class">Class</option></select></label>
       <label>Type<input id="ability-type" value="Class Ability"></label>
       <label>Icon<input id="ability-icon" placeholder="icons/ability.png or ✦"></label>
       <label>Description<textarea id="ability-description" rows="4"></textarea></label>
+      <input type="hidden" id="ability-key">
       <input type="hidden" id="ability-index">
       <div class="designer-actions">
         <button type="button" id="save-ability">Save Ability</button>

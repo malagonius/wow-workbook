@@ -148,25 +148,29 @@
     </section>
   </main>
 
-  <dialog id="content-dialog">
+  <dialog id="content-dialog" class="designer-modal">
     <form method="dialog" class="json-dialog-content" id="content-form">
-      <header><h2 id="content-dialog-title">Create</h2><button aria-label="Close">×</button></header>
-      <p id="content-dialog-help"></p>
-      <label>Name<input id="content-name" required autocomplete="off"></label>
-      <label id="content-description-label">Description<textarea id="content-description" rows="3"></textarea></label>
-      <div class="designer-actions">
-        <button type="button" id="create-content">Create</button>
+      <header class="modal-header"><h2 id="content-dialog-title">Create</h2><button type="button" class="modal-close" id="content-dialog-close" aria-label="Close">×</button></header>
+      <div class="modal-body">
+        <p id="content-dialog-help"></p>
+        <label>Name<input id="content-name" required autocomplete="off"></label>
+        <label id="content-description-label">Description<textarea id="content-description" rows="3"></textarea></label>
+        <div class="modal-footer">
+          <button type="button" id="create-content" class="primary">Create</button>
+        </div>
       </div>
     </form>
   </dialog>
 
-  <dialog id="json-dialog">
+  <dialog id="json-dialog" class="designer-modal">
     <form method="dialog" class="json-dialog-content">
-      <header><h2>Project JSON</h2><button aria-label="Close">×</button></header>
-      <textarea id="json-output" spellcheck="false"></textarea>
-      <div class="designer-actions">
-        <button type="button" id="apply-json">Apply JSON</button>
-        <button type="button" id="copy-json">Copy JSON</button>
+      <header class="modal-header"><h2>Project JSON</h2><button type="button" class="modal-close" id="json-dialog-close" aria-label="Close">×</button></header>
+      <div class="modal-body">
+        <textarea id="json-output" spellcheck="false"></textarea>
+        <div class="modal-footer">
+          <button type="button" id="apply-json" class="primary">Apply JSON</button>
+          <button type="button" id="copy-json">Copy JSON</button>
+        </div>
       </div>
     </form>
   </dialog>

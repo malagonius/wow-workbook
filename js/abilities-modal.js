@@ -1,4 +1,5 @@
 const abilitiesUrl = 'config/abilities.json';
+const localAbilitiesKey = 'wow-workbook-abilities-draft';
 
 const get = id => document.getElementById(id);
 const classSelect = get('classSelect');
@@ -19,9 +20,19 @@ function loadAbilities() {
   return abilitiesPromise;
 }
 
+function loadLocalAbilities() {
+  try {
+    return JSON.parse(localStorage.getItem(localAbilitiesKey) || '{}');
+  } catch {
+    return {};
+  }
+}
+
 function currentAbilities(data) {
   const specializationKey = `${classSelect.value}/${specSelect.value}`;
-  return data[specializationKey] || data[classSelect.value] || [];
+  const baseline = data[specializationKey] || data[classSelect.value] || [];
+  const local = loadLocalAbilities()[specializationKey] || [];
+  return [...baseline, ...local];
 }
 
 function renderAbilities(items) {

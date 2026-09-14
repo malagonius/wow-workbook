@@ -29,10 +29,14 @@ function loadLocalAbilities() {
 }
 
 function currentAbilities(data) {
-  const specializationKey = `${classSelect.value}/${specSelect.value}`;
-  const baseline = data[specializationKey] || data[classSelect.value] || [];
-  const local = loadLocalAbilities()[specializationKey] || [];
-  return [...baseline, ...local];
+  const classKey = classSelect.value;
+  const specializationKey = `${classKey}/${specSelect.value}`;
+  const baselineClass = data[classKey] || [];
+  const baselineSpec = data[specializationKey] || [];
+  const local = loadLocalAbilities();
+  const localClass = local[classKey] || [];
+  const localSpec = local[specializationKey] || [];
+  return [...baselineClass, ...baselineSpec, ...localClass, ...localSpec];
 }
 
 function renderAbilities(items) {

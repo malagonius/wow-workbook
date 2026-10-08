@@ -104,6 +104,22 @@ function saveAbility() {
   renderAbilities();
 }
 
+function removeAbility(entry) {
+  if (!entry) return;
+  const data = loadAbilities();
+  const list = [...(data[entry.key] || [])];
+  if (!list[entry.index]) return;
+
+  if (!window.confirm('Remove "' + entry.ability.name + '" from the Talent Designer?')) return;
+
+  list.splice(entry.index, 1);
+  if (list.length) data[entry.key] = list;
+  else delete data[entry.key];
+
+  saveAbilities(data);
+  renderAbilities();
+}
+
 function renderAbilities() {
   const entries = currentEntries();
   const element = $('designer-abilities-list');
@@ -114,12 +130,15 @@ function renderAbilities() {
         '<div><strong>' + escapeHtml(entry.ability.name) + '</strong>' +
         '<small>' + (entry.key === classKey() ? 'Class' : 'Spec') + ' · ' + escapeHtml(entry.ability.type || 'ability') + '</small>' +
         '<p>' + escapeHtml(entry.ability.description || '') + '</p></div>' +
-        '<div class="designer-actions"><button type="button" data-edit="' + displayIndex + '">Edit</button></div>' +
+        '<div class="designer-actions"><button type="button" data-edit="' + displayIndex + '">Edit</button><button type="button" data-delete="' + displayIndex + '">Remove</button></div>' +
       '</div>').join('')
     : '<p class="connection-empty">No class/spec abilities created yet.</p>';
 
   element.querySelectorAll('[data-edit]').forEach(button => {
     button.addEventListener('click', () => openEditor(entries[Number(button.dataset.edit)]));
+  });
+  element.querySelectorAll('[data-delete]').forEach(button => {
+    button.addEventListener('click', () => removeAbility(entries[Number(button.dataset.delete)]));
   });
 }
 

@@ -144,27 +144,9 @@ function renderAbilities() {
 
 function inject() {
   const toolbar = document.querySelector('.designer-toolbar');
-  if (!toolbar || $('add-ability')) return;
+  if (!toolbar) return;
 
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.id = 'add-ability';
-  button.textContent = '＋ Ability';
-  toolbar.insertBefore(button, $('clear-section'));
-
-  const group = document.createElement('details');
-  group.className = 'panel-group';
-  group.innerHTML = `
-    <summary>Class / Spec Abilities</summary>
-    <div class="panel-form">
-      <div id="designer-abilities-list"></div>
-      <div class="designer-actions">
-        <button type="button" id="create-ability">＋ Create Ability</button>
-      </div>
-    </div>
-  `;
-  $('validation-panel').before(group);
-
+  const button = $('add-ability');
   const dialog = document.createElement('dialog');
   dialog.id = 'ability-dialog';
   dialog.className = 'designer-modal';

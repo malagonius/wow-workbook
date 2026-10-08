@@ -143,9 +143,8 @@ function renderAbilities() {
 }
 
 function inject() {
-  const toolbar = document.querySelector('.designer-toolbar');
   const button = $('add-ability');
-  if (!toolbar || !button) return;
+  if (!button || $('ability-dialog')) return;
   const dialog = document.createElement('dialog');
   dialog.id = 'ability-dialog';
   dialog.className = 'designer-modal';
@@ -189,7 +188,8 @@ function inject() {
   document.body.appendChild(dialog);
 
   button.addEventListener('click', () => openEditor());
-  $('create-ability').addEventListener('click', () => openEditor());
+  const createButton = $('create-ability');
+  if (createButton) createButton.addEventListener('click', () => openEditor());
   $('save-ability').addEventListener('click', saveAbility);
   $('ability-type').addEventListener('change', updateTypeFields);
   $('ability-dialog-close').addEventListener('click', () => $('ability-dialog').close());

@@ -144,9 +144,8 @@ function renderAbilities() {
 
 function inject() {
   const toolbar = document.querySelector('.designer-toolbar');
-  if (!toolbar) return;
-
   const button = $('add-ability');
+  if (!toolbar || !button) return;
   const dialog = document.createElement('dialog');
   dialog.id = 'ability-dialog';
   dialog.className = 'designer-modal';

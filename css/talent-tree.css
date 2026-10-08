@@ -73,8 +73,14 @@
 .node.editing { outline: 2px solid var(--blue); outline-offset: 3px; }
 .node.connect-source { border-color: var(--blue); box-shadow: 0 0 18px #54b8ff88; }
 
-/* Connection lines stay behind the talent nodes in both Calculator and Designer. */
-.designer-mode .connections { z-index: 1; }
+/* Connection lines are an overlay with pointer-events disabled by default so
+   they never block talent nodes. Individual lines opt into pointer events. */
+.designer-mode .connections {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
 
 .connect-handle {
   position: absolute;

@@ -19922,7 +19922,7 @@
             {
               "id": "apex-1-3",
               "name": "Aura of Decay",
-              "description": "Enemies within 15ft of you gain 1%/2% of their current healt as  exploit weakness every 5 seconds",
+              "description": "Every 5 seconds, enemies within 15 feet of you gain an Exploitation reserve equal to 2% / 4% of their current health, up to 100% / 200% of your spell power per enemy per pulse.",
               "icon": "",
               "row": 1,
               "column": 3,

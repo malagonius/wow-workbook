@@ -102,8 +102,17 @@ function render(){
     }
   });
 }
+function loadLocalAbilities(){
+  try{return JSON.parse(localStorage.getItem('wow-workbook-abilities-draft')||'{}')}catch{return {}}
+}
 function openAbilities(){
-  const list=[...(abilities?.[classSelect.value]||[]),...(abilities?.[currentKey()]||[])];
+  const local=loadLocalAbilities();
+  const list=[
+    ...(abilities?.[classSelect.value]||[]),
+    ...(abilities?.[currentKey()]||[]),
+    ...(local?.[classSelect.value]||[]),
+    ...(local?.[currentKey()]||[])
+  ];
   $('modalTitle').textContent=classSelect.value+' / '+specSelect.value+' — Abilities';
   $('spellList').innerHTML=list.length?list.map(a=>{
     const type=a.type||'ability';

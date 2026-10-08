@@ -1,8 +1,16 @@
 {
   "Death Knight": [],
   "Death Knight/Lichborn": [
-    {"name":"Death Coil","type":"Class Ability","description":"A baseline Death Knight ability available independently of the specialization talent tree."},
-    {"name":"Raise Dead","type":"Class Ability","description":"Summons an undead servant according to the class rules."},
-    {"name":"Lichborn's Presence","type":"Specialization Ability","description":"A baseline Lichborn ability that is part of the specialization identity rather than a talent node."}
+    {"name":"Death Coil","type":"spell","description":"A baseline Death Knight ability available independently of the specialization talent tree."},
+    {"name":"Raise Dead","type":"spell","description":"Summons an undead servant according to the class rules."},
+    {"name":"Lichborn's Presence","type":"spell","description":"A baseline Lichborn ability that is part of the specialization identity rather than a talent node."},
+    {"name":"Dominate","type":"spell","school":"Rune","range":"Melee","cost":"1 Rune","description":"Minor damage. Applies Death's Claim."},
+    {"name":"Death's Grasp","type":"spell","school":"Rune","range":"30 yd","cost":"2 Runes","description":"Minor damage. Applies Death's Claim."},
+    {"name":"Consume Fear","type":"spell","school":"Rune","range":"15 yd","cost":"3 Runes","description":"Minor damage. Generates Runic Power based on the number of targets. Applies Death's Claim."},
+    {"name":"Remorseless Strike","type":"spell","school":"Rune","range":"Melee","cost":"3 Runes","description":"Heavy single-target damage with moderate splash damage."},
+    {"name":"Impending Doom","type":"spell","school":"Runic Power","range":"TBD","cost":"TBD","description":"Exploits Death's Claim by applying the Impending Doom effect/DoT."},
+    {"name":"Death's Presence","type":"spell","school":"Runic Power","range":"30 yd","cost":"TBD","description":"Applies the same Impending Doom effect to all targets in range. Higher Runic Power cost than the single-target version."},
+    {"name":"Dominate Mind","type":"spell","school":"Runic Power","range":"Melee","cost":"TBD","description":"The target reflects damage it deals back to itself. The threshold/scaling increases with Death's Claim."},
+    {"name":"Betrayal","type":"spell","school":"Runic Power","range":"TBD","cost":"TBD","description":"Reduces the target's damage dealt, scaling with Death's Claim. Intended as a defensive/situational ability rather than a core rotational spell."}
   ]
 }

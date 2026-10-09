@@ -7,8 +7,8 @@
   "format": "wow-workbook-talent-manifest",
   "version": 2,
   "classFiles": {
-    "Death Knight": "class/death-knight-talents.json",
-    "Mage": "class/mage-talents.json"
+    "Death Knight": "class/death-knight.json",
+    "Mage": "class/mage.json"
   }
 }
 ```
@@ -50,7 +50,7 @@ Repository class files and exports contain only one class and use exactly the sa
 }
 ```
 
-Importing a class replaces that class's registry, trees and abilities, not the entire project. Publish an export by replacing its matching `config/class/<class>-talents.json`. The optional `node scripts/migrate-talent-config.mjs --import <export-file>` command merges it with the repository and updates the index, useful for new classes.
+Importing a class replaces that class's registry, trees and abilities, not the entire project. Publish an export by replacing its matching `config/class/<class>.json`. The optional `node scripts/migrate-talent-config.mjs --import <export-file>` command merges it with the repository and updates the index, useful for new classes.
 
 The `abilities` object uses the class name for class-wide abilities and `Class/Spec` for specialization abilities. Entries retain authored fields such as `name`, `type`, `description`, `icon`, `school`, `cost`, `range`, `charges`, `castTime`, and `cooldown`. Missing `abilities` in older files defaults to `{}`. Ability edits participate in the same draft and undo/redo history as talents.
 

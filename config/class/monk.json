@@ -1,4 +1,17 @@
 {
-  "class": "Monk",
-  "sections": {}
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Monk": [
+      "Brewmaster",
+      "Mistweaver",
+      "Windwalker"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
 }

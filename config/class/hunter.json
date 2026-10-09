@@ -1,4 +1,17 @@
 {
-  "class": "Hunter",
-  "sections": {}
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Hunter": [
+      "Beast Mastery",
+      "Marksmanship",
+      "Survival"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
 }

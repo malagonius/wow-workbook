@@ -82,7 +82,7 @@ Run `npm test` and `npm run check:talents`, then use this checklist for browser 
 The designer saves drafts to IndexedDB in the browser, not to disk. To make a tree part of the repository:
 
 1. Select the class and click **Export class** in the designer.
-2. Replace the matching `config/class/<class>-talents.json` with the downloaded file. Its filename and format already match the repository.
+2. Replace the matching `config/class/<class>.json` with the downloaded file. Its filename and format already match the repository.
 3. Run `npm test` and `npm run check:talents`.
 4. Commit the changed files under `config/`. Other classes are preserved.
 

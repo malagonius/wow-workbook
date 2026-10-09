@@ -1,774 +1,1466 @@
 {
-  "class": "Paladin",
-  "sections": {
-    "Paladin/class": {
-      "id": "class",
-      "title": "Paladin — memory-inspired hybrid reference",
-      "type": "class",
-      "maxPoints": 34,
-      "columns": 7,
-      "rowCount": 11,
-      "selectableEmpty": false,
-      "nodes": [
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Paladin": [
+      "Holy",
+      "Protection",
+      "Retribution"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {
+      "Paladin/class": {
+        "id": "class",
+        "title": "Paladin — memory-inspired hybrid reference",
+        "type": "class",
+        "maxPoints": 34,
+        "columns": 7,
+        "rowCount": 11,
+        "selectableEmpty": false,
+        "nodes": [
+          {
+            "id": "class-0-0",
+            "name": "Lay on Hands",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Restore a friendly target for an amount based on your maximum health. This model applies 30-second Forbearance and blocks use on a target already affected by it. A large emergency heal, not damage-reduction immunity.",
+            "icon": "",
+            "row": 0,
+            "column": 0,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "40 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "10 minutes"
+          },
+          {
+            "id": "class-0-2",
+            "name": "Blessing of Freedom",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Grant a friendly target immunity to movement-impairing effects for 8 seconds. Does not remove stuns, silence, or every crowd-control effect.",
+            "icon": "",
+            "row": 0,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "40 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "25 seconds"
+          },
+          {
+            "id": "class-0-4",
+            "name": "Hammer of Wrath",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Throw a Holy hammer at an enemy below 20% health. Your specialization defines its Holy Power generation and any access during Avenging Wrath. This is an execute attack, not a whole new rotation.",
+            "icon": "",
+            "row": 0,
+            "column": 4,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "30 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "7.5 seconds before haste"
+          },
+          {
+            "id": "class-0-6",
+            "name": "Cleanse Toxins",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Remove Poison and Disease effects from a friendly target. Harmful Magic removal belongs to Holy specialization rules, not this shared-class purchase.",
+            "icon": "",
+            "row": 0,
+            "column": 6,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "40 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "8 seconds"
+          },
+          {
+            "id": "class-1-0",
+            "name": "Improved Lay on Hands",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Lay on Hands cooldown by 2 minutes. Increases availability, not the size of its heal. Proposed reference node, not a current retail allocation claim.",
+            "icon": "",
+            "row": 1,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-1-2",
+            "name": "Unbound Freedom",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Blessing of Freedom also grants 30% movement speed. When cast on another ally, you also gain its movement benefits. Does not create a second independent cooldown.",
+            "icon": "",
+            "row": 1,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-1-4",
+            "name": "Improved Hammer of Wrath",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Hammer of Wrath damage by 10% / 20%. This is a spell-specific execute modifier, not 20% more total damage.",
+            "icon": "",
+            "row": 1,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-1-6",
+            "name": "Crusader Aura",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Select an aura increasing nearby allies' mounted movement speed by 20%. Only one of your ordinary auras may be active. An aura selection, not a repeatedly pressed combat rotational button.",
+            "icon": "",
+            "row": 1,
+            "column": 6,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "40 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": ""
+          },
+          {
+            "id": "class-2-0",
+            "name": "Blessing of Protection",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Protect a friendly target from physical damage and many physical harmful effects for 10 seconds. Applies 30-second Forbearance in this model. Does not block magical damage. Threat-sensitive enemies may turn to another target; some attacks may bypass immunity.",
+            "icon": "",
+            "row": 2,
+            "column": 0,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "40 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "5 minutes"
+          },
+          {
+            "id": "class-2-2",
+            "name": "Rebuke",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Interrupt an enemy and lock its interrupted spell school for 4 seconds. Requires melee range, an intentional constraint for a shared interrupt.",
+            "icon": "",
+            "row": 2,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "Melee",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "15 seconds"
+          },
+          {
+            "id": "class-2-4",
+            "name": "Fist of Justice",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Each 3 Holy Power spent reduces Hammer of Justice cooldown by 1 / 2 seconds. A frequency modifier for an already-known single-target stun, not a new button.",
+            "icon": "",
+            "row": 2,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-2-6",
+            "name": "Divine Steed",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Summon a steed for 3 seconds, increasing movement speed by 100%. Does not itself break roots or grant damage immunity.",
+            "icon": "",
+            "row": 2,
+            "column": 6,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "1; 2 with Cavalier",
+            "castTime": "Instant",
+            "cooldown": "45-second recharge"
+          },
+          {
+            "id": "class-3-0",
+            "name": "Cavalier",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Divine Steed gains a second charge. Both charges share sequential recharge. Adds flexibility without doubling sustained recharge speed.",
+            "icon": "",
+            "row": 3,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-3-2",
+            "name": "Blinding Light",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Disorient nearby enemies for 6 seconds. Non-Holy damage breaks the effect. Not a stun; immunity and diminishing returns apply.",
+            "icon": "",
+            "row": 3,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "10 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "90 seconds"
+          },
+          {
+            "id": "class-3-4",
+            "name": "Repentance",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Incapacitate one eligible Humanoid, Demon, Undead, Dragonkin or Giant for up to 1 minute. Damage breaks the effect. Creature-type restrictions matter.",
+            "icon": "",
+            "row": 3,
+            "column": 4,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "30 yards",
+            "charges": "",
+            "castTime": "1.7 seconds",
+            "cooldown": "15 seconds"
+          },
+          {
+            "id": "class-3-6",
+            "name": "Golden Path",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. While standing in your Consecration, recover a small amount of health periodically. Illustrative tuning: 1% maximum health every 2 seconds. A positioning-dependent personal heal, not a raid healing cooldown.",
+            "icon": "",
+            "row": 3,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-4-0",
+            "name": "Blessing of Sacrifice",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. For up to 12 seconds, redirect 30% of a friendly target's damage to you. Ends if redirected damage reaches a threshold based on your maximum health. You assume risk; this is not free group-wide mitigation.",
+            "icon": "",
+            "row": 4,
+            "column": 0,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "40 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "2 minutes"
+          },
+          {
+            "id": "class-4-2",
+            "name": "Sacrifice of the Just",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Blessing of Sacrifice cooldown by 30 seconds. Modifies the existing external rather than granting another protection button.",
+            "icon": "",
+            "row": 4,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-4-4",
+            "name": "Guided Prayer",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. When you fall below 25% health, automatically cast a free Word of Glory on yourself. May occur once every 60 seconds. Does not grant Word of Glory if the role does not already know it.",
+            "icon": "",
+            "row": 4,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-4-6",
+            "name": "Seal of Alacrity",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Gain 1% / 2% haste. A small broad stat increase; its impact depends on cooldown, resource and cast-time interactions.",
+            "icon": "",
+            "row": 4,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-5-0",
+            "name": "Obduracy",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Gain 2% avoidance against area damage and 2% movement speed. Avoidance is not a universal 2% damage reduction.",
+            "icon": "",
+            "row": 5,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-5-2",
+            "name": "Divine Purpose",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Your eligible Holy Power spenders have a 10% chance to make the next eligible spender free and 10% stronger. Consume the proc once; free casts cannot trigger this proc again in this reference. Role eligibility is specialization-defined.",
+            "icon": "",
+            "row": 5,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-5-4",
+            "name": "Avenging Wrath",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. For 20 seconds, increase your damage and healing by 20%. This model grants one shared cooldown; each specialization may replace or modify it. It is not a buff applied to allied players.",
+            "icon": "",
+            "row": 5,
+            "column": 4,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "2 minutes"
+          },
+          {
+            "id": "class-5-6",
+            "name": "Turn Evil",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Fear one Undead or Demon for up to 40 seconds. Damage can break the effect. Restricted control rather than a universal ranged interrupt.",
+            "icon": "",
+            "row": 5,
+            "column": 6,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "20 yards",
+            "charges": "",
+            "castTime": "1.5 seconds",
+            "cooldown": "15 seconds"
+          },
+          {
+            "id": "class-6-0",
+            "name": "Divine Toll",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Trigger your role's signature spell on up to 5 appropriate nearby targets: Holy Shock for Holy, Avenger's Shield for Protection, or Judgment for Retribution. Requires that specialization's signature spell. Grants one burst button, not all three spells to every role.",
+            "icon": "",
+            "row": 6,
+            "column": 0,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "Mana",
+            "range": "30 yards",
+            "charges": "",
+            "castTime": "Instant",
+            "cooldown": "1 minute"
+          },
+          {
+            "id": "class-6-2",
+            "name": "Seal of Might",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. During Avenging Wrath, gain 2% / 4% mastery. Conditional stat benefit; not permanent 4% damage or healing.",
+            "icon": "",
+            "row": 6,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-6-4",
+            "name": "Sanctified Wrath",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Avenging Wrath duration by 5 seconds. The damage/healing percentage remains unchanged. An uptime modifier, not another cooldown button.",
+            "icon": "",
+            "row": 6,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-6-6",
+            "name": "Judgment of Light",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Judgment marks an enemy with 10 healing charges for 20 seconds. Eligible allied attacks consume one charge to heal that attacker; each attacker may trigger at most once per second. Small shared sustain, not a damage amplifier or defensive external.",
+            "icon": "",
+            "row": 6,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-7-0",
+            "name": "Afterimage",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After spending 20 Holy Power, your next Word of Glory delivers a second heal at 30% strength to another nearby injured ally. The additional heal cannot trigger Afterimage again. Requires access to Word of Glory.",
+            "icon": "",
+            "row": 7,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-7-2",
+            "name": "Healing Hands",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Word of Glory healing by up to 10% / 20% based on the target's missing health. This reference omits historical role-dependent Lay on Hands interactions rather than asserting current retail rules.",
+            "icon": "",
+            "row": 7,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-7-4",
+            "name": "Lightforged Blessing",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. An eligible specialization spender heals you and up to 2 nearby injured allies for a small amount. Illustrative cap: 1% of your maximum health per ally, at most once every 3 seconds. Your role defines the eligible spender. No new button.",
+            "icon": "",
+            "row": 7,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-7-6",
+            "name": "Punishment",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. A successful Rebuke automatically applies a reduced-strength Judgment to its target. May occur once per interrupt cooldown. A small reward for doing utility, not a second interrupt or a new attack hotkey.",
+            "icon": "",
+            "row": 7,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-8-0",
+            "name": "Holy Aegis",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase armor by 10% / 20% and critical strike chance by 1% / 2%. Armor affects physical damage only; this does not mean 20% less total damage.",
+            "icon": "",
+            "row": 8,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-8-2",
+            "name": "Unbreakable Spirit",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Divine Shield, Divine Protection and Lay on Hands cooldowns by 20%. Does not affect Blessing of Protection or Blessing of Sacrifice in this reference. Stacks multiplicatively after flat Lay on Hands reductions.",
+            "icon": "",
+            "row": 8,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-8-4",
+            "name": "Sanctified Plates",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase armor by 10% / 20%, maximum health by 2% / 4%, and reduce area damage taken by 2% / 4%. These are different defensive dimensions, not an additive universal damage reduction.",
+            "icon": "",
+            "row": 8,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-8-6",
+            "name": "Of Dusk and Dawn",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After generating 6 Holy Power, your next eligible spender is 10% stronger. After consuming that bonus, gain 3% damage reduction for 6 seconds. One pending bonus at a time. This is a simplified generator/spender cadence, not an exact retail implementation.",
+            "icon": "",
+            "row": 8,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-9-0",
+            "name": "Seal of Order",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase the Dusk and Dawn spender bonus by 5 percentage points and its defensive duration by 2 seconds. Does not create another separately stacking damage buff.",
+            "icon": "",
+            "row": 9,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-9-2",
+            "name": "Strength of Conviction",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. While you stand in Consecration, increase your Word of Glory healing by 10% / 20%. Does not reduce damage taken by 20%; it improves one situational heal.",
+            "icon": "",
+            "row": 9,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-9-4",
+            "name": "Faith in the Light",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After Word of Glory, reduce physical damage you take by 5% for 4 seconds. A simplified personal follow-up defense, replacing role-specific historical block mechanics in this reference.",
+            "icon": "",
+            "row": 9,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-9-6",
+            "name": "Improved Blessing of Protection",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Blessing of Protection cooldown by 60 seconds. Retains Forbearance, physical-only coverage and threat caveats. This is a proposed reference modifier, not verified retail allocation.",
+            "icon": "",
+            "row": 9,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-10-0",
+            "name": "Touch of Light",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Your spells and abilities occasionally produce a small additional heal or Holy hit. Proposed rule: at most one trigger per 10 seconds; proc events cannot trigger themselves. An automatic throughput proc, not a button.",
+            "icon": "",
+            "row": 10,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-10-2",
+            "name": "Seal of Mercy",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Golden Path healing by 50%. If Golden Path restores 1% maximum health per tick, this raises it to 1.5%, not 51%. No new healing aura is granted.",
+            "icon": "",
+            "row": 10,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-10-4",
+            "name": "Recompense",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Store 10% of damage you actually suffer through Blessing of Sacrifice, capped at 5% maximum health. Your next Judgment or Word of Glory consumes the store to add damage or healing. Stored effects cannot generate more stored damage.",
+            "icon": "",
+            "row": 10,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-10-6",
+            "name": "Divine Resonance",
+            "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After Divine Toll, repeat one eligible signature cast every 5 seconds for 15 seconds. Each repeat uses valid role-appropriate targeting and cannot trigger another resonance. Extends one existing button; it does not add a button.",
+            "icon": "",
+            "row": 10,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          }
+        ],
+        "connections": [
+          {
+            "from": "class-0-0",
+            "to": "class-1-0"
+          },
+          {
+            "from": "class-0-2",
+            "to": "class-1-2"
+          },
+          {
+            "from": "class-0-4",
+            "to": "class-1-4"
+          },
+          {
+            "from": "class-2-6",
+            "to": "class-3-0"
+          },
+          {
+            "from": "class-4-0",
+            "to": "class-4-2"
+          },
+          {
+            "from": "class-5-4",
+            "to": "class-6-2"
+          },
+          {
+            "from": "class-5-4",
+            "to": "class-6-4"
+          },
+          {
+            "from": "class-2-2",
+            "to": "class-7-6"
+          },
+          {
+            "from": "class-8-6",
+            "to": "class-9-0"
+          },
+          {
+            "from": "class-2-0",
+            "to": "class-9-6"
+          },
+          {
+            "from": "class-3-6",
+            "to": "class-10-2"
+          },
+          {
+            "from": "class-4-0",
+            "to": "class-10-4"
+          },
+          {
+            "from": "class-6-0",
+            "to": "class-10-6"
+          }
+        ]
+      }
+    },
+    "heroes": {}
+  },
+  "trees": {
+    "Paladin/Holy": {
+      "class": "Paladin",
+      "spec": "Holy",
+      "description": "Paladin / Holy: CLASS-TREE REFERENCE ONLY. Original paraphrases inspired by remembered Dragonflight / The War Within hybrid design; not verified Midnight data. Numbers, ranks, placement and sparse connections are illustrative. Specialization, Apex and Hero trees are intentionally not populated. Uses the workbook's 34-point budget, not a claim about retail point totals. All Paladin references share identical class nodes.",
+      "sections": [
         {
-          "id": "class-0-0",
-          "name": "Lay on Hands",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Restore a friendly target for an amount based on your maximum health. This model applies 30-second Forbearance and blocks use on a target already affected by it. A large emergency heal, not damage-reduction immunity.",
-          "icon": "",
-          "row": 0,
-          "column": 0,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "",
-          "range": "40 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "10 minutes"
-        },
-        {
-          "id": "class-0-2",
-          "name": "Blessing of Freedom",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Grant a friendly target immunity to movement-impairing effects for 8 seconds. Does not remove stuns, silence, or every crowd-control effect.",
-          "icon": "",
-          "row": 0,
-          "column": 2,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "40 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "25 seconds"
-        },
-        {
-          "id": "class-0-4",
-          "name": "Hammer of Wrath",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Throw a Holy hammer at an enemy below 20% health. Your specialization defines its Holy Power generation and any access during Avenging Wrath. This is an execute attack, not a whole new rotation.",
-          "icon": "",
-          "row": 0,
-          "column": 4,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "30 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "7.5 seconds before haste"
-        },
-        {
-          "id": "class-0-6",
-          "name": "Cleanse Toxins",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Remove Poison and Disease effects from a friendly target. Harmful Magic removal belongs to Holy specialization rules, not this shared-class purchase.",
-          "icon": "",
-          "row": 0,
-          "column": 6,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "40 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "8 seconds"
-        },
-        {
-          "id": "class-1-0",
-          "name": "Improved Lay on Hands",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Lay on Hands cooldown by 2 minutes. Increases availability, not the size of its heal. Proposed reference node, not a current retail allocation claim.",
-          "icon": "",
-          "row": 1,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-1-2",
-          "name": "Unbound Freedom",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Blessing of Freedom also grants 30% movement speed. When cast on another ally, you also gain its movement benefits. Does not create a second independent cooldown.",
-          "icon": "",
-          "row": 1,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-1-4",
-          "name": "Improved Hammer of Wrath",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Hammer of Wrath damage by 10% / 20%. This is a spell-specific execute modifier, not 20% more total damage.",
-          "icon": "",
-          "row": 1,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-1-6",
-          "name": "Crusader Aura",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Select an aura increasing nearby allies' mounted movement speed by 20%. Only one of your ordinary auras may be active. An aura selection, not a repeatedly pressed combat rotational button.",
-          "icon": "",
-          "row": 1,
-          "column": 6,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "",
-          "range": "40 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": ""
-        },
-        {
-          "id": "class-2-0",
-          "name": "Blessing of Protection",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Protect a friendly target from physical damage and many physical harmful effects for 10 seconds. Applies 30-second Forbearance in this model. Does not block magical damage. Threat-sensitive enemies may turn to another target; some attacks may bypass immunity.",
-          "icon": "",
-          "row": 2,
-          "column": 0,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "40 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "5 minutes"
-        },
-        {
-          "id": "class-2-2",
-          "name": "Rebuke",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Interrupt an enemy and lock its interrupted spell school for 4 seconds. Requires melee range, an intentional constraint for a shared interrupt.",
-          "icon": "",
-          "row": 2,
-          "column": 2,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "",
-          "range": "Melee",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "15 seconds"
-        },
-        {
-          "id": "class-2-4",
-          "name": "Fist of Justice",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Each 3 Holy Power spent reduces Hammer of Justice cooldown by 1 / 2 seconds. A frequency modifier for an already-known single-target stun, not a new button.",
-          "icon": "",
-          "row": 2,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-2-6",
-          "name": "Divine Steed",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Summon a steed for 3 seconds, increasing movement speed by 100%. Does not itself break roots or grant damage immunity.",
-          "icon": "",
-          "row": 2,
-          "column": 6,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "1; 2 with Cavalier",
-          "castTime": "Instant",
-          "cooldown": "45-second recharge"
-        },
-        {
-          "id": "class-3-0",
-          "name": "Cavalier",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Divine Steed gains a second charge. Both charges share sequential recharge. Adds flexibility without doubling sustained recharge speed.",
-          "icon": "",
-          "row": 3,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-3-2",
-          "name": "Blinding Light",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Disorient nearby enemies for 6 seconds. Non-Holy damage breaks the effect. Not a stun; immunity and diminishing returns apply.",
-          "icon": "",
-          "row": 3,
-          "column": 2,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "",
-          "range": "10 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "90 seconds"
-        },
-        {
-          "id": "class-3-4",
-          "name": "Repentance",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Incapacitate one eligible Humanoid, Demon, Undead, Dragonkin or Giant for up to 1 minute. Damage breaks the effect. Creature-type restrictions matter.",
-          "icon": "",
-          "row": 3,
-          "column": 4,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "30 yards",
-          "charges": "",
-          "castTime": "1.7 seconds",
-          "cooldown": "15 seconds"
-        },
-        {
-          "id": "class-3-6",
-          "name": "Golden Path",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. While standing in your Consecration, recover a small amount of health periodically. Illustrative tuning: 1% maximum health every 2 seconds. A positioning-dependent personal heal, not a raid healing cooldown.",
-          "icon": "",
-          "row": 3,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-4-0",
-          "name": "Blessing of Sacrifice",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. For up to 12 seconds, redirect 30% of a friendly target's damage to you. Ends if redirected damage reaches a threshold based on your maximum health. You assume risk; this is not free group-wide mitigation.",
-          "icon": "",
-          "row": 4,
-          "column": 0,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "40 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "2 minutes"
-        },
-        {
-          "id": "class-4-2",
-          "name": "Sacrifice of the Just",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Blessing of Sacrifice cooldown by 30 seconds. Modifies the existing external rather than granting another protection button.",
-          "icon": "",
-          "row": 4,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-4-4",
-          "name": "Guided Prayer",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. When you fall below 25% health, automatically cast a free Word of Glory on yourself. May occur once every 60 seconds. Does not grant Word of Glory if the role does not already know it.",
-          "icon": "",
-          "row": 4,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-4-6",
-          "name": "Seal of Alacrity",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Gain 1% / 2% haste. A small broad stat increase; its impact depends on cooldown, resource and cast-time interactions.",
-          "icon": "",
-          "row": 4,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-5-0",
-          "name": "Obduracy",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Gain 2% avoidance against area damage and 2% movement speed. Avoidance is not a universal 2% damage reduction.",
-          "icon": "",
-          "row": 5,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-5-2",
-          "name": "Divine Purpose",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Your eligible Holy Power spenders have a 10% chance to make the next eligible spender free and 10% stronger. Consume the proc once; free casts cannot trigger this proc again in this reference. Role eligibility is specialization-defined.",
-          "icon": "",
-          "row": 5,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-5-4",
-          "name": "Avenging Wrath",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. For 20 seconds, increase your damage and healing by 20%. This model grants one shared cooldown; each specialization may replace or modify it. It is not a buff applied to allied players.",
-          "icon": "",
-          "row": 5,
-          "column": 4,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "2 minutes"
-        },
-        {
-          "id": "class-5-6",
-          "name": "Turn Evil",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Fear one Undead or Demon for up to 40 seconds. Damage can break the effect. Restricted control rather than a universal ranged interrupt.",
-          "icon": "",
-          "row": 5,
-          "column": 6,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "20 yards",
-          "charges": "",
-          "castTime": "1.5 seconds",
-          "cooldown": "15 seconds"
-        },
-        {
-          "id": "class-6-0",
-          "name": "Divine Toll",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Trigger your role's signature spell on up to 5 appropriate nearby targets: Holy Shock for Holy, Avenger's Shield for Protection, or Judgment for Retribution. Requires that specialization's signature spell. Grants one burst button, not all three spells to every role.",
-          "icon": "",
-          "row": 6,
-          "column": 0,
-          "type": "talent",
-          "kind": "active",
-          "maxRank": 1,
-          "cost": "Mana",
-          "range": "30 yards",
-          "charges": "",
-          "castTime": "Instant",
-          "cooldown": "1 minute"
-        },
-        {
-          "id": "class-6-2",
-          "name": "Seal of Might",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. During Avenging Wrath, gain 2% / 4% mastery. Conditional stat benefit; not permanent 4% damage or healing.",
-          "icon": "",
-          "row": 6,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-6-4",
-          "name": "Sanctified Wrath",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Avenging Wrath duration by 5 seconds. The damage/healing percentage remains unchanged. An uptime modifier, not another cooldown button.",
-          "icon": "",
-          "row": 6,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-6-6",
-          "name": "Judgment of Light",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Judgment marks an enemy with 10 healing charges for 20 seconds. Eligible allied attacks consume one charge to heal that attacker; each attacker may trigger at most once per second. Small shared sustain, not a damage amplifier or defensive external.",
-          "icon": "",
-          "row": 6,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-7-0",
-          "name": "Afterimage",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After spending 20 Holy Power, your next Word of Glory delivers a second heal at 30% strength to another nearby injured ally. The additional heal cannot trigger Afterimage again. Requires access to Word of Glory.",
-          "icon": "",
-          "row": 7,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-7-2",
-          "name": "Healing Hands",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Word of Glory healing by up to 10% / 20% based on the target's missing health. This reference omits historical role-dependent Lay on Hands interactions rather than asserting current retail rules.",
-          "icon": "",
-          "row": 7,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-7-4",
-          "name": "Lightforged Blessing",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. An eligible specialization spender heals you and up to 2 nearby injured allies for a small amount. Illustrative cap: 1% of your maximum health per ally, at most once every 3 seconds. Your role defines the eligible spender. No new button.",
-          "icon": "",
-          "row": 7,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-7-6",
-          "name": "Punishment",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. A successful Rebuke automatically applies a reduced-strength Judgment to its target. May occur once per interrupt cooldown. A small reward for doing utility, not a second interrupt or a new attack hotkey.",
-          "icon": "",
-          "row": 7,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-8-0",
-          "name": "Holy Aegis",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase armor by 10% / 20% and critical strike chance by 1% / 2%. Armor affects physical damage only; this does not mean 20% less total damage.",
-          "icon": "",
-          "row": 8,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-8-2",
-          "name": "Unbreakable Spirit",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Divine Shield, Divine Protection and Lay on Hands cooldowns by 20%. Does not affect Blessing of Protection or Blessing of Sacrifice in this reference. Stacks multiplicatively after flat Lay on Hands reductions.",
-          "icon": "",
-          "row": 8,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-8-4",
-          "name": "Sanctified Plates",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase armor by 10% / 20%, maximum health by 2% / 4%, and reduce area damage taken by 2% / 4%. These are different defensive dimensions, not an additive universal damage reduction.",
-          "icon": "",
-          "row": 8,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-8-6",
-          "name": "Of Dusk and Dawn",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After generating 6 Holy Power, your next eligible spender is 10% stronger. After consuming that bonus, gain 3% damage reduction for 6 seconds. One pending bonus at a time. This is a simplified generator/spender cadence, not an exact retail implementation.",
-          "icon": "",
-          "row": 8,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-9-0",
-          "name": "Seal of Order",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase the Dusk and Dawn spender bonus by 5 percentage points and its defensive duration by 2 seconds. Does not create another separately stacking damage buff.",
-          "icon": "",
-          "row": 9,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-9-2",
-          "name": "Strength of Conviction",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. While you stand in Consecration, increase your Word of Glory healing by 10% / 20%. Does not reduce damage taken by 20%; it improves one situational heal.",
-          "icon": "",
-          "row": 9,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 2,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-9-4",
-          "name": "Faith in the Light",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After Word of Glory, reduce physical damage you take by 5% for 4 seconds. A simplified personal follow-up defense, replacing role-specific historical block mechanics in this reference.",
-          "icon": "",
-          "row": 9,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-9-6",
-          "name": "Improved Blessing of Protection",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Reduce Blessing of Protection cooldown by 60 seconds. Retains Forbearance, physical-only coverage and threat caveats. This is a proposed reference modifier, not verified retail allocation.",
-          "icon": "",
-          "row": 9,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-10-0",
-          "name": "Touch of Light",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Your spells and abilities occasionally produce a small additional heal or Holy hit. Proposed rule: at most one trigger per 10 seconds; proc events cannot trigger themselves. An automatic throughput proc, not a button.",
-          "icon": "",
-          "row": 10,
-          "column": 0,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-10-2",
-          "name": "Seal of Mercy",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Increase Golden Path healing by 50%. If Golden Path restores 1% maximum health per tick, this raises it to 1.5%, not 51%. No new healing aura is granted.",
-          "icon": "",
-          "row": 10,
-          "column": 2,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-10-4",
-          "name": "Recompense",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. Store 10% of damage you actually suffer through Blessing of Sacrifice, capped at 5% maximum health. Your next Judgment or Word of Glory consumes the store to add damage or healing. Stored effects cannot generate more stored damage.",
-          "icon": "",
-          "row": 10,
-          "column": 4,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
-        },
-        {
-          "id": "class-10-6",
-          "name": "Divine Resonance",
-          "description": "MEMORY-INSPIRED REFERENCE; provisional rules and numbers, not verified retail. After Divine Toll, repeat one eligible signature cast every 5 seconds for 15 seconds. Each repeat uses valid role-appropriate targeting and cannot trigger another resonance. Extends one existing button; it does not add a button.",
-          "icon": "",
-          "row": 10,
-          "column": 6,
-          "type": "talent",
-          "kind": "passive",
-          "maxRank": 1,
-          "cost": "",
-          "range": "",
-          "charges": "",
-          "castTime": "",
-          "cooldown": ""
+          "classTalent": "Paladin/class"
         }
       ],
-      "connections": [
-        {
-          "from": "class-0-0",
-          "to": "class-1-0"
+      "designNotes": {
+        "status": "Synthetic memory-inspired class-only brainstorming baseline; not an official tree or a balance simulation.",
+        "baselineAssumptions": {
+          "alreadyKnown": [
+            "Crusader Strike",
+            "Judgment",
+            "Consecration",
+            "Flash of Light",
+            "Hammer of Justice",
+            "Divine Shield",
+            "Divine Protection",
+            "Redemption",
+            "Intercession",
+            "Devotion Aura",
+            "Word of Glory through role rules"
+          ],
+          "spellNotes": "For this design model only. Holy Power generation, spenders and Word of Glory availability require specialization rules. Divine Shield and Divine Protection are personal; Devotion Aura is a persistent group benefit. Intercession is the combat resurrection. Do not count these assumed baseline spells as talent-granted new buttons.",
+          "excludedSpecializationTools": [
+            "Aura Mastery (Holy group defensive)",
+            "Blessing of Spellwarding (Protection specialization option)",
+            "Guardian of Ancient Kings (Protection defensive)",
+            "Holy Shock / Avenger's Shield / Templar's Verdict / Divine Storm as shared-class unlocks"
+          ],
+          "allocationCaveat": "Divine Toll, Avenging Wrath, Divine Purpose and several named modifiers have role-dependent or expansion-dependent placement. Shared placement here is a deliberate synthetic comparison, not a verified current retail allocation. Historical choice nodes are shown independently; no retail exclusivity is claimed."
         },
-        {
-          "from": "class-0-2",
-          "to": "class-1-2"
-        },
-        {
-          "from": "class-0-4",
-          "to": "class-1-4"
-        },
-        {
-          "from": "class-2-6",
-          "to": "class-3-0"
-        },
-        {
-          "from": "class-4-0",
-          "to": "class-4-2"
-        },
-        {
-          "from": "class-5-4",
-          "to": "class-6-2"
-        },
-        {
-          "from": "class-5-4",
-          "to": "class-6-4"
-        },
-        {
-          "from": "class-2-2",
-          "to": "class-7-6"
-        },
-        {
-          "from": "class-8-6",
-          "to": "class-9-0"
-        },
-        {
-          "from": "class-2-0",
-          "to": "class-9-6"
-        },
-        {
-          "from": "class-3-6",
-          "to": "class-10-2"
-        },
-        {
-          "from": "class-4-0",
-          "to": "class-10-4"
-        },
-        {
-          "from": "class-6-0",
-          "to": "class-10-6"
+        "graphRules": "Sparse forward prerequisite links only; all other nodes are roots. This is not a reconstructed retail path graph. No 8/20-point gates or level requirements are asserted. There are no encoded choice nodes, auto-granted ranks or import strings for the game.",
+        "tuningRules": "Slash-separated values are Rank 1 / Rank 2. Listed values are provisional examples. Cooldown reductions are additive except where explicitly described otherwise. No cooldown may fall below 1 second. Effective healing excludes overhealing. Baseline cooldown, resource and proc interactions need testing before implementation.",
+        "categoriesByNodeId": {
+          "class-0-0": [
+            "healing",
+            "emergency-heal",
+            "ally-targetable"
+          ],
+          "class-0-2": [
+            "utility",
+            "mobility",
+            "ally-targetable"
+          ],
+          "class-0-4": [
+            "damage-button"
+          ],
+          "class-0-6": [
+            "utility",
+            "dispel"
+          ],
+          "class-1-0": [
+            "healing",
+            "emergency-heal"
+          ],
+          "class-1-2": [
+            "utility",
+            "mobility"
+          ],
+          "class-1-4": [
+            "damage"
+          ],
+          "class-1-6": [
+            "utility",
+            "aura",
+            "group-utility"
+          ],
+          "class-2-0": [
+            "defensive-external",
+            "ally-targetable"
+          ],
+          "class-2-2": [
+            "utility",
+            "control",
+            "interrupt"
+          ],
+          "class-2-4": [
+            "utility",
+            "control"
+          ],
+          "class-2-6": [
+            "utility",
+            "mobility"
+          ],
+          "class-3-0": [
+            "utility",
+            "mobility"
+          ],
+          "class-3-2": [
+            "utility",
+            "control"
+          ],
+          "class-3-4": [
+            "utility",
+            "control"
+          ],
+          "class-3-6": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-4-0": [
+            "defensive-external",
+            "ally-targetable"
+          ],
+          "class-4-2": [
+            "defensive-external"
+          ],
+          "class-4-4": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-4-6": [
+            "damage",
+            "healing"
+          ],
+          "class-5-0": [
+            "personal-defense",
+            "utility",
+            "mobility"
+          ],
+          "class-5-2": [
+            "damage",
+            "healing",
+            "resource"
+          ],
+          "class-5-4": [
+            "offensive-cooldown",
+            "healing"
+          ],
+          "class-5-6": [
+            "utility",
+            "control"
+          ],
+          "class-6-0": [
+            "role-dependent-button",
+            "damage",
+            "healing"
+          ],
+          "class-6-2": [
+            "damage",
+            "healing"
+          ],
+          "class-6-4": [
+            "damage",
+            "healing"
+          ],
+          "class-6-6": [
+            "healing",
+            "group-utility"
+          ],
+          "class-7-0": [
+            "healing"
+          ],
+          "class-7-2": [
+            "healing",
+            "emergency-heal"
+          ],
+          "class-7-4": [
+            "healing",
+            "group-utility"
+          ],
+          "class-7-6": [
+            "damage",
+            "utility",
+            "interrupt"
+          ],
+          "class-8-0": [
+            "personal-defense",
+            "damage",
+            "healing"
+          ],
+          "class-8-2": [
+            "personal-defense",
+            "healing",
+            "emergency-heal"
+          ],
+          "class-8-4": [
+            "personal-defense"
+          ],
+          "class-8-6": [
+            "resource",
+            "damage",
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-0": [
+            "resource",
+            "damage",
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-2": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-4": [
+            "personal-defense",
+            "healing"
+          ],
+          "class-9-6": [
+            "defensive-external"
+          ],
+          "class-10-0": [
+            "healing",
+            "damage"
+          ],
+          "class-10-2": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-10-4": [
+            "defensive-external",
+            "damage",
+            "healing"
+          ],
+          "class-10-6": [
+            "role-dependent-button",
+            "damage",
+            "healing"
+          ]
         }
-      ]
+      }
+    },
+    "Paladin/Protection": {
+      "class": "Paladin",
+      "spec": "Protection",
+      "description": "Paladin / Protection: CLASS-TREE REFERENCE ONLY. Original paraphrases inspired by remembered Dragonflight / The War Within hybrid design; not verified Midnight data. Numbers, ranks, placement and sparse connections are illustrative. Specialization, Apex and Hero trees are intentionally not populated. Uses the workbook's 34-point budget, not a claim about retail point totals. All Paladin references share identical class nodes.",
+      "sections": [
+        {
+          "classTalent": "Paladin/class"
+        }
+      ],
+      "designNotes": {
+        "status": "Synthetic memory-inspired class-only brainstorming baseline; not an official tree or a balance simulation.",
+        "baselineAssumptions": {
+          "alreadyKnown": [
+            "Crusader Strike",
+            "Judgment",
+            "Consecration",
+            "Flash of Light",
+            "Hammer of Justice",
+            "Divine Shield",
+            "Divine Protection",
+            "Redemption",
+            "Intercession",
+            "Devotion Aura",
+            "Word of Glory through role rules"
+          ],
+          "spellNotes": "For this design model only. Holy Power generation, spenders and Word of Glory availability require specialization rules. Divine Shield and Divine Protection are personal; Devotion Aura is a persistent group benefit. Intercession is the combat resurrection. Do not count these assumed baseline spells as talent-granted new buttons.",
+          "excludedSpecializationTools": [
+            "Aura Mastery (Holy group defensive)",
+            "Blessing of Spellwarding (Protection specialization option)",
+            "Guardian of Ancient Kings (Protection defensive)",
+            "Holy Shock / Avenger's Shield / Templar's Verdict / Divine Storm as shared-class unlocks"
+          ],
+          "allocationCaveat": "Divine Toll, Avenging Wrath, Divine Purpose and several named modifiers have role-dependent or expansion-dependent placement. Shared placement here is a deliberate synthetic comparison, not a verified current retail allocation. Historical choice nodes are shown independently; no retail exclusivity is claimed."
+        },
+        "graphRules": "Sparse forward prerequisite links only; all other nodes are roots. This is not a reconstructed retail path graph. No 8/20-point gates or level requirements are asserted. There are no encoded choice nodes, auto-granted ranks or import strings for the game.",
+        "tuningRules": "Slash-separated values are Rank 1 / Rank 2. Listed values are provisional examples. Cooldown reductions are additive except where explicitly described otherwise. No cooldown may fall below 1 second. Effective healing excludes overhealing. Baseline cooldown, resource and proc interactions need testing before implementation.",
+        "categoriesByNodeId": {
+          "class-0-0": [
+            "healing",
+            "emergency-heal",
+            "ally-targetable"
+          ],
+          "class-0-2": [
+            "utility",
+            "mobility",
+            "ally-targetable"
+          ],
+          "class-0-4": [
+            "damage-button"
+          ],
+          "class-0-6": [
+            "utility",
+            "dispel"
+          ],
+          "class-1-0": [
+            "healing",
+            "emergency-heal"
+          ],
+          "class-1-2": [
+            "utility",
+            "mobility"
+          ],
+          "class-1-4": [
+            "damage"
+          ],
+          "class-1-6": [
+            "utility",
+            "aura",
+            "group-utility"
+          ],
+          "class-2-0": [
+            "defensive-external",
+            "ally-targetable"
+          ],
+          "class-2-2": [
+            "utility",
+            "control",
+            "interrupt"
+          ],
+          "class-2-4": [
+            "utility",
+            "control"
+          ],
+          "class-2-6": [
+            "utility",
+            "mobility"
+          ],
+          "class-3-0": [
+            "utility",
+            "mobility"
+          ],
+          "class-3-2": [
+            "utility",
+            "control"
+          ],
+          "class-3-4": [
+            "utility",
+            "control"
+          ],
+          "class-3-6": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-4-0": [
+            "defensive-external",
+            "ally-targetable"
+          ],
+          "class-4-2": [
+            "defensive-external"
+          ],
+          "class-4-4": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-4-6": [
+            "damage",
+            "healing"
+          ],
+          "class-5-0": [
+            "personal-defense",
+            "utility",
+            "mobility"
+          ],
+          "class-5-2": [
+            "damage",
+            "healing",
+            "resource"
+          ],
+          "class-5-4": [
+            "offensive-cooldown",
+            "healing"
+          ],
+          "class-5-6": [
+            "utility",
+            "control"
+          ],
+          "class-6-0": [
+            "role-dependent-button",
+            "damage",
+            "healing"
+          ],
+          "class-6-2": [
+            "damage",
+            "healing"
+          ],
+          "class-6-4": [
+            "damage",
+            "healing"
+          ],
+          "class-6-6": [
+            "healing",
+            "group-utility"
+          ],
+          "class-7-0": [
+            "healing"
+          ],
+          "class-7-2": [
+            "healing",
+            "emergency-heal"
+          ],
+          "class-7-4": [
+            "healing",
+            "group-utility"
+          ],
+          "class-7-6": [
+            "damage",
+            "utility",
+            "interrupt"
+          ],
+          "class-8-0": [
+            "personal-defense",
+            "damage",
+            "healing"
+          ],
+          "class-8-2": [
+            "personal-defense",
+            "healing",
+            "emergency-heal"
+          ],
+          "class-8-4": [
+            "personal-defense"
+          ],
+          "class-8-6": [
+            "resource",
+            "damage",
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-0": [
+            "resource",
+            "damage",
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-2": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-4": [
+            "personal-defense",
+            "healing"
+          ],
+          "class-9-6": [
+            "defensive-external"
+          ],
+          "class-10-0": [
+            "healing",
+            "damage"
+          ],
+          "class-10-2": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-10-4": [
+            "defensive-external",
+            "damage",
+            "healing"
+          ],
+          "class-10-6": [
+            "role-dependent-button",
+            "damage",
+            "healing"
+          ]
+        }
+      }
+    },
+    "Paladin/Retribution": {
+      "class": "Paladin",
+      "spec": "Retribution",
+      "description": "Paladin / Retribution: CLASS-TREE REFERENCE ONLY. Original paraphrases inspired by remembered Dragonflight / The War Within hybrid design; not verified Midnight data. Numbers, ranks, placement and sparse connections are illustrative. Specialization, Apex and Hero trees are intentionally not populated. Uses the workbook's 34-point budget, not a claim about retail point totals. All Paladin references share identical class nodes.",
+      "sections": [
+        {
+          "classTalent": "Paladin/class"
+        }
+      ],
+      "designNotes": {
+        "status": "Synthetic memory-inspired class-only brainstorming baseline; not an official tree or a balance simulation.",
+        "baselineAssumptions": {
+          "alreadyKnown": [
+            "Crusader Strike",
+            "Judgment",
+            "Consecration",
+            "Flash of Light",
+            "Hammer of Justice",
+            "Divine Shield",
+            "Divine Protection",
+            "Redemption",
+            "Intercession",
+            "Devotion Aura",
+            "Word of Glory through role rules"
+          ],
+          "spellNotes": "For this design model only. Holy Power generation, spenders and Word of Glory availability require specialization rules. Divine Shield and Divine Protection are personal; Devotion Aura is a persistent group benefit. Intercession is the combat resurrection. Do not count these assumed baseline spells as talent-granted new buttons.",
+          "excludedSpecializationTools": [
+            "Aura Mastery (Holy group defensive)",
+            "Blessing of Spellwarding (Protection specialization option)",
+            "Guardian of Ancient Kings (Protection defensive)",
+            "Holy Shock / Avenger's Shield / Templar's Verdict / Divine Storm as shared-class unlocks"
+          ],
+          "allocationCaveat": "Divine Toll, Avenging Wrath, Divine Purpose and several named modifiers have role-dependent or expansion-dependent placement. Shared placement here is a deliberate synthetic comparison, not a verified current retail allocation. Historical choice nodes are shown independently; no retail exclusivity is claimed."
+        },
+        "graphRules": "Sparse forward prerequisite links only; all other nodes are roots. This is not a reconstructed retail path graph. No 8/20-point gates or level requirements are asserted. There are no encoded choice nodes, auto-granted ranks or import strings for the game.",
+        "tuningRules": "Slash-separated values are Rank 1 / Rank 2. Listed values are provisional examples. Cooldown reductions are additive except where explicitly described otherwise. No cooldown may fall below 1 second. Effective healing excludes overhealing. Baseline cooldown, resource and proc interactions need testing before implementation.",
+        "categoriesByNodeId": {
+          "class-0-0": [
+            "healing",
+            "emergency-heal",
+            "ally-targetable"
+          ],
+          "class-0-2": [
+            "utility",
+            "mobility",
+            "ally-targetable"
+          ],
+          "class-0-4": [
+            "damage-button"
+          ],
+          "class-0-6": [
+            "utility",
+            "dispel"
+          ],
+          "class-1-0": [
+            "healing",
+            "emergency-heal"
+          ],
+          "class-1-2": [
+            "utility",
+            "mobility"
+          ],
+          "class-1-4": [
+            "damage"
+          ],
+          "class-1-6": [
+            "utility",
+            "aura",
+            "group-utility"
+          ],
+          "class-2-0": [
+            "defensive-external",
+            "ally-targetable"
+          ],
+          "class-2-2": [
+            "utility",
+            "control",
+            "interrupt"
+          ],
+          "class-2-4": [
+            "utility",
+            "control"
+          ],
+          "class-2-6": [
+            "utility",
+            "mobility"
+          ],
+          "class-3-0": [
+            "utility",
+            "mobility"
+          ],
+          "class-3-2": [
+            "utility",
+            "control"
+          ],
+          "class-3-4": [
+            "utility",
+            "control"
+          ],
+          "class-3-6": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-4-0": [
+            "defensive-external",
+            "ally-targetable"
+          ],
+          "class-4-2": [
+            "defensive-external"
+          ],
+          "class-4-4": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-4-6": [
+            "damage",
+            "healing"
+          ],
+          "class-5-0": [
+            "personal-defense",
+            "utility",
+            "mobility"
+          ],
+          "class-5-2": [
+            "damage",
+            "healing",
+            "resource"
+          ],
+          "class-5-4": [
+            "offensive-cooldown",
+            "healing"
+          ],
+          "class-5-6": [
+            "utility",
+            "control"
+          ],
+          "class-6-0": [
+            "role-dependent-button",
+            "damage",
+            "healing"
+          ],
+          "class-6-2": [
+            "damage",
+            "healing"
+          ],
+          "class-6-4": [
+            "damage",
+            "healing"
+          ],
+          "class-6-6": [
+            "healing",
+            "group-utility"
+          ],
+          "class-7-0": [
+            "healing"
+          ],
+          "class-7-2": [
+            "healing",
+            "emergency-heal"
+          ],
+          "class-7-4": [
+            "healing",
+            "group-utility"
+          ],
+          "class-7-6": [
+            "damage",
+            "utility",
+            "interrupt"
+          ],
+          "class-8-0": [
+            "personal-defense",
+            "damage",
+            "healing"
+          ],
+          "class-8-2": [
+            "personal-defense",
+            "healing",
+            "emergency-heal"
+          ],
+          "class-8-4": [
+            "personal-defense"
+          ],
+          "class-8-6": [
+            "resource",
+            "damage",
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-0": [
+            "resource",
+            "damage",
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-2": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-9-4": [
+            "personal-defense",
+            "healing"
+          ],
+          "class-9-6": [
+            "defensive-external"
+          ],
+          "class-10-0": [
+            "healing",
+            "damage"
+          ],
+          "class-10-2": [
+            "healing",
+            "personal-defense"
+          ],
+          "class-10-4": [
+            "defensive-external",
+            "damage",
+            "healing"
+          ],
+          "class-10-6": [
+            "role-dependent-button",
+            "damage",
+            "healing"
+          ]
+        }
+      }
     }
   }
 }

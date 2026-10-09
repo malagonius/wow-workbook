@@ -7,6 +7,7 @@
       "Blastologist"
     ]
   },
+  "abilities": {},
   "shared": {
     "classes": {
       "Thinker/class": {
@@ -20,45 +21,45 @@
         "nodes": [
           {
             "id": "class-0-0",
-            "name": "Disassemble",
-            "description": "Hit an enemy with your wrench dealing (120% sp) damage, granting 1-3 Gadgets.",
+            "name": "Optional Attack",
+            "description": "Damage · AoE · Ranged · Optional · Cooldown",
             "icon": "",
             "row": 0,
-            "column": 5,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "1% base mana",
-            "range": "Self",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "10 seconds"
-          },
-          {
-            "id": "class-0-2",
-            "name": "BOOMer",
-            "description": "Transform into the incarnation of Boom!\nThe first time you hit an enemy directly with a spell mark them with mark of boom.\n\nWhenever you deal damage to a target, enemies with mark of boom also explode for (50%sp) damage in a 5ft yd",
-            "icon": "",
-            "row": 8,
-            "column": 3,
+            "column": 0,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "3 Minute"
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-0-2",
+            "name": "SUPERSAYAN",
+            "description": "Buff · Major Cooldown · Role-Adaptive · Damage OR Healing",
+            "icon": "",
+            "row": 0,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
           },
           {
             "id": "class-0-4",
-            "name": "Rinvigorating plates",
-            "description": "When unstable plating finishes, after 5 second creates an additional plating for 10% of the effectivness.",
+            "name": "Personal Defensive",
+            "description": "Self · Damage Reduction · Short Duration · Cooldown",
             "icon": "",
-            "row": 2,
-            "column": 1,
+            "row": 0,
+            "column": 4,
             "type": "talent",
-            "kind": "passive",
+            "kind": "active",
             "maxRank": 1,
             "cost": "",
             "range": "",
@@ -68,61 +69,77 @@
           },
           {
             "id": "class-0-6",
-            "name": "Anti-panic Button",
-            "description": "Press the big red button. After 2 seconds a massive shield comes protecting you for 50% max health. While the shield is active you deal 5% less damage",
+            "name": "Emergency Self-Heal",
+            "description": "Self · Healing · Emergency · Cooldown",
             "icon": "",
             "row": 0,
-            "column": 1,
+            "column": 6,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
-            "cost": "1 Gadget",
+            "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": "2 minutes"
+            "cooldown": ""
           },
           {
             "id": "class-1-0",
-            "name": "Overdrive",
-            "description": "Increase your haste by 10%",
+            "name": "Protection External",
+            "description": "External · Single Target · Ally · Damage Reduction · Long Cooldown",
             "icon": "",
-            "row": 0,
-            "column": 3,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "1 Gadget",
-            "range": "",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 Minute"
-          },
-          {
-            "id": "class-1-2",
-            "name": "Equaliser",
-            "description": "Choose a target. Over 6 sec, health is redistributed between you and the target every 1 sec until your health percentages are equal.",
-            "icon": "",
-            "row": 5,
+            "row": 1,
             "column": 0,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
-            "cost": "2 Gadget",
-            "range": "40 yd",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 Minute"
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-1-2",
+            "name": "Risk External",
+            "description": "External · Single Target · Ally · Damage Transfer · Personal Risk",
+            "icon": "",
+            "row": 1,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-1-4",
+            "name": "Emergency Ally Heal",
+            "description": "Healing · Single Target · Ally · Instant · High Cost · Situational",
+            "icon": "",
+            "row": 1,
+            "column": 4,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
           },
           {
             "id": "class-1-6",
-            "name": "Big Wrench",
-            "description": "Disassemble now hits up to 5 target for 50% of the damage",
+            "name": "Interrupt",
+            "description": "Interrupt · Single Target · Enemy · Utility",
             "icon": "",
-            "row": 4,
+            "row": 1,
             "column": 6,
             "type": "talent",
-            "kind": "passive",
+            "kind": "active",
             "maxRank": 1,
             "cost": "",
             "range": "",
@@ -133,42 +150,42 @@
           {
             "id": "class-2-0",
             "name": "Dispel",
-            "description": "Dispel Disease",
+            "description": "Dispel · Single Target · Ally · Poison / Disease · Utility",
             "icon": "",
-            "row": 7,
-            "column": 2,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "",
-            "range": "40yd",
-            "charges": "",
-            "castTime": "",
-            "cooldown": "8 Seconds"
-          },
-          {
-            "id": "class-2-2",
-            "name": "Nitro boost",
-            "description": "Increase movement speed by 200% for 3 seconds, you can not stop moving while it's active",
-            "icon": "",
-            "row": 3,
-            "column": 3,
+            "row": 2,
+            "column": 0,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 Minute"
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-2-2",
+            "name": "Movement Protection",
+            "description": "Buff · Single Target · Ally · Root / Snare Protection · Situational",
+            "icon": "",
+            "row": 2,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
           },
           {
             "id": "class-2-4",
-            "name": "Teleport Station",
-            "description": "Warlock portal",
+            "name": "Personal Mobility",
+            "description": "Self · Mobility · Reposition · Cooldown",
             "icon": "",
-            "row": 4,
-            "column": 2,
+            "row": 2,
+            "column": 4,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
@@ -180,71 +197,59 @@
           },
           {
             "id": "class-2-6",
-            "name": "Antigravity field",
-            "description": "Creates a field at the target location, pulling all enemies within 30 yd to its center.",
+            "name": "AoE Stop",
+            "description": "CC · AoE · Knockback OR Incapacitate · Short Duration",
             "icon": "",
-            "row": 5,
-            "column": 3,
+            "row": 2,
+            "column": 6,
             "type": "talent",
             "kind": "active",
-            "maxRank": 1,
-            "cost": "",
-            "range": "30yd",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "2 minute"
-          },
-          {
-            "id": "class-3-0",
-            "name": "Surprise boomstick",
-            "description": "Attach to enemy target, explode after 2 seconds stunning the target",
-            "icon": "",
-            "row": 1,
-            "column": 2,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "1 Gadget",
-            "range": "20 yd",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 Minute"
-          },
-          {
-            "id": "class-3-2",
-            "name": "",
-            "description": "",
-            "icon": "",
-            "row": 5,
-            "column": 2,
-            "type": "talent",
-            "kind": "choice",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": "",
-            "choices": [
-              {
-                "name": "Reontruct",
-                "description": "Battle Ress",
-                "icon": ""
-              },
-              {
-                "name": "Time to Work",
-                "description": "BL",
-                "icon": ""
-              }
-            ]
+            "cooldown": ""
+          },
+          {
+            "id": "class-3-0",
+            "name": "Single-Target CC",
+            "description": "CC · Single Target · Setup Required · Breaks on Damage · Situational",
+            "icon": "",
+            "row": 3,
+            "column": 0,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
+          },
+          {
+            "id": "class-3-2",
+            "name": "Ally Rescue",
+            "description": "Utility · Single Target · Ally · Reposition · Situational",
+            "icon": "",
+            "row": 3,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": ""
           },
           {
             "id": "class-3-4",
-            "name": "Improved Nano-bot Technology",
-            "description": "While the nano-bot technology shield is up, you take 5% reduced damage",
+            "name": "Passive Damage Reduction",
+            "description": "Passive · Self · Small Damage Reduction",
             "icon": "",
-            "row": 4,
-            "column": 0,
+            "row": 3,
+            "column": 4,
             "type": "talent",
             "kind": "passive",
             "maxRank": 2,
@@ -256,11 +261,11 @@
           },
           {
             "id": "class-3-6",
-            "name": "Shiny plates",
-            "description": "While unstable plating is off-cd, your versatility is increased by 2%/4%",
+            "name": "Maximum Health",
+            "description": "Passive · Self · Maximum Health",
             "icon": "",
-            "row": 1,
-            "column": 0,
+            "row": 3,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 2,
@@ -272,11 +277,11 @@
           },
           {
             "id": "class-4-0",
-            "name": "Rocket Swarm",
-            "description": "Your abilities have a chance to trigger Rocket Swarm, causing your next Rocket Missile to fire 10 missiles at 20% effectiveness at no cost.",
+            "name": "Conditional Armor",
+            "description": "Passive · Self · Armor · Conditional",
             "icon": "",
-            "row": 10,
-            "column": 6,
+            "row": 4,
+            "column": 0,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -288,36 +293,24 @@
           },
           {
             "id": "class-4-2",
-            "name": "",
-            "description": "",
+            "name": "Improved Personal Defensive",
+            "description": "Upgrade · Personal Defensive · Duration OR Effectiveness",
             "icon": "",
-            "row": 2,
-            "column": 0,
+            "row": 4,
+            "column": 2,
             "type": "talent",
-            "kind": "choice",
+            "kind": "passive",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": "",
-            "choices": [
-              {
-                "name": "More buttons",
-                "description": "Reduce Anti-panic button cd by 30 seconds",
-                "icon": ""
-              },
-              {
-                "name": "Quick response",
-                "description": "Anti-panic-button activate after 1 second and protects you for 60% health",
-                "icon": ""
-              }
-            ]
+            "cooldown": ""
           },
           {
             "id": "class-4-4",
             "name": "Improved Self-Heal",
-            "description": "Healing you receive are 5% stronger on you",
+            "description": "Upgrade · Emergency Self-Heal · Healing Effectiveness",
             "icon": "",
             "row": 4,
             "column": 4,
@@ -332,11 +325,11 @@
           },
           {
             "id": "class-4-6",
-            "name": "Anti-Death mechanism",
-            "description": "The first time you drop below 30% hp, gain2 rinvigorating plates.\n\nCan proc 1 every 2 minutes.",
+            "name": "Low-Health Safeguard",
+            "description": "Proc · Self · Low Health · Emergency · Internal Cooldown",
             "icon": "",
             "row": 4,
-            "column": 1,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -348,10 +341,10 @@
           },
           {
             "id": "class-5-0",
-            "name": "Nano-bot Technology",
-            "description": "5% of the healing received is also converted into shield, up to 5% of your max health",
+            "name": "Recovery Received",
+            "description": "Passive · Self · Healing Received",
             "icon": "",
-            "row": 3,
+            "row": 5,
             "column": 0,
             "type": "talent",
             "kind": "passive",
@@ -364,14 +357,14 @@
           },
           {
             "id": "class-5-2",
-            "name": "Arsenal",
-            "description": "BLASTOLOGIST: Super-safe-box deal 10% increased damage if it hits only 1 target",
+            "name": "Primary Spell Improvement",
+            "description": "Passive · Existing Role Spell · Damage OR Healing Effectiveness",
             "icon": "",
-            "row": 1,
-            "column": 5,
+            "row": 5,
+            "column": 2,
             "type": "talent",
             "kind": "passive",
-            "maxRank": 1,
+            "maxRank": 2,
             "cost": "",
             "range": "",
             "charges": "",
@@ -380,11 +373,11 @@
           },
           {
             "id": "class-5-4",
-            "name": "Not-So-Safe",
-            "description": "Increase your critical-strike-damage by 1% for every target your spell hits",
+            "name": "AoE Spell Improvement",
+            "description": "Passive · Existing AoE Spell · Damage OR Healing Effectiveness",
             "icon": "",
-            "row": 2,
-            "column": 5,
+            "row": 5,
+            "column": 4,
             "type": "talent",
             "kind": "passive",
             "maxRank": 2,
@@ -396,11 +389,11 @@
           },
           {
             "id": "class-5-6",
-            "name": "Death Blow",
-            "description": "Mark of Boom, deals 100% increased damage to target below 20% hp",
+            "name": "Execute / Triage Bonus",
+            "description": "Passive · Low-Health Target · Damage OR Healing · Conditional",
             "icon": "",
-            "row": 9,
-            "column": 3,
+            "row": 5,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -415,51 +408,39 @@
             "name": "Improved Optional Attack",
             "description": "Upgrade · Optional Attack · AoE Damage",
             "icon": "",
-            "row": 1,
-            "column": 6,
+            "row": 6,
+            "column": 0,
             "type": "talent",
-            "kind": "choice",
+            "kind": "passive",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": "",
-            "choices": [
-              {
-                "name": "Improved Disassemble",
-                "description": "Disassemble now grant an additional Gadget",
-                "icon": ""
-              },
-              {
-                "name": "Mind to matter",
-                "description": "Disassemble now has 30ft range",
-                "icon": ""
-              }
-            ]
+            "cooldown": ""
           },
           {
             "id": "class-6-2",
-            "name": "Barricade",
-            "description": "Grants 10 unstable plating, evenly spread across teammates",
+            "name": "Improved SUPERSAYAN",
+            "description": "Upgrade · SUPERSAYAN · Duration OR Effectiveness",
             "icon": "",
-            "row": 10,
-            "column": 1,
+            "row": 6,
+            "column": 2,
             "type": "talent",
-            "kind": "active",
+            "kind": "passive",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "2 Minutes"
+            "castTime": "",
+            "cooldown": ""
           },
           {
             "id": "class-6-4",
-            "name": "Resourcefull",
-            "description": "Increase your damage done by 1% for every gadget you are holding (up to 5)",
+            "name": "Setup Payoff",
+            "description": "Passive · Existing Spell Interaction · Conditional Throughput",
             "icon": "",
-            "row": 1,
+            "row": 6,
             "column": 4,
             "type": "talent",
             "kind": "passive",
@@ -472,11 +453,11 @@
           },
           {
             "id": "class-6-6",
-            "name": "Tactical Danger",
-            "description": "Deal up to 5% more damage the closer you are to the enemy",
+            "name": "Positioning Payoff",
+            "description": "Passive · Positioning · Damage OR Healing · Conditional",
             "icon": "",
-            "row": 2,
-            "column": 2,
+            "row": 6,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -488,11 +469,11 @@
           },
           {
             "id": "class-7-0",
-            "name": "Smart Choices",
-            "description": "Reduce UPGRADE! cd by 5 seconds",
+            "name": "Interrupt Reward",
+            "description": "Upgrade · Interrupt · Successful Interrupt · Resource Return",
             "icon": "",
-            "row": 8,
-            "column": 1,
+            "row": 7,
+            "column": 0,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -507,7 +488,7 @@
             "name": "Improved Dispel",
             "description": "Upgrade · Dispel · Cooldown OR Cost · No New Dispel Type",
             "icon": "",
-            "row": 8,
+            "row": 7,
             "column": 2,
             "type": "talent",
             "kind": "passive",
@@ -520,11 +501,11 @@
           },
           {
             "id": "class-7-4",
-            "name": "Additional boost",
-            "description": "Nitro boost has an additional charge",
+            "name": "Improved Movement Protection",
+            "description": "Upgrade · Movement Protection · Duration OR Movement Speed",
             "icon": "",
-            "row": 4,
-            "column": 3,
+            "row": 7,
+            "column": 4,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -536,11 +517,11 @@
           },
           {
             "id": "class-7-6",
-            "name": "Faster repair",
-            "description": "Disassemble increase your movement speed by 5% for 5 seconds.",
+            "name": "Extra Mobility Charge",
+            "description": "Upgrade · Personal Mobility · Extra Charge · Same Recharge",
             "icon": "",
-            "row": 3,
-            "column": 5,
+            "row": 7,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -552,11 +533,11 @@
           },
           {
             "id": "class-8-0",
-            "name": "Improved antigravity field",
-            "description": "Reduce the cd of antigravity field by 30 seconds",
+            "name": "Improved AoE Stop",
+            "description": "Upgrade · AoE Stop · Radius OR Cooldown",
             "icon": "",
-            "row": 6,
-            "column": 3,
+            "row": 8,
+            "column": 0,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -568,11 +549,11 @@
           },
           {
             "id": "class-8-2",
-            "name": "All from nothing",
-            "description": "For every 10 gadget you expend up to 5 closest ally regain a small % of their mana",
+            "name": "Improved Ally Rescue",
+            "description": "Upgrade · Ally Rescue · Range OR Cooldown",
             "icon": "",
-            "row": 6,
-            "column": 1,
+            "row": 8,
+            "column": 2,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -584,27 +565,27 @@
           },
           {
             "id": "class-8-4",
-            "name": "Rocket Missle",
-            "description": "Launches a devastating missile at the nearest highest-health enemy, dealing (360%ap)damage.",
+            "name": "Improved Protection External",
+            "description": "Upgrade · Protection External · Duration OR Cooldown",
             "icon": "",
-            "row": 7,
-            "column": 5,
+            "row": 8,
+            "column": 4,
             "type": "talent",
-            "kind": "active",
+            "kind": "passive",
             "maxRank": 1,
-            "cost": "3 Gadget",
-            "range": "100yd",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "10 Seconds"
+            "castTime": "",
+            "cooldown": ""
           },
           {
             "id": "class-8-6",
-            "name": "Cheap Equiliser",
-            "description": "Equiliser cost no Gadget to cast, but it equilises over 8 seconds instead",
+            "name": "Safer Risk External",
+            "description": "Upgrade · Risk External · Personal Risk Reduction · Transfer Cap",
             "icon": "",
-            "row": 6,
-            "column": 0,
+            "row": 8,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -616,11 +597,11 @@
           },
           {
             "id": "class-9-0",
-            "name": "Ballistic Missle",
-            "description": "Rocket Missle can be Upgraded increasing it's damage by (100%ap)",
+            "name": "Improved Emergency Ally Heal",
+            "description": "Upgrade · Emergency Ally Heal · Low-Health Bonus",
             "icon": "",
             "row": 9,
-            "column": 5,
+            "column": 0,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -632,11 +613,11 @@
           },
           {
             "id": "class-9-2",
-            "name": "Nano-bot factory overflow",
-            "description": "When nanobot factory expires, creates 3 healing nano-bots",
+            "name": "Off-Healing Efficiency",
+            "description": "Passive · Off-Healing · Cost Reduction · Situational",
             "icon": "",
-            "row": 8,
-            "column": 0,
+            "row": 9,
+            "column": 2,
             "type": "talent",
             "kind": "passive",
             "maxRank": 2,
@@ -648,10 +629,10 @@
           },
           {
             "id": "class-9-4",
-            "name": "Laser Focus",
-            "description": "ADHD can now proc up to 2 every 5 seconds.",
+            "name": "Resource Efficiency",
+            "description": "Passive · Role Resource · Cost Reduction",
             "icon": "",
-            "row": 6,
+            "row": 9,
             "column": 4,
             "type": "talent",
             "kind": "passive",
@@ -664,11 +645,11 @@
           },
           {
             "id": "class-9-6",
-            "name": "Dual Wrench",
-            "description": "Disassemble gains an additional charge",
+            "name": "Free-Cast Proc",
+            "description": "Proc · Existing Role Spell · Free Cast · No Recursive Procs",
             "icon": "",
-            "row": 5,
-            "column": 5,
+            "row": 9,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -680,10 +661,10 @@
           },
           {
             "id": "class-10-0",
-            "name": "Trash for treasure",
-            "description": "All from nothing now also replanish class specific resources in a very small quantity",
+            "name": "Resource Overflow",
+            "description": "Passive · Excess Role Resource · Small Benefit · Capped",
             "icon": "",
-            "row": 7,
+            "row": 10,
             "column": 0,
             "type": "talent",
             "kind": "passive",
@@ -696,11 +677,11 @@
           },
           {
             "id": "class-10-2",
-            "name": "Adaptive Arms",
-            "description": "You can attack and cast melee related abilities while using Knick-Knacks",
+            "name": "Adaptive Equipment",
+            "description": "Passive · Role-Adaptive · Existing Kit Interaction · No New Button",
             "icon": "",
-            "row": 2,
-            "column": 3,
+            "row": 10,
+            "column": 2,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -712,8 +693,8 @@
           },
           {
             "id": "class-10-4",
-            "name": "Recursive boom",
-            "description": "If there is no available target for Mark Of Boom, apply mark of boom again on the same target for 10% of it's effectivness",
+            "name": "Emergency Off-Role Support",
+            "description": "Passive · Off-Role Healing OR Damage · Situational",
             "icon": "",
             "row": 10,
             "column": 4,
@@ -728,11 +709,11 @@
           },
           {
             "id": "class-10-6",
-            "name": "Boom baby",
-            "description": "Whenever applying Mark of boom to a target that is already makred, mark an adjacent target.",
+            "name": "SUPERSAYAN Safeguard",
+            "description": "Upgrade · SUPERSAYAN · Small Personal Shield · Capped · No Recursive Procs",
             "icon": "",
-            "row": 9,
-            "column": 4,
+            "row": 10,
+            "column": 6,
             "type": "talent",
             "kind": "passive",
             "maxRank": 1,
@@ -745,212 +726,60 @@
         ],
         "connections": [
           {
+            "from": "class-0-4",
+            "to": "class-4-2"
+          },
+          {
             "from": "class-0-6",
-            "to": "class-3-6"
-          },
-          {
-            "from": "class-0-6",
-            "to": "class-0-4"
-          },
-          {
-            "from": "class-6-0",
-            "to": "class-0-0"
-          },
-          {
-            "from": "class-0-4",
-            "to": "class-2-4"
-          },
-          {
-            "from": "class-2-2",
-            "to": "class-7-4"
-          },
-          {
-            "from": "class-2-2",
-            "to": "class-2-4"
-          },
-          {
-            "from": "class-2-4",
-            "to": "class-3-2"
-          },
-          {
-            "from": "class-0-4",
-            "to": "class-4-6"
-          },
-          {
-            "from": "class-0-4",
-            "to": "class-5-0"
-          },
-          {
-            "from": "class-5-0",
-            "to": "class-3-4"
-          },
-          {
-            "from": "class-5-2",
-            "to": "class-0-0"
-          },
-          {
-            "from": "class-4-2",
-            "to": "class-0-6"
+            "to": "class-4-4"
           },
           {
             "from": "class-0-0",
-            "to": "class-6-4"
+            "to": "class-6-0"
           },
           {
-            "from": "class-4-6",
-            "to": "class-1-2"
+            "from": "class-0-2",
+            "to": "class-6-2"
           },
           {
-            "from": "class-8-6",
-            "to": "class-1-2"
-          },
-          {
-            "from": "class-2-4",
-            "to": "class-2-6"
-          },
-          {
-            "from": "class-7-4",
-            "to": "class-2-6"
-          },
-          {
-            "from": "class-3-2",
-            "to": "class-2-0"
-          },
-          {
-            "from": "class-0-6",
-            "to": "class-3-0"
-          },
-          {
-            "from": "class-6-4",
-            "to": "class-2-2"
-          },
-          {
-            "from": "class-6-4",
-            "to": "class-5-4"
-          },
-          {
-            "from": "class-5-2",
-            "to": "class-5-4"
-          },
-          {
-            "from": "class-3-0",
-            "to": "class-6-6"
-          },
-          {
-            "from": "class-7-6",
-            "to": "class-5-4"
-          },
-          {
-            "from": "class-5-4",
-            "to": "class-1-6"
+            "from": "class-1-6",
+            "to": "class-7-0"
           },
           {
             "from": "class-2-0",
             "to": "class-7-2"
           },
           {
-            "from": "class-1-6",
-            "to": "class-9-6"
+            "from": "class-2-2",
+            "to": "class-7-4"
           },
           {
-            "from": "class-9-6",
-            "to": "class-9-4"
+            "from": "class-2-4",
+            "to": "class-7-6"
           },
           {
             "from": "class-2-6",
-            "to": "class-9-4"
+            "to": "class-8-0"
           },
           {
-            "from": "class-2-0",
+            "from": "class-3-2",
             "to": "class-8-2"
           },
           {
-            "from": "class-4-6",
-            "to": "class-8-2"
-          },
-          {
-            "from": "class-8-2",
-            "to": "class-10-0"
-          },
-          {
             "from": "class-1-0",
-            "to": "class-10-2"
+            "to": "class-8-4"
           },
           {
-            "from": "class-1-0",
-            "to": "class-6-4"
+            "from": "class-1-2",
+            "to": "class-8-6"
           },
           {
-            "from": "class-1-0",
-            "to": "class-3-0"
-          },
-          {
-            "from": "class-10-2",
-            "to": "class-2-2"
-          },
-          {
-            "from": "class-8-4",
-            "to": "class-9-6"
-          },
-          {
-            "from": "class-2-2",
-            "to": "class-4-4"
-          },
-          {
-            "from": "class-8-0",
-            "to": "class-2-6"
+            "from": "class-1-4",
+            "to": "class-9-0"
           },
           {
             "from": "class-0-2",
             "to": "class-10-6"
-          },
-          {
-            "from": "class-0-2",
-            "to": "class-5-6"
-          },
-          {
-            "from": "class-10-6",
-            "to": "class-10-4"
-          },
-          {
-            "from": "class-0-2",
-            "to": "class-2-0"
-          },
-          {
-            "from": "class-0-2",
-            "to": "class-9-4"
-          },
-          {
-            "from": "class-8-2",
-            "to": "class-9-2"
-          },
-          {
-            "from": "class-7-6",
-            "to": "class-9-6"
-          },
-          {
-            "from": "class-8-2",
-            "to": "class-7-0"
-          },
-          {
-            "from": "class-2-0",
-            "to": "class-7-0"
-          },
-          {
-            "from": "class-7-0",
-            "to": "class-6-2"
-          },
-          {
-            "from": "class-9-4",
-            "to": "class-8-4"
-          },
-          {
-            "from": "class-8-4",
-            "to": "class-9-0"
-          },
-          {
-            "from": "class-9-0",
-            "to": "class-4-0"
           }
         ]
       }

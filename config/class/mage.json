@@ -1,4 +1,17 @@
 {
-  "class": "Mage",
-  "sections": {}
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Mage": [
+      "Arcane",
+      "Fire",
+      "Frost"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
 }

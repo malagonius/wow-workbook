@@ -1,4 +1,17 @@
 {
-  "class": "Rogue",
-  "sections": {}
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Rogue": [
+      "Assassination",
+      "Outlaw",
+      "Subtlety"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
 }

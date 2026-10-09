@@ -2,19 +2,19 @@
   "format": "wow-workbook-talent-manifest",
   "version": 2,
   "classFiles": {
-    "Death Knight": "class/death-knight-talents.json",
-    "Demon Hunter": "class/demon-hunter-talents.json",
-    "Druid": "class/druid-talents.json",
-    "Evoker": "class/evoker-talents.json",
-    "Hunter": "class/hunter-talents.json",
-    "Mage": "class/mage-talents.json",
-    "Monk": "class/monk-talents.json",
-    "Paladin": "class/paladin-talents.json",
-    "Priest": "class/priest-talents.json",
-    "Rogue": "class/rogue-talents.json",
-    "Shaman": "class/shaman-talents.json",
-    "Warlock": "class/warlock-talents.json",
-    "Warrior": "class/warrior-talents.json",
-    "Thinker": "class/thinker-talents.json"
+    "Death Knight": "class/death-knight.json",
+    "Demon Hunter": "class/demon-hunter.json",
+    "Druid": "class/druid.json",
+    "Evoker": "class/evoker.json",
+    "Hunter": "class/hunter.json",
+    "Mage": "class/mage.json",
+    "Monk": "class/monk.json",
+    "Paladin": "class/paladin.json",
+    "Priest": "class/priest.json",
+    "Rogue": "class/rogue.json",
+    "Shaman": "class/shaman.json",
+    "Warlock": "class/warlock.json",
+    "Warrior": "class/warrior.json",
+    "Thinker": "class/thinker.json"
   }
 }

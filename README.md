@@ -9,7 +9,7 @@ Two pages, one shared talent model:
 
 Both pages load the same small [configuration manifest](config/talent-project.json), which references:
 
-- **One self-contained JSON file per class** under `config/class/`, such as `death-knight-talents.json` or `thinker-talents.json`.
+- **One self-contained JSON file per class** under `config/class/`, such as `death-knight.json` or `thinker.json`.
 - Each file contains the class's spec registry, class talents, every configured specialization, hero talents, Apex sections, and class/spec abilities.
 - Shared class and hero talents are stored once **inside that class file**, never in a separate global file.
 
@@ -33,7 +33,7 @@ Open <http://localhost:8000/>. Alternatively, Node 22+ users can run `npm start`
 3. Click an empty socket to create a talent, then edit it in the right-hand panel.
 4. Drag talents to rearrange them; drag the gold dot from one talent onto another to connect them.
 5. Talent and ability changes autosave together to your browser. **Export class** downloads all data for the selected class. Importing replaces only the classes in that file; other classes are preserved.
-6. **Replace the matching file in `config/class/` with the download**, then commit that file. For example, replace `config/class/thinker-talents.json` with the exported `thinker-talents.json`. No splitting or migration is needed. Do not replace the manifest with a class export.
+6. **Replace the matching file in `config/class/` with the download**, then commit that file. For example, replace `config/class/thinker.json` with the exported `thinker.json`. No splitting or migration is needed. Do not replace the manifest with a class export.
 7. For a brand-new class, place its export in `config/class/` and add its name/path to the manifest's `classFiles` registry. Alternatively, the import maintenance command below does this automatically.
 
 Browser autosave is a local draft, not a write to repository files. If a previously saved draft is showing old data after replacing a class file, use **Reset draft** to reload the repository baseline (this discards local edits).

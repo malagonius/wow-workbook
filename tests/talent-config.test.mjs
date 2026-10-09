@@ -86,12 +86,12 @@ test('class export includes all its specs and no other class data', () => {
 test('repository stores exactly one complete file per class plus an index', async () => {
   const project = fixture();
   const files = splitProject(project);
-  assert.deepEqual(Object.keys(files), ['class/death-knight-talents.json', 'class/mage-talents.json', 'talent-project.json']);
-  assert.deepEqual(files['class/death-knight-talents.json'], compactProject(project, 'Death Knight'));
-  assert.deepEqual(files['class/death-knight-talents.json'].content['Death Knight'], ['Blood', 'Frost', 'Unholy']);
+  assert.deepEqual(Object.keys(files), ['class/death-knight.json', 'class/mage.json', 'talent-project.json']);
+  assert.deepEqual(files['class/death-knight.json'], compactProject(project, 'Death Knight'));
+  assert.deepEqual(files['class/death-knight.json'].content['Death Knight'], ['Blood', 'Frost', 'Unholy']);
   assert.deepEqual(files['talent-project.json'], {
     format: 'wow-workbook-talent-manifest', version: 2,
-    classFiles: { 'Death Knight': 'class/death-knight-talents.json', Mage: 'class/mage-talents.json' }
+    classFiles: { 'Death Knight': 'class/death-knight.json', Mage: 'class/mage.json' }
   });
   assert.deepEqual(await loadTalentProject('config/talent-project.json', memoryFetch(files)), project);
 });
@@ -111,7 +111,7 @@ test('different hero trees and spec-specific Apex sections stay inside their cla
   frost.sections = frost.sections.map(section => section.type === 'hero' ? structuredClone(section) : section);
   frost.sections.find(s => s.type === 'hero').nodes[0].name = 'Frost hero';
   const files = splitProject(project);
-  const data = files['class/death-knight-talents.json'];
+  const data = files['class/death-knight.json'];
   assert.equal(Object.keys(data.shared.heroes).length, 2);
   assert.ok(data.trees['Death Knight/Frost'].sections.some(s => s.type === 'apex'));
   assert.ok(data.trees['Death Knight/Frost'].sections.some(s => s.classTalent));
@@ -190,17 +190,18 @@ test('existing specs without a class section inherit the shared class tree', () 
 
 test('missing config files and wrong spec identities produce actionable errors', async () => {
   const files = splitProject(fixture());
-  delete files['class/mage-talents.json'];
-  await assert.rejects(loadTalentProject('config/talent-project.json', memoryFetch(files)), /class\/mage-talents.json.*404/);
-  files['class/mage-talents.json'] = compactProject(fixture(), 'Mage');
-  files['class/mage-talents.json'].trees['Mage/Frost'].spec = 'Fire';
+  delete files['class/mage.json'];
+  await assert.rejects(loadTalentProject('config/talent-project.json', memoryFetch(files)), /class\/mage.json.*404/);
+  files['class/mage.json'] = compactProject(fixture(), 'Mage');
+  files['class/mage.json'].trees['Mage/Frost'].spec = 'Fire';
   await assert.rejects(loadTalentProject('config/talent-project.json', memoryFetch(files)), /Specialization mismatch/);
 });
 
 test('filename normalization detects collisions and escapes path separators', () => {
   assert.equal(fileSlug('Bio-Tech'), 'bio-tech');
   assert.equal(fileSlug('../Example'), '..%2Fexample');
-  assert.equal(classFileName('Death Knight'), 'death-knight-talents.json');
+  assert.equal(classFileName('Death Knight'), 'death-knight.json');
+  assert.equal(classFileName('Thinker'), 'thinker.json');
   const project = fixture();
   project.content.mage = [];
   assert.throws(() => splitProject(project), /filename collision/);
@@ -217,7 +218,7 @@ test('replacing an exported class file updates specs without touching the manife
   replacement.shared.classes['Death Knight/class'].nodes[0].name = 'Published edit';
   // Use the same class section for the new spec as all existing specs.
   replacement.trees['Death Knight/New Spec'].sections[0] = { classTalent: 'Death Knight/class' };
-  files['class/death-knight-talents.json'] = replacement;
+  files['class/death-knight.json'] = replacement;
   const loaded = await loadTalentProject('config/talent-project.json', memoryFetch(files));
   assert.deepEqual(files['talent-project.json'], manifest);
   assert.deepEqual(loaded.content['Death Knight'], ['Blood', 'New Spec']);
@@ -242,7 +243,7 @@ test('every exported class loads independently without fetching companion files'
 
 test('class files reject wrong classes, cross-class shared data and missing references', async () => {
   const files = splitProject(fixture());
-  const path = 'class/death-knight-talents.json';
+  const path = 'class/death-knight.json';
   const original = structuredClone(files[path]);
   files[path] = compactProject(fixture(), 'Mage');
   await assert.rejects(loadTalentProject('config/talent-project.json', memoryFetch(files)), /Class mismatch/);
@@ -287,6 +288,8 @@ test('repository data round-trips losslessly through per-class files', async () 
   assert.deepEqual(await loadTalentProject('config/talent-project.json', memoryFetch(splitProject(project))), project);
   for (const className of Object.keys(project.content)) {
     const exported = compactProject(project, className);
+    const manifest = JSON.parse(await readFile(resolve(root, 'config/talent-project.json'), 'utf8'));
+    assert.equal(manifest.classFiles[className], `class/${classFileName(className)}`);
     assert.ok(Object.values(exported.trees).every(tree => tree.class === className));
     assert.deepEqual(mergeProject(project, exported), project);
   }

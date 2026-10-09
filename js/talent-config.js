@@ -10,7 +10,7 @@ export function fileSlug(name) {
 }
 
 export function classFileName(className) {
-  return `${fileSlug(className)}-talents.json`;
+  return `${fileSlug(className)}.json`;
 }
 
 export function compactProject(project, className = null) {

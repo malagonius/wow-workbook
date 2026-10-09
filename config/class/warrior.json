@@ -1,4 +1,17 @@
 {
-  "class": "Warrior",
-  "sections": {}
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Warrior": [
+      "Arms",
+      "Fury",
+      "Protection"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
 }

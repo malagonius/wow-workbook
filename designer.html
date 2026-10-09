@@ -39,8 +39,8 @@
       <button id="undo" type="button" title="Undo (Ctrl+Z)">↶ Undo</button>
       <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
       <button id="show-json" type="button">&lt;&gt; JSON</button>
-      <button id="export-project" type="button">Export</button>
-      <button id="import-project" type="button">Import</button>
+      <button id="export-project" type="button" title="Export only the selected class and all of its specializations">Export class</button>
+      <button id="import-project" type="button" title="Update imported classes without removing other classes">Import classes</button>
       <button id="reset-draft" type="button">Reset draft</button>
       <input id="project-file" type="file" accept="application/json,.json" hidden>
     </section>
@@ -175,7 +175,7 @@
 
   <dialog id="json-dialog" class="designer-modal">
     <form method="dialog" class="json-dialog-content">
-      <header class="modal-header"><h2>Project JSON</h2><button type="button" class="modal-close" id="json-dialog-close" aria-label="Close">×</button></header>
+      <header class="modal-header"><h2>Current class JSON</h2><button type="button" class="modal-close" id="json-dialog-close" aria-label="Close">×</button></header>
       <div class="modal-body">
         <textarea id="json-output" spellcheck="false"></textarea>
         <div class="modal-footer">

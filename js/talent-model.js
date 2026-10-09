@@ -2,7 +2,7 @@
 // The Designer and Calculator both consume the same normalized structure.
 
 export const TALENT_PROJECT_FORMAT = 'wow-workbook-talent-project';
-export const TALENT_PROJECT_VERSION = 5;
+export const TALENT_PROJECT_VERSION = 6;
 
 export const DEFAULT_COLUMNS = 7;
 export const NODE_KINDS = ['active', 'passive', 'choice'];
@@ -216,7 +216,42 @@ export function normalizeProject(project) {
 
   if (project.format === TALENT_PROJECT_FORMAT && project.version >= 2) {
     const trees = {};
-    for (const [treeKey, tree] of Object.entries(project.trees || {})) trees[treeKey] = normalizeTree(tree, treeKey);
+    const shared = project.shared || {};
+    const resolved = new Map();
+    function resolveSection(section) {
+      const registry = section.classTalent ? 'classes' : section.heroTalent ? 'heroes' : null;
+      if (!registry) return normalizeSection(section);
+      const key = section.classTalent || section.heroTalent;
+      const cacheKey = `${registry}/${key}`;
+      if (!shared[registry]?.[key]) throw new Error(`Missing shared talent section: ${cacheKey}`);
+      if (!resolved.has(cacheKey)) resolved.set(cacheKey, normalizeSection(shared[registry][key]));
+      return resolved.get(cacheKey);
+    }
+    for (const [treeKey, tree] of Object.entries(project.trees || {})) {
+      trees[treeKey] = normalizeTree(tree, treeKey);
+      const sections = Array.isArray(tree.sections) ? tree.sections : Object.values(tree.sections || {});
+      trees[treeKey].sections = sections.map(resolveSection);
+    }
+    // A class section is one editable object, not a separate copy in every spec.
+    const classes = new Map();
+    for (const tree of Object.values(trees)) {
+      tree.sections = tree.sections.map(section => {
+        if (section.type !== 'class') return section;
+        const key = `${tree.class}/${section.id}`;
+        if (!classes.has(key)) classes.set(key, section);
+        else if (JSON.stringify(classes.get(key)) !== JSON.stringify(section)) {
+          throw new Error(`Conflicting class talents for ${key}. Reconcile them before importing.`);
+        }
+        return classes.get(key);
+      });
+    }
+    for (const tree of Object.values(trees)) {
+      for (const [key, section] of classes) {
+        if (key.startsWith(`${tree.class}/`) && !tree.sections.some(item => item.id === section.id)) {
+          tree.sections.unshift(section);
+        }
+      }
+    }
     return {
       format: TALENT_PROJECT_FORMAT,
       version: TALENT_PROJECT_VERSION,
@@ -226,13 +261,13 @@ export function normalizeProject(project) {
   }
 
   if (project.format === TALENT_PROJECT_FORMAT && project.version === 1) {
-    return projectFromLegacy(
+    return normalizeProject(projectFromLegacy(
       { content: project.content || {}, trees: project.trees || {} },
       project.connections || {}
-    );
+    ));
   }
 
-  if (project.trees) return projectFromLegacy(project, project.connections || {});
+  if (project.trees) return normalizeProject(projectFromLegacy(project, project.connections || {}));
 
   throw new Error('Unsupported talent project format.');
 }

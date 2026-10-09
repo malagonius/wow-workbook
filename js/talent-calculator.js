@@ -1,7 +1,7 @@
-import { normalizeProject, nodeLabel } from './talent-model.js';
+import { nodeLabel } from './talent-model.js';
+import { loadTalentProject } from './talent-config.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 
-const PROJECT_URL='config/talent-project.json';
 const ABILITIES_URL='config/abilities.json';
 let project=null,abilities=null;
 const ranks=new Map(),choices=new Map();
@@ -9,10 +9,9 @@ const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=
 
 async function loadConfig(){
   try{
-    const [projectResponse,abilitiesResponse]=await Promise.all([fetch(PROJECT_URL),fetch(ABILITIES_URL)]);
-    if(!projectResponse.ok)throw Error('Canonical talent project unavailable ('+projectResponse.status+')');
+    const [loadedProject,abilitiesResponse]=await Promise.all([loadTalentProject(),fetch(ABILITIES_URL)]);
     if(!abilitiesResponse.ok)throw Error('Ability configuration could not be loaded');
-    project=normalizeProject(await projectResponse.json());
+    project=loadedProject;
     abilities=await abilitiesResponse.json();
     const classes=Object.keys(project.content||{});
     classSelect.innerHTML='';
@@ -121,6 +120,6 @@ function openAbilities(){
   }).join(''):'<div class="spell"><p>No abilities are configured for this specialization yet.</p></div>';
   $('spellModal').classList.add('open');$('spellModal').setAttribute('aria-hidden','false');
 }
-function escapeHtml(value){return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
+function escapeHtml(value){return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}
 function closeModal(){$('spellModal').classList.remove('open');$('spellModal').setAttribute('aria-hidden','true')}
 $('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('abilitiesBtn').addEventListener('click',openAbilities);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();

@@ -1,0 +1,221 @@
+{
+  "class": "Druid",
+  "spec": "Balance",
+  "description": "Druid / Balance: CLASS-TREE REFERENCE ONLY. Original paraphrases inspired by remembered Dragonflight / The War Within hybrid design; not verified Midnight data. Numbers, ranks, placement and sparse connections are illustrative. Specialization, Apex and Hero trees are intentionally not populated. Uses the workbook's 34-point budget, not a claim about retail point totals. All Druid references share identical class nodes.",
+  "sections": [
+    {
+      "classTalent": "Druid/class"
+    }
+  ],
+  "designNotes": {
+    "status": "Synthetic memory-inspired class-only brainstorming baseline; not an official tree or a balance simulation.",
+    "baselineAssumptions": {
+      "alreadyKnown": [
+        "Wrath",
+        "Moonfire",
+        "Rejuvenation",
+        "Regrowth",
+        "Barkskin",
+        "Bear Form",
+        "Cat Form",
+        "Travel Form",
+        "Growl",
+        "Rebirth",
+        "Revive",
+        "Mark of the Wild",
+        "basic Cat builder and finisher"
+      ],
+      "spellNotes": "For this design model only. A form unlock may expose a basic toolkit; the game does not universally grant every listed spell identically at every level. Rebirth is the combat resurrection, Revive the out-of-combat resurrection. Mark of the Wild is a group buff, not a talent purchase counted below.",
+      "excludedSpecializationTools": [
+        "Ironbark (Restoration external)",
+        "Survival Instincts (Feral/Guardian defensive)",
+        "Tranquility (Restoration cooldown)",
+        "major Balance/Feral/Guardian/Restoration rotational packages"
+      ],
+      "allocationCaveat": "Moonkin Form, Swiftmend, Starsurge, Wild Growth and other borrowed-role access have moved or changed between expansions. This synthetic class tree uses remembered hybrid design, not a claim about current Midnight placement. Wild Growth is discussed as an optional alternative, not included as a node here."
+    },
+    "graphRules": "Sparse forward prerequisite links only; all other nodes are roots. This is not a reconstructed retail path graph. No 8/20-point gates or level requirements are asserted. There are no encoded choice nodes, auto-granted ranks or import strings for the game.",
+    "tuningRules": "Slash-separated values are Rank 1 / Rank 2. Listed values are provisional examples. Cooldown reductions are additive except where explicitly described otherwise. No cooldown may fall below 1 second. Effective healing excludes overhealing. Baseline cooldown, resource and proc interactions need testing before implementation.",
+    "categoriesByNodeId": {
+      "class-0-0": [
+        "form",
+        "off-role"
+      ],
+      "class-0-2": [
+        "personal-defense",
+        "healing",
+        "off-role"
+      ],
+      "class-0-4": [
+        "healing",
+        "off-role"
+      ],
+      "class-0-6": [
+        "utility",
+        "dispel"
+      ],
+      "class-1-0": [
+        "damage-button",
+        "off-role"
+      ],
+      "class-1-2": [
+        "personal-defense"
+      ],
+      "class-1-4": [
+        "healing"
+      ],
+      "class-1-6": [
+        "healing"
+      ],
+      "class-2-0": [
+        "damage-button",
+        "off-role"
+      ],
+      "class-2-2": [
+        "utility",
+        "mobility"
+      ],
+      "class-2-4": [
+        "healing"
+      ],
+      "class-2-6": [
+        "personal-defense",
+        "healing"
+      ],
+      "class-3-0": [
+        "damage",
+        "off-role"
+      ],
+      "class-3-2": [
+        "damage",
+        "off-role"
+      ],
+      "class-3-4": [
+        "healing",
+        "off-role"
+      ],
+      "class-3-6": [
+        "personal-defense",
+        "healing"
+      ],
+      "class-4-0": [
+        "damage-button",
+        "off-role"
+      ],
+      "class-4-2": [
+        "utility",
+        "control",
+        "interrupt"
+      ],
+      "class-4-4": [
+        "utility",
+        "dispel"
+      ],
+      "class-4-6": [
+        "utility",
+        "control"
+      ],
+      "class-5-0": [
+        "damage-button",
+        "off-role"
+      ],
+      "class-5-2": [
+        "personal-defense",
+        "healing"
+      ],
+      "class-5-4": [
+        "personal-defense",
+        "healing"
+      ],
+      "class-5-6": [
+        "utility",
+        "dispel"
+      ],
+      "class-6-0": [
+        "damage-button",
+        "off-role"
+      ],
+      "class-6-2": [
+        "utility",
+        "mobility",
+        "group-utility"
+      ],
+      "class-6-4": [
+        "utility",
+        "control"
+      ],
+      "class-6-6": [
+        "utility",
+        "control"
+      ],
+      "class-7-0": [
+        "damage-button",
+        "off-role"
+      ],
+      "class-7-2": [
+        "utility",
+        "mobility",
+        "group-utility"
+      ],
+      "class-7-4": [
+        "utility",
+        "control"
+      ],
+      "class-7-6": [
+        "utility",
+        "control"
+      ],
+      "class-8-0": [
+        "damage",
+        "healing",
+        "personal-defense",
+        "off-role"
+      ],
+      "class-8-2": [
+        "personal-defense",
+        "off-role"
+      ],
+      "class-8-4": [
+        "utility",
+        "resource-external"
+      ],
+      "class-8-6": [
+        "utility",
+        "resource-external"
+      ],
+      "class-9-0": [
+        "off-role",
+        "healing",
+        "damage",
+        "personal-defense"
+      ],
+      "class-9-2": [
+        "utility",
+        "control"
+      ],
+      "class-9-4": [
+        "utility",
+        "control"
+      ],
+      "class-9-6": [
+        "healing",
+        "damage",
+        "off-role"
+      ],
+      "class-10-0": [
+        "healing"
+      ],
+      "class-10-2": [
+        "personal-defense"
+      ],
+      "class-10-4": [
+        "utility",
+        "off-role"
+      ],
+      "class-10-6": [
+        "utility",
+        "mobility"
+      ]
+    }
+  }
+}

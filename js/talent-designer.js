@@ -1,12 +1,12 @@
 import {
   cloneProject, createEmptySection, createTree, makeChoice, makeConnection, makeNode,
   isEmptyNode, normalizeProject, sectionColumns, sectionRows, uniqueNodeId, validateSection,
-  NODE_KINDS, SECTION_TYPES, TALENT_PROJECT_FORMAT, TALENT_PROJECT_VERSION
+  NODE_KINDS, SECTION_TYPES
 } from './talent-model.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 import { loadDraft, saveDraft, clearDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
+import { compactProject, fileSlug, loadTalentProject, mergeProject } from './talent-config.js';
 
-const PROJECT_URL = 'config/talent-project.json';
 const HISTORY_LIMIT = 60;
 const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
 
@@ -33,12 +33,7 @@ function currentSection() { return currentTree()?.sections.find(section => secti
 function selectedNode() { return currentSection()?.nodes.find(node => node.id === selectedNodeId) || null; }
 
 function projectPayload() {
-  return cloneProject({
-    format: TALENT_PROJECT_FORMAT,
-    version: TALENT_PROJECT_VERSION,
-    content: project.content,
-    trees: project.trees
-  });
+  return compactProject(project);
 }
 
 function escapeHtml(value = '') {
@@ -481,7 +476,10 @@ function deleteSection() {
   if (!tree || !section) return;
   if (!confirm(`Delete section "${section.title}" and all of its talents?`)) return;
   mutate(() => {
-    tree.sections = tree.sections.filter(item => item !== section);
+    // Shared sections are deleted everywhere they are used.
+    for (const candidate of Object.values(project.trees)) {
+      candidate.sections = candidate.sections.filter(item => item !== section);
+    }
     selectedNodeId = null;
   });
   updateSections();
@@ -542,6 +540,7 @@ function duplicateSpec() {
 
   mutate(() => {
     const copy = cloneProject(tree);
+    copy.sections = tree.sections.map(section => ['class', 'hero'].includes(section.type) ? section : cloneProject(section));
     copy.spec = name;
     project.content[className].push(name);
     project.trees[`${className}/${name}`] = copy;
@@ -611,14 +610,20 @@ function createSpec(className, specName, description = '') {
   const cleanClass = className.trim();
   const cleanSpec = specName.trim();
   if (!cleanClass || !cleanSpec) return;
-  if (project.content[cleanClass]?.includes(cleanSpec) || project.trees[`${cleanClass}/${cleanSpec}`]) {
+  if (project.trees[`${cleanClass}/${cleanSpec}`]) {
     return alert(`Specialization "${cleanSpec}" already exists for ${cleanClass}.`);
   }
 
   mutate(() => {
     project.content[cleanClass] ||= [];
-    project.content[cleanClass].push(cleanSpec);
-    project.trees[`${cleanClass}/${cleanSpec}`] = createTree({ className: cleanClass, specName: cleanSpec, description: description.trim() });
+    if (!project.content[cleanClass].includes(cleanSpec)) project.content[cleanClass].push(cleanSpec);
+    const sibling = Object.values(project.trees).find(tree => tree.class === cleanClass);
+    const tree = createTree({ className: cleanClass, specName: cleanSpec, description: description.trim() });
+    if (sibling) {
+      const shared = sibling.sections.filter(section => section.type === 'class');
+      tree.sections = [...shared, ...tree.sections.filter(section => section.type !== 'class')];
+    }
+    project.trees[`${cleanClass}/${cleanSpec}`] = tree;
   });
   populateSelectors(cleanClass, cleanSpec, 'spec');
   setStatus(`Created ${cleanClass} / ${cleanSpec}.`, 'saved');
@@ -647,13 +652,14 @@ function createContentFromDialog() {
 }
 
 function showJson() {
-  $('json-output').value = JSON.stringify(projectPayload(), null, 2);
+  if (!classSelect.value) return;
+  $('json-output').value = JSON.stringify(compactProject(project, classSelect.value), null, 2);
   $('json-dialog').showModal();
 }
 
 function applyJson() {
   try {
-    const parsed = normalizeProject(JSON.parse($('json-output').value));
+    const parsed = mergeProject(project, JSON.parse($('json-output').value));
     mutate(() => { project = parsed; });
     populateSelectors();
     $('json-dialog').close();
@@ -674,18 +680,18 @@ async function importProject() {
   const file = $('project-file').files[0];
   if (!file) return;
   try {
-    const imported = normalizeProject(await readProjectFile(file));
+    const imported = mergeProject(project, await readProjectFile(file));
     mutate(() => { project = imported; });
     populateSelectors();
     $('project-file').value = '';
-    setStatus('Project imported and saved locally.', 'saved');
+    setStatus('Imported classes updated; other classes preserved. Saved locally.', 'saved');
   } catch (error) { alert(`Import failed: ${error.message}`); }
 }
 
 async function resetDraft() {
   if (!confirm('Discard the local draft and restore the repository data?')) return;
   await clearDraft();
-  project = cloneProject(baselineProject);
+  project = normalizeProject(compactProject(baselineProject));
   selectedNodeId = null;
   undoStack.length = 0;
   redoStack.length = 0;
@@ -694,9 +700,7 @@ async function resetDraft() {
 }
 
 async function loadRepositoryProject() {
-  const response = await fetch(PROJECT_URL);
-  if (!response.ok) throw new Error(`Canonical project unavailable (${response.status})`);
-  return normalizeProject(await response.json());
+  return loadTalentProject();
 }
 
 const TEXT_FIELDS = ['node-name', 'node-description', 'node-icon', 'node-cost', 'node-range', 'node-charges', 'node-cast-time', 'node-cooldown', 'choice-a-name', 'choice-a-description', 'choice-b-name', 'choice-b-description'];
@@ -765,7 +769,7 @@ async function init() {
   $('section-type').innerHTML = SECTION_TYPES.map(type => `<option value="${type}">${type[0].toUpperCase()}${type.slice(1)}</option>`).join('');
 
   baselineProject = await loadRepositoryProject();
-  project = cloneProject(baselineProject);
+  project = normalizeProject(compactProject(baselineProject));
   const draft = await loadDraft();
   if (draft) {
     try {
@@ -798,7 +802,10 @@ async function init() {
   $('show-json').addEventListener('click', showJson);
   $('apply-json').addEventListener('click', applyJson);
   $('copy-json').addEventListener('click', () => navigator.clipboard.writeText($('json-output').value));
-  $('export-project').addEventListener('click', () => downloadProject(projectPayload()));
+  $('export-project').addEventListener('click', () => {
+    if (!classSelect.value) return;
+    downloadProject(compactProject(project, classSelect.value), `${fileSlug(classSelect.value)}-talents.json`);
+  });
   $('import-project').addEventListener('click', () => $('project-file').click());
   $('project-file').addEventListener('change', importProject);
   $('reset-draft').addEventListener('click', resetDraft);

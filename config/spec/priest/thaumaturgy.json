@@ -1,0 +1,836 @@
+{
+  "class": "Priest",
+  "spec": "Thaumaturgy",
+  "description": "Homebrew ranged support Priest: an esoteric scholar of hidden correspondences, true names and spiritual fault lines. Mind Sear: Communion connects you to two chosen allies, sharing your perception of enemy weaknesses rather than increasing allied stats. Mind Flay gathers Insight and sustains Unveil Weakness; Mind Blast spends Insight to exploit it. Offensive vulnerabilities benefit you and your connected allies, not the entire party. Uses the Augmentation baseline's exact class/spec/hero node positions, ranks and connection graph, with Priest utility and original occult mechanics. All values are provisional design numbers, not official WoW talents or tested balance. Apex remains open for later design.",
+  "sections": [
+    {
+      "classTalent": "Priest/class"
+    },
+    {
+      "id": "spec",
+      "title": "Thaumaturgy — Exploit Weakness",
+      "type": "spec",
+      "maxPoints": 34,
+      "columns": 7,
+      "rowCount": 10,
+      "selectableEmpty": true,
+      "nodes": [
+        {
+          "id": "spec-0-3",
+          "name": "Unveil Weakness",
+          "description": "Read the hidden fault lines of an enemy and up to 4 nearest enemies within 8 yards. For 12 seconds they take 6% increased damage from you and your eligible Mind Sear: Communion allies, including their pets. Unlinked players do not benefit. Mind Blast and completed Mind Flay channels extend your active revelation, up to 20 seconds remaining. Duplicate copies do not stack; total vulnerability is capped at 15% per attacker and enemy. Baseline spell: Mind Sear: Communion instantly connects a living party or raid ally for 30 seconds, costs Mana, has 40-yard range and 2 charges with sequential 12-second recharge, and uses the global cooldown. Maximum 2 linked allies; recasting refreshes a link, a third ally replaces the oldest. Beyond 60 yards benefits pause while the timer continues; death or leaving the group ends the link. You always benefit without using a slot. This is a homebrew ally-link reinterpretation of the historical Priest spell, not its retail effect.",
+          "icon": "",
+          "row": 0,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "15 yards; 8-yard radius",
+          "charges": "",
+          "castTime": "1.5 seconds",
+          "cooldown": "30 seconds"
+        },
+        {
+          "id": "spec-1-1",
+          "name": "Mind Blast",
+          "description": "Spend 2 Insight to strike a revealed fault with Shadow damage. Extend your existing Unveil Weakness on the target by 2 seconds, up to its duration cap. Can be cast on an unmarked enemy, but does not apply Unveil Weakness. Two charges, each recharging in 9 seconds.",
+          "icon": "",
+          "row": 1,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana + 2 Insight",
+          "range": "15 yards",
+          "charges": "2",
+          "castTime": "1.5 seconds",
+          "cooldown": "9-second recharge"
+        },
+        {
+          "id": "spec-1-3",
+          "name": "Mind Flay",
+          "description": "Channel Shadow damage into an enemy's consciousness over 3 seconds, dealing 3 ticks before haste and generating 1 Insight per tick. Completing all 3 ticks extends your active Unveil Weakness on that target by 1 second, up to its duration cap. Interrupted channels retain Insight already earned but grant no completion extension.",
+          "icon": "",
+          "row": 1,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana; generates Insight",
+          "range": "15 yards",
+          "charges": "",
+          "castTime": "3-second channel",
+          "cooldown": "None"
+        },
+        {
+          "id": "spec-1-5",
+          "name": "Ward of Correspondence",
+          "description": "Inscribe an ally with 6 ward charges for 30 seconds. A direct hostile hit consumes a charge, reduces that hit's damage by 10%, and deals personal Shadow retaliation to the attacker. At most one charge triggers per second. Retaliation cannot trigger or feed echoes. Only one ally may bear your ward; recasting replaces it.",
+          "icon": "",
+          "row": 1,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "15 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "30 seconds"
+        },
+        {
+          "id": "spec-2-0",
+          "name": "Sudden Gnosis",
+          "description": "Each Mind Flay tick has a 10% / 20% chance to make your next Mind Blast cost no Insight. Lasts 10 seconds and does not stack. It still consumes a charge unless another effect explicitly prevents this.",
+          "icon": "",
+          "row": 2,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-2",
+          "name": "Occult Diagnosis",
+          "description": "Identify a precise weakness in one enemy, increasing damage it takes from you and your eligible Communion allies by an additional 3% for 10 seconds. Independent of Unveil Weakness, with the same contributor eligibility and 15% combined cap. Only one target may bear your Diagnosis; recasting replaces it. Two charges recharge sequentially.",
+          "icon": "",
+          "row": 2,
+          "column": 2,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards",
+          "charges": "2",
+          "castTime": "Instant",
+          "cooldown": "12-second recharge"
+        },
+        {
+          "id": "spec-2-4",
+          "name": "Sympathetic Fracture",
+          "description": "Mind Blast also strikes up to 2 nearby enemies bearing your Unveil Weakness for 20% / 40% of its direct damage. Secondary hits extend their existing revelation by 1 second but generate no additional cleaves or echoes.",
+          "icon": "",
+          "row": 2,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-6",
+          "name": "Seal of Preservation",
+          "description": "Applying Ward of Correspondence grants its bearer an absorb equal to 10% of your maximum health for 8 seconds. Reapplications replace rather than stack this absorb. This node also grants the base Ward ability if its node is not selected.",
+          "icon": "",
+          "row": 2,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-3-1",
+          "name": "Chamber of Insight",
+          "description": "Increase your maximum Insight from 6 to 8. Mind Flay remains the reliable source of Insight; no Insanity or Voidform cycle is used.",
+          "icon": "",
+          "row": 3,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-3-3",
+          "name": "Grand Conjunction",
+          "description": "Draw a great sigil beneath an enemy and up to 4 nearest enemies within 8 yards for 10 seconds. They take an additional 2% damage from you and your eligible Communion allies. Record 10% of those contributors' direct damage before Thaumaturgy bonuses, capped at 300% of your spell power per enemy. Eligibility is checked on each hit; switching or losing a link changes future contributions without erasing stored damage. Only the strongest eligible Conjunction records each hit; equal copies use the earliest application. At expiration each sigil releases its stored amount once as Shadow damage, without further vulnerability amplification. Echoes, periodic damage and retaliation never feed it.",
+          "icon": "",
+          "row": 3,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards; 8-yard radius",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "2 minutes"
+        },
+        {
+          "id": "spec-3-5",
+          "name": "Self-Renewing Script",
+          "description": "A completed Mind Flay channel restores 1 charge to your active Ward of Correspondence, up to its original 6-charge limit. Does not revive an expired or depleted ward. This node also grants the base Ward ability if its node is not selected.",
+          "icon": "",
+          "row": 3,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-0",
+          "name": "Accumulated Understanding",
+          "description": "Casting Mind Blast reduces Unveil Weakness's remaining cooldown by 0.5 / 1 second. Echoes and secondary hits do not trigger this reduction.",
+          "icon": "",
+          "row": 4,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-2",
+          "name": "Enduring Communion",
+          "description": "Increase Mind Sear: Communion's base link duration from 30 to 40 seconds and its maximum remaining duration after extensions from 45 to 55 seconds. Existing links gain no time immediately when this talent is selected. Occult Diagnosis grants 1 Insight when applied. Also grants the base Diagnosis ability if its node is not selected; selecting both does not duplicate it.",
+          "icon": "",
+          "row": 4,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-3",
+          "name": "Protective Geometry",
+          "description": "Enemies bearing your Grand Conjunction deal 5% less damage to your party while the sigil lasts. Only the strongest copy of this reduction applies.",
+          "icon": "",
+          "row": 4,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-4",
+          "name": "Disquieting Truth",
+          "description": "Completing Mind Flay on a non-boss enemy interrupts its current cast. Can occur once every 20 seconds per enemy. Bosses are not interrupted by this talent.",
+          "icon": "",
+          "row": 4,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-6",
+          "name": "Reproach of the Seal",
+          "description": "Increase Ward of Correspondence's retaliation damage by 15% / 30%. This retaliation remains personal damage, not an allied stat buff, and cannot feed delayed effects.",
+          "icon": "",
+          "row": 4,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-5-1",
+          "name": "Hammer of the Hidden Name",
+          "description": "Mind Blast deals 15% more direct damage to enemies bearing your Unveil Weakness. This personal modifier is not shared through Communion and does not strengthen the enemy vulnerability itself.",
+          "icon": "",
+          "row": 5,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-5-3",
+          "name": "Interwoven Axioms",
+          "description": "Reduce the base cooldowns of Unveil Weakness, Ward of Correspondence and Grand Conjunction by 10%. Does not affect Mind Blast or Occult Diagnosis recharge times.",
+          "icon": "",
+          "row": 5,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-5-5",
+          "name": "Seamless Communion",
+          "description": "Reduce Mind Sear: Communion's charge recharge time from 12 to 9 seconds. Applying or refreshing a link reduces that ally's threat generation by 50% for 8 seconds, refreshing rather than stacking. Does not remove existing threat, increase the two-ally limit, or extend any enemy mark.",
+          "icon": "",
+          "row": 5,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-0",
+          "name": "Deep Reading",
+          "description": "Each completed Mind Flay channel on a target bearing your Unveil Weakness increases your next Mind Blast's direct damage against that target by 10%, stacking up to 3 times for 10 seconds. Mind Blast consumes all stacks. Switching targets does not transfer this reading.",
+          "icon": "",
+          "row": 6,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-2",
+          "name": "Law of Correspondence",
+          "description": "Direct hits from you and your currently eligible Communion allies against your Occult Diagnosis have a 10% chance to produce a Shadow echo equal to 15% of that hit's damage before Thaumaturgy bonuses. Only the strongest eligible Diagnosis may trigger this; equal copies use the earliest application. Maximum one echo per second per diagnosed enemy across all Thaumaturges. Unlinked players cannot trigger your echo. Echoes cannot trigger or feed echoes and are attributed to the diagnosing Priest.",
+          "icon": "",
+          "row": 6,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-4",
+          "name": "Inscription of Frailty",
+          "description": "Your Shadow Word: Pain increases damage its target takes from you and your eligible Communion allies by an additional 1% while your Unveil Weakness is also active on it. This bonus ends when either effect ends and follows the combined 15% cap. Unlinked players do not benefit.",
+          "icon": "",
+          "row": 6,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-6",
+          "name": "Doctrine of Diminishment",
+          "description": "Enemies bearing your Unveil Weakness deal 3% less damage to your party. Only the strongest copy applies. This reduction adds to Protective Geometry when both are active, rather than increasing party stats.",
+          "icon": "",
+          "row": 6,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-7-1",
+          "name": "Stillness of the Adept",
+          "description": "Channel for 3 seconds, reducing Unveil Weakness, Ward of Correspondence and Grand Conjunction's remaining cooldowns by 2 seconds each per completed tick. Three ticks before haste. Generates no Insight, extends no weaknesses and does not reduce its own cooldown.",
+          "icon": "",
+          "row": 7,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "Self",
+          "charges": "",
+          "castTime": "3-second channel",
+          "cooldown": "90 seconds"
+        },
+        {
+          "id": "spec-7-3",
+          "name": "Rupture of the Sacred Pattern",
+          "description": "Casting Grand Conjunction also deals one Mind Blast-strength Shadow hit to each sigil target without spending Insight or consuming Mind Blast charges. These ritual hits do not count as Mind Blast casts, trigger echoes, or feed the sigil's stored damage.",
+          "icon": "",
+          "row": 7,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-7-5",
+          "name": "Mercy Through Communion",
+          "description": "A direct Flash Heal or Benediction of the Inner Light cast on an ally bearing your active Communion extends that ally's existing link by 2 seconds, up to its remaining-duration cap, and grants an 8-second absorb equal to 5% of your maximum health. Can trigger once every 3 seconds across all allies. Reapplications replace the absorb. Secondary, periodic and triggered healing cannot trigger this talent. Expired links are not recreated; enemy marks are not extended.",
+          "icon": "",
+          "row": 7,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-0",
+          "name": "A Moment Outside the World",
+          "description": "Each Stillness of the Adept tick reduces its affected cooldowns by an additional 1 second, for a total of 9 seconds across a completed channel.",
+          "icon": "",
+          "row": 8,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-2",
+          "name": "Inevitable Conclusion",
+          "description": "After Grand Conjunction, your next 3 Mind Blasts within 12 seconds cost 1 less Insight. This reduction cannot make a spell refund Insight; free-cast effects take precedence.",
+          "icon": "",
+          "row": 8,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-4",
+          "name": "As Above, So Below",
+          "description": "Applying Ward of Correspondence increases your active Doctrine of Diminishment reduction by an additional 1% / 2% for 8 seconds. If Doctrine is not selected, this node grants its base 3% reduction on Unveil Weakness targets before applying the temporary bonus. Duplicate copies never stack.",
+          "icon": "",
+          "row": 8,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-6",
+          "name": "Restorative Mysteries",
+          "description": "Increase Flash Heal and Benediction of the Inner Light healing by 5% / 10%.",
+          "icon": "",
+          "row": 8,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-9-1",
+          "name": "Fragments of the Hidden Name",
+          "description": "When a completed Mind Flay channel extends Unveil Weakness, gain a Fragment, up to 3. Your next Mind Blast consumes all Fragments and extends your active Unveil Weakness on its target by an additional 1 second per Fragment. Fragments last 15 seconds and cannot revive expired revelations.",
+          "icon": "",
+          "row": 9,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-9-3",
+          "name": "The Great Work",
+          "description": "While at least one enemy bears your Unveil Weakness, you gain 8% haste. Multiple marked enemies do not stack the bonus. This is personal casting speed, not a stat increase granted to allies.",
+          "icon": "",
+          "row": 9,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-9-5",
+          "name": "Consolation of the Veil",
+          "description": "Your Flash Heal and Benediction of the Inner Light leave a 6-second healing effect equal to 20% of their effective primary healing. On the same ally, reapplication replaces this effect instead of stacking it. Periodic healing cannot trigger another Consolation.",
+          "icon": "",
+          "row": 9,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-3",
+          "name": "Esoteric Combat",
+          "description": "Mind Flay and Mind Sear summon an unseen reflection of your consciousness to channel the spell in your stead. While your reflection channels, you can move and cast other spells freely.",
+          "icon": "",
+          "row": 2,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-0-0",
+          "name": "Mastery: Exploit Weakness",
+          "description": "Your damaging spells expose hidden weaknesses in their target, building an Exploitation reserve equal to [Mastery %] of the damage dealt.\n\nWhenever you or an eligible Mind Sear: Communion ally damages that target, the reserve inflicts additional damage equal to the triggering hit, up to the amount remaining. This additional damage is attributed to you and consumes an equal amount of reserve.\n\nAdditional applications add to the reserve. Mastery-generated damage, echoes, stored-damage detonations and retaliation cannot build or trigger the reserve.",
+          "icon": "",
+          "row": 0,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        }
+      ],
+      "connections": [
+        {
+          "from": "spec-0-3",
+          "to": "spec-1-1"
+        },
+        {
+          "from": "spec-0-3",
+          "to": "spec-1-3"
+        },
+        {
+          "from": "spec-0-3",
+          "to": "spec-1-5"
+        },
+        {
+          "from": "spec-1-1",
+          "to": "spec-2-0"
+        },
+        {
+          "from": "spec-1-1",
+          "to": "spec-2-2"
+        },
+        {
+          "from": "spec-1-3",
+          "to": "spec-2-4"
+        },
+        {
+          "from": "spec-1-5",
+          "to": "spec-2-6"
+        },
+        {
+          "from": "spec-2-0",
+          "to": "spec-3-1"
+        },
+        {
+          "from": "spec-2-2",
+          "to": "spec-3-3"
+        },
+        {
+          "from": "spec-2-4",
+          "to": "spec-3-3"
+        },
+        {
+          "from": "spec-2-6",
+          "to": "spec-3-5"
+        },
+        {
+          "from": "spec-3-1",
+          "to": "spec-4-0"
+        },
+        {
+          "from": "spec-3-1",
+          "to": "spec-4-2"
+        },
+        {
+          "from": "spec-3-3",
+          "to": "spec-4-3"
+        },
+        {
+          "from": "spec-3-3",
+          "to": "spec-4-4"
+        },
+        {
+          "from": "spec-3-5",
+          "to": "spec-4-6"
+        },
+        {
+          "from": "spec-4-0",
+          "to": "spec-5-1"
+        },
+        {
+          "from": "spec-4-2",
+          "to": "spec-5-3"
+        },
+        {
+          "from": "spec-4-3",
+          "to": "spec-5-3"
+        },
+        {
+          "from": "spec-4-4",
+          "to": "spec-5-5"
+        },
+        {
+          "from": "spec-4-6",
+          "to": "spec-5-5"
+        },
+        {
+          "from": "spec-5-1",
+          "to": "spec-6-0"
+        },
+        {
+          "from": "spec-5-1",
+          "to": "spec-6-2"
+        },
+        {
+          "from": "spec-5-3",
+          "to": "spec-6-4"
+        },
+        {
+          "from": "spec-5-5",
+          "to": "spec-6-6"
+        },
+        {
+          "from": "spec-6-0",
+          "to": "spec-7-1"
+        },
+        {
+          "from": "spec-6-2",
+          "to": "spec-7-1"
+        },
+        {
+          "from": "spec-6-4",
+          "to": "spec-7-3"
+        },
+        {
+          "from": "spec-6-6",
+          "to": "spec-7-5"
+        },
+        {
+          "from": "spec-7-1",
+          "to": "spec-8-0"
+        },
+        {
+          "from": "spec-7-3",
+          "to": "spec-8-2"
+        },
+        {
+          "from": "spec-7-5",
+          "to": "spec-8-4"
+        },
+        {
+          "from": "spec-7-5",
+          "to": "spec-8-6"
+        },
+        {
+          "from": "spec-8-0",
+          "to": "spec-9-1"
+        },
+        {
+          "from": "spec-8-2",
+          "to": "spec-9-3"
+        },
+        {
+          "from": "spec-8-4",
+          "to": "spec-9-3"
+        },
+        {
+          "from": "spec-8-6",
+          "to": "spec-9-5"
+        },
+        {
+          "from": "spec-1-3",
+          "to": "spec-2-3"
+        },
+        {
+          "from": "spec-8-4",
+          "to": "spec-9-5"
+        }
+      ]
+    },
+    {
+      "id": "apex",
+      "title": "Apex — Thaumaturgy (open design)",
+      "type": "apex",
+      "maxPoints": 4,
+      "columns": 7,
+      "rowCount": 3,
+      "selectableEmpty": true,
+      "nodes": [
+        {
+          "id": "apex-0-3",
+          "name": "Exploiter",
+          "description": "The target of your Unvail Weakness gain 20% more Exploit Weakness ",
+          "icon": "",
+          "row": 0,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "apex-1-3",
+          "name": "Aura of Decay",
+          "description": "Every 5 seconds, enemies within 15 feet of you gain an Exploitation reserve equal to 2% / 4% of their current health, up to 100% / 200% of your spell power per enemy per pulse.",
+          "icon": "",
+          "row": 1,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "apex-2-3",
+          "name": "Crusing Soul",
+          "description": "If you have 5 or more Insight, consume 5 insight to grant the target (5000%sp) exploit weakness.\n\nCan trigger 1 every minute",
+          "icon": "",
+          "row": 2,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        }
+      ],
+      "connections": [
+        {
+          "from": "apex-0-3",
+          "to": "apex-1-3"
+        },
+        {
+          "from": "apex-1-3",
+          "to": "apex-2-3"
+        }
+      ]
+    },
+    {
+      "heroTalent": "Priest/hero"
+    }
+  ],
+  "designNotes": {
+    "status": "First playable-concept draft; talent descriptions only, not a combat simulation or implemented WoW specialization.",
+    "identity": "Hermetic rites, sacred geometry, divination and knowledge of hidden laws. Neither a Voidform spec nor an allied-stat buffer. Core direct damage is Shadow; restorative and warding rites are Holy.",
+    "baselineSpells": "Shadow Word: Pain, Flash Heal, Fade, Smite and Mind Sear: Communion are assumed to be known before talent selection. Communion is a baseline ability, not a talent point purchase; its rules are also displayed in Unveil Weakness's tooltip. Mind Flay and Mind Blast are unlocked by their specialization nodes. Mind Sear is a historical Priest spell name; its ally-link behavior here is an original homebrew reinterpretation, not its retail effect.",
+    "communionAbility": {
+      "name": "Mind Sear: Communion",
+      "description": "Sear a fragment of your consciousness into another mind, sharing the hidden weaknesses you perceive. Connect a living friendly player in your party or raid for 30 seconds. Maintain at most two distinct allies; you are always eligible without occupying a link slot. Recasting on an existing ally refreshes their link; selecting a third replaces the oldest applied or refreshed link. Instant, Mana cost, 40-yard application range, two charges with sequential 12-second recharge, on the global cooldown. No channel is maintained and this spell deals no damage. Links do not share personal haste, personal damage modifiers, Insight or spell procs.",
+      "cost": "Mana",
+      "range": "40 yards",
+      "charges": "2",
+      "castTime": "Instant",
+      "cooldown": "12-second recharge",
+      "duration": "30 seconds",
+      "maxLinkedAllies": 2
+    },
+    "communionRules": "An ally's link timer continues while more than 60 yards from you, but its offensive benefits are suspended until they return. Death of either participant ends that link; leaving your party or raid ends it. Pets and guardians inherit their owner's eligibility and occupy no link slots. Eligibility is checked when each hit occurs, so changing links affects existing vulnerabilities immediately; changing links never creates, refreshes or extends an enemy mark. Link extensions affect only your existing unexpired links, never create or revive them, and cap remaining duration at the talented base duration plus 15 seconds. Reapplication resets duration to that base. Losing a link does not erase damage already recorded by Grand Conjunction.",
+    "resource": "Mana pays for spells. Insight is a separate resource, initially capped at 6. Mind Flay channels for 3 seconds with 3 ticks before haste, generating 1 Insight per tick. Mind Blast costs 2 Insight, has a 1.5-second cast and 2 charges with a 9-second recharge. Haste accelerates Mind Flay's channel; it does not add extra ticks. Insight cannot exceed its current cap.",
+    "supportScope": "Offensive support means you and up to two currently eligible Mind Sear: Communion allies, including their pets and guardians. Allies may be chosen across raid subgroups; unlinked players receive no offensive benefit from your marks. Environmental damage is excluded. This shares access to enemy vulnerability, not a second damage-done buff. Defensive or utility descriptions that say party continue to mean your current subgroup of up to five players and do not require Communion.",
+    "weaknessRules": "Unveil Weakness lasts 12 seconds, has a 30-second cooldown, affects at most 5 enemies including its primary target, and increases damage taken from eligible Communion contributors by 6%. Select nearest enemies within 8 yards of the primary target. Extension effects only extend your existing active Unveil Weakness; they never create it or revive an expired debuff. Remaining duration is capped at 20 seconds unless a talent explicitly changes this cap. A completed Mind Flay channel extends its target by 1 second; Mind Blast extends its target by 2 seconds.",
+    "stackingAndLimits": "For each attacker-enemy pair, different Thaumaturgy vulnerability families add together, capped at 15% total. Each named family uses only its strongest active application from a Priest for whom that attacker is currently eligible; ineligible applications cannot suppress an eligible one. Equal-strength ties use the earliest application. Effects enhancing a named vulnerability remain in that same family. Bonuses apply once and never multiply one another. Only the winning eligible Grand Conjunction records a hit; only the winning eligible Occult Diagnosis may trigger Law of Correspondence. This prevents overlapping Priests from recording or echoing the same hit multiple times.",
+    "echoRules": "Recorded damage is the eligible hit's amount before Thaumaturgy vulnerability bonuses. Echoes, stored-damage detonations and retaliation from Thaumaturgy never trigger, feed or record one another. Each delayed effect resolves once; it is cancelled if its target is no longer valid. Personal echoes can benefit from vulnerability once, but cannot create another echo.",
+    "rankRules": "Where a node has two ranks, slash-separated values give Rank 1 / Rank 2. Listed cooldown reductions stack additively and cannot reduce a cooldown below 1 second. Percentages and timings are initial tuning proposals.",
+    "augmentationMapping": "Ebon Might -> Unveil Weakness; Eruption -> Mind Blast; Upheaval -> Mind Flay; Blistering Scales -> Ward of Correspondence; Prescience -> Occult Diagnosis; Breath of Eons -> Grand Conjunction; Time Skip -> Stillness of the Adept. Chronowarden is reimagined as the original Akashic Seer hero path. The Evoker tree is unchanged.",
+    "openDecisions": "Selected-contributor support is now drafted through baseline Mind Sear: Communion. Link duration, range, recharge, vulnerability percentages, spell coefficients and resource tuning remain provisional. Whether to replace the adapted class tree with a faithful retail Priest baseline, Apex identity, and a second hero path remain open."
+  }
+}

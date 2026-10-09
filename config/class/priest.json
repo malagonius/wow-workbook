@@ -1,0 +1,794 @@
+{
+  "class": "Priest",
+  "sections": {
+    "Priest/class": {
+      "id": "class",
+      "title": "Priest — Esoteric Foundations",
+      "type": "class",
+      "maxPoints": 34,
+      "columns": 7,
+      "rowCount": 10,
+      "selectableEmpty": true,
+      "nodes": [
+        {
+          "id": "class-0-1",
+          "name": "Psychic Scream",
+          "description": "Release a psychic cry that causes up to 5 nearby enemies to flee for 8 seconds. Damage may break the effect. Revealing a weakness does not require the enemy to be susceptible to fear.",
+          "icon": "",
+          "row": 0,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "8 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "1 minute"
+        },
+        {
+          "id": "class-0-3",
+          "name": "Power Word: Shield",
+          "description": "Place a protective word upon an ally, absorbing damage for 15 seconds. A familiar Priest rite, not an increase to the ally's offensive stats.",
+          "icon": "",
+          "row": 0,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "6 seconds"
+        },
+        {
+          "id": "class-0-5",
+          "name": "Purify",
+          "description": "Remove harmful Magic and Disease effects from a friendly target. This support-spec cleanse is a homebrew allocation, not a claim about retail Priest access.",
+          "icon": "",
+          "row": 0,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "8 seconds"
+        },
+        {
+          "id": "class-1-0",
+          "name": "Ritual Cadence",
+          "description": "Mind Flay's channel time is reduced by 10%, retaining all 3 ticks and their Insight generation. Understanding grows through repetition.",
+          "icon": "",
+          "row": 1,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-2",
+          "name": "Lingering Suggestion",
+          "description": "Mind Flay slows its target by 30% during the channel and for 2 seconds afterward. Bosses retain their normal immunity to movement impairment.",
+          "icon": "",
+          "row": 1,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-3",
+          "name": "Layered Wards",
+          "description": "Power Word: Shield gains a second charge. Its absorb effects do not stack on the same target.",
+          "icon": "",
+          "row": 1,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-4",
+          "name": "Benediction of the Inner Light",
+          "description": "Speak a restorative formula that immediately heals a friendly target. The rite mends the vessel without changing its offensive potential.",
+          "icon": "",
+          "row": 1,
+          "column": 4,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "20 seconds"
+        },
+        {
+          "id": "class-1-6",
+          "name": "Illuminated Verses",
+          "description": "Increase Smite damage and Flash Heal healing by 5% / 10%.",
+          "icon": "",
+          "row": 1,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-2-1",
+          "name": "Silence",
+          "description": "Interrupt the target and prevent spellcasting for 4 seconds. Against silence-immune enemies, interrupt their current cast instead.",
+          "icon": "",
+          "row": 2,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "30 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "45 seconds"
+        },
+        {
+          "id": "class-2-3",
+          "name": "Veiled Steps",
+          "description": "Fade increases your movement speed by 30% for 5 seconds. The world loosens its hold on your passing.",
+          "icon": "",
+          "row": 2,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-2-5",
+          "name": "Doctrine of Exchange",
+          "description": "Effective healing you deal accumulates a reserve equal to 10% of that healing, capped at 20% of your maximum health. Your next Mind Blast consumes the reserve as additional personal damage. This reserve cannot record damage or echoes.",
+          "icon": "",
+          "row": 2,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-0",
+          "name": "Litany of Unmaking",
+          "description": "Recite a disquieting litany in a cone. Up to 5 enemies become susceptible to 20% longer crowd-control effects for 10 seconds. Does not bypass immunities or increase damage taken.",
+          "icon": "",
+          "row": 3,
+          "column": 0,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "15-yard cone",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "45 seconds"
+        },
+        {
+          "id": "class-3-2",
+          "name": "Exorcism of Affliction",
+          "description": "Remove one Curse and one Poison effect from an ally. An esoteric supplement to Purify, not a universal cleanse.",
+          "icon": "",
+          "row": 3,
+          "column": 2,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "30 seconds"
+        },
+        {
+          "id": "class-3-3",
+          "name": "Vessel of the Mystery",
+          "description": "Increase your maximum health by 3% / 6%.",
+          "icon": "",
+          "row": 3,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-4",
+          "name": "Apotropaic Inscriptions",
+          "description": "Reduce magical damage taken by 2% / 4%. Protective signs turn hostile workings aside.",
+          "icon": "",
+          "row": 3,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-6",
+          "name": "Shared Benediction",
+          "description": "Benediction of the Inner Light also heals up to 2 injured party allies within 10 yards of its target for 25% of its healing each.",
+          "icon": "",
+          "row": 3,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-4-1",
+          "name": "Sever the Frenzy",
+          "description": "Litany of Unmaking removes one Enrage effect from each affected enemy. Each successful removal reduces its remaining cooldown by 3 seconds, up to 15 seconds per cast.",
+          "icon": "",
+          "row": 4,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-4-3",
+          "name": "Rite of Reconstitution",
+          "description": "For 8 seconds, record 30% of damage you actually take, up to 30% of your maximum health. Restore that amount over the following 6 seconds. The rite cannot prevent a fatal blow.",
+          "icon": "",
+          "row": 4,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "Self",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "90 seconds"
+        },
+        {
+          "id": "class-4-5",
+          "name": "Leap of Faith",
+          "description": "Pull a friendly party or raid member to your location. The familiar Priest rescue replaces the Evoker's flight-based rescue.",
+          "icon": "",
+          "row": 4,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "40 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "90 seconds"
+        },
+        {
+          "id": "class-5-0",
+          "name": "Dreadful Revelation",
+          "description": "Litany of Unmaking briefly disorients affected non-boss enemies for 2 seconds. Damage breaks this disorient.",
+          "icon": "",
+          "row": 5,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-2",
+          "name": "Unbroken Procession",
+          "description": "Increase the duration of Veiled Steps by 1 / 2 seconds.",
+          "icon": "",
+          "row": 5,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-3",
+          "name": "Immediate Recollection",
+          "description": "Rite of Reconstitution restores its recorded damage continuously during its active window instead of waiting for that window to end. Its total healing limit remains unchanged.",
+          "icon": "",
+          "row": 5,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-4",
+          "name": "Twin Seals",
+          "description": "Leap of Faith grants you and its target an absorb equal to 10% of your respective maximum health for 6 seconds.",
+          "icon": "",
+          "row": 5,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-6",
+          "name": "Physician of the Soul",
+          "description": "Healing another target with Benediction of the Inner Light also heals you for 30% of its effective primary healing. This self-healing cannot trigger another Benediction.",
+          "icon": "",
+          "row": 5,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-6-1",
+          "name": "Contagious Revelation",
+          "description": "After a completed Mind Flay channel, your next Smite also strikes up to 2 nearby enemies for 40% damage each. This bonus is consumed by one cast and does not stack.",
+          "icon": "",
+          "row": 6,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-6-3",
+          "name": "Passage Beyond Notice",
+          "description": "Fade gains a second charge. Movement and defensive effects of consecutive Fades refresh rather than stack.",
+          "icon": "",
+          "row": 6,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-6-5",
+          "name": "Compassionate Clarity",
+          "description": "Flash Heal and Benediction of the Inner Light make your next Smite or Mind Blast cast 25% faster. Lasts 10 seconds and does not stack.",
+          "icon": "",
+          "row": 6,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-0",
+          "name": "Enduring Inscription",
+          "description": "Increase Shadow Word: Pain's duration by 3 / 6 seconds without increasing its tick rate.",
+          "icon": "",
+          "row": 7,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-2",
+          "name": "Serene Bearing",
+          "description": "While above 80% health, your movement speed is increased by 10%.",
+          "icon": "",
+          "row": 7,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-4",
+          "name": "Dispel Magic",
+          "description": "Remove one beneficial Magic effect from an enemy. Stripping a protection reveals what lies beneath it.",
+          "icon": "",
+          "row": 7,
+          "column": 4,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "30 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "None"
+        },
+        {
+          "id": "class-7-6",
+          "name": "Procession of the Unseen",
+          "description": "For 8 seconds, party allies within 30 yards ignore movement slows and may move through hostile units. Does not grant immunity to roots, stuns or other loss of control, and does not increase stats.",
+          "icon": "",
+          "row": 7,
+          "column": 6,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "30 yards",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "2 minutes"
+        },
+        {
+          "id": "class-8-1",
+          "name": "Hermetic Focus",
+          "description": "Your next Mind Blast within 10 seconds is instant, costs no Insight and consumes no charge. It still pays its Mana cost and still extends an active Unveil Weakness normally.",
+          "icon": "",
+          "row": 8,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "None",
+          "range": "Self",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "1 minutes"
+        },
+        {
+          "id": "class-8-3",
+          "name": "Circle of Abjuration",
+          "description": "Create a ward at your location for 8 seconds. Party allies within 10 yards take 15% less area damage. Only the strongest Circle of Abjuration affects an ally.",
+          "icon": "",
+          "row": 8,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "Self; 10-yard radius",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "2 minutes"
+        },
+        {
+          "id": "class-8-5",
+          "name": "Walking Meditation",
+          "description": "For 8 seconds, you can channel Mind Flay and cast Mind Blast while moving. Does not grant casting movement to other players or change spell range.",
+          "icon": "",
+          "row": 8,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "None",
+          "range": "Self",
+          "charges": "",
+          "castTime": "Instant",
+          "cooldown": "1 minute"
+        },
+        {
+          "id": "class-9-1",
+          "name": "Many-Fold Scripture",
+          "description": "Contagious Revelation's Smite cleave affects 1 additional enemy. Secondary hits cannot produce further cleaves.",
+          "icon": "",
+          "row": 9,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-9-3",
+          "name": "Unfailing Thread",
+          "description": "Reduce Leap of Faith's cooldown by 30 seconds.",
+          "icon": "",
+          "row": 9,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-9-5",
+          "name": "Mass Dispel",
+          "description": "Dispel one harmful Magic effect from up to 5 allies and one beneficial Magic effect from up to 5 enemies in the targeted area. This draft retains the recognizable Priest utility.",
+          "icon": "",
+          "row": 9,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Mana",
+          "range": "30 yards; 15-yard radius",
+          "charges": "",
+          "castTime": "1.5 seconds",
+          "cooldown": "2 minutes"
+        },
+        {
+          "id": "class-9-6",
+          "name": "Purity of Intention",
+          "description": "Reduce Mass Dispel's Mana cost by 25% and its cast time by 0.5 seconds. This node also grants Mass Dispel if its own node is not selected; selecting both grants no additional copy or bonus.",
+          "icon": "",
+          "row": 9,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        }
+      ],
+      "connections": [
+        {
+          "from": "class-0-1",
+          "to": "class-1-0"
+        },
+        {
+          "from": "class-0-1",
+          "to": "class-1-2"
+        },
+        {
+          "from": "class-0-3",
+          "to": "class-1-3"
+        },
+        {
+          "from": "class-0-5",
+          "to": "class-1-4"
+        },
+        {
+          "from": "class-0-5",
+          "to": "class-1-6"
+        },
+        {
+          "from": "class-1-0",
+          "to": "class-2-1"
+        },
+        {
+          "from": "class-1-2",
+          "to": "class-2-1"
+        },
+        {
+          "from": "class-1-3",
+          "to": "class-2-3"
+        },
+        {
+          "from": "class-1-4",
+          "to": "class-2-5"
+        },
+        {
+          "from": "class-1-6",
+          "to": "class-2-5"
+        },
+        {
+          "from": "class-2-1",
+          "to": "class-3-0"
+        },
+        {
+          "from": "class-2-1",
+          "to": "class-3-2"
+        },
+        {
+          "from": "class-2-3",
+          "to": "class-3-3"
+        },
+        {
+          "from": "class-2-3",
+          "to": "class-3-4"
+        },
+        {
+          "from": "class-2-5",
+          "to": "class-3-6"
+        },
+        {
+          "from": "class-3-0",
+          "to": "class-4-1"
+        },
+        {
+          "from": "class-3-2",
+          "to": "class-4-1"
+        },
+        {
+          "from": "class-3-3",
+          "to": "class-4-3"
+        },
+        {
+          "from": "class-3-4",
+          "to": "class-4-5"
+        },
+        {
+          "from": "class-3-6",
+          "to": "class-4-5"
+        },
+        {
+          "from": "class-4-1",
+          "to": "class-5-0"
+        },
+        {
+          "from": "class-4-1",
+          "to": "class-5-2"
+        },
+        {
+          "from": "class-4-3",
+          "to": "class-5-3"
+        },
+        {
+          "from": "class-4-5",
+          "to": "class-5-4"
+        },
+        {
+          "from": "class-4-5",
+          "to": "class-5-6"
+        },
+        {
+          "from": "class-5-0",
+          "to": "class-6-1"
+        },
+        {
+          "from": "class-5-2",
+          "to": "class-6-3"
+        },
+        {
+          "from": "class-5-3",
+          "to": "class-6-3"
+        },
+        {
+          "from": "class-5-4",
+          "to": "class-6-5"
+        },
+        {
+          "from": "class-5-6",
+          "to": "class-6-5"
+        },
+        {
+          "from": "class-6-1",
+          "to": "class-7-0"
+        },
+        {
+          "from": "class-6-1",
+          "to": "class-7-2"
+        },
+        {
+          "from": "class-6-3",
+          "to": "class-7-4"
+        },
+        {
+          "from": "class-6-5",
+          "to": "class-7-6"
+        },
+        {
+          "from": "class-7-0",
+          "to": "class-8-1"
+        },
+        {
+          "from": "class-7-2",
+          "to": "class-8-3"
+        },
+        {
+          "from": "class-7-4",
+          "to": "class-8-3"
+        },
+        {
+          "from": "class-7-6",
+          "to": "class-8-5"
+        },
+        {
+          "from": "class-8-1",
+          "to": "class-9-1"
+        },
+        {
+          "from": "class-8-3",
+          "to": "class-9-3"
+        },
+        {
+          "from": "class-8-5",
+          "to": "class-9-5"
+        },
+        {
+          "from": "class-8-5",
+          "to": "class-9-6"
+        }
+      ]
+    }
+  }
+}

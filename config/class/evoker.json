@@ -1,0 +1,794 @@
+{
+  "class": "Evoker",
+  "sections": {
+    "Evoker/class": {
+      "id": "class",
+      "title": "Evoker — baseline",
+      "type": "class",
+      "maxPoints": 34,
+      "columns": 7,
+      "rowCount": 10,
+      "selectableEmpty": true,
+      "nodes": [
+        {
+          "id": "class-0-1",
+          "name": "Landslide",
+          "description": "Send a wave of earth toward enemies to root them in place.",
+          "icon": "",
+          "row": 0,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-0-3",
+          "name": "Obsidian Scales",
+          "description": "Harden your scales to reduce incoming damage for a short time.",
+          "icon": "",
+          "row": 0,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-0-5",
+          "name": "Expunge",
+          "description": "Remove poison effects from a friendly target.",
+          "icon": "",
+          "row": 0,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-0",
+          "name": "Natural Convergence",
+          "description": "Improve the channeling speed of Disintegrate.",
+          "icon": "",
+          "row": 1,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-2",
+          "name": "Permeating Chill",
+          "description": "Your blue spells slow enemies.",
+          "icon": "",
+          "row": 1,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-3",
+          "name": "Obsidian Bulwark",
+          "description": "Grant Obsidian Scales an additional charge.",
+          "icon": "",
+          "row": 1,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-4",
+          "name": "Verdant Embrace",
+          "description": "Fly to an ally and heal them, or heal yourself without moving.",
+          "icon": "",
+          "row": 1,
+          "column": 4,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-1-6",
+          "name": "Enkindled",
+          "description": "Increase the effectiveness of Living Flame.",
+          "icon": "",
+          "row": 1,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-2-1",
+          "name": "Quell",
+          "description": "Interrupt an enemy spell and briefly prevent casting from that school.",
+          "icon": "",
+          "row": 2,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-2-3",
+          "name": "Tailwind",
+          "description": "Improve the movement speed bonus of Hover.",
+          "icon": "",
+          "row": 2,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-2-5",
+          "name": "Scarlet Adaptation",
+          "description": "Store a portion of your healing to strengthen a later offensive Living Flame.",
+          "icon": "",
+          "row": 2,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-0",
+          "name": "Oppressing Roar",
+          "description": "Roar in a cone to make affected enemies more susceptible to crowd control.",
+          "icon": "",
+          "row": 3,
+          "column": 0,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-2",
+          "name": "Cauterizing Flame",
+          "description": "Cleanse harmful bleed, poison, curse and disease effects from an ally.",
+          "icon": "",
+          "row": 3,
+          "column": 2,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-3",
+          "name": "Draconic Legacy",
+          "description": "Increase your maximum health.",
+          "icon": "",
+          "row": 3,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-4",
+          "name": "Inherent Resistance",
+          "description": "Reduce magical damage taken.",
+          "icon": "",
+          "row": 3,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-3-6",
+          "name": "Bountiful Bloom",
+          "description": "Allow Emerald Blossom to heal additional allies.",
+          "icon": "",
+          "row": 3,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-4-1",
+          "name": "Overawe",
+          "description": "Oppressing Roar removes an enrage effect and can recover sooner when it does so.",
+          "icon": "",
+          "row": 4,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-4-3",
+          "name": "Renewing Blaze",
+          "description": "Recover a portion of damage taken during its effect as healing over time.",
+          "icon": "",
+          "row": 4,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-4-5",
+          "name": "Rescue",
+          "description": "Carry a friendly player to a selected location.",
+          "icon": "",
+          "row": 4,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-0",
+          "name": "Terror of the Skies",
+          "description": "Deep Breath stuns enemies it hits.",
+          "icon": "",
+          "row": 5,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-2",
+          "name": "Extended Flight",
+          "description": "Increase the duration of Hover.",
+          "icon": "",
+          "row": 5,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-3",
+          "name": "Foci of Life",
+          "description": "Improve Renewing Blaze so its healing helps you sooner.",
+          "icon": "",
+          "row": 5,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-4",
+          "name": "Twin Guardian",
+          "description": "Rescue grants protective shields to you and the rescued ally.",
+          "icon": "",
+          "row": 5,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-5-6",
+          "name": "Panacea",
+          "description": "Emerald Blossom also heals you when used.",
+          "icon": "",
+          "row": 5,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-6-1",
+          "name": "Leaping Flames",
+          "description": "Fire Breath empowers a subsequent Living Flame to strike additional targets.",
+          "icon": "",
+          "row": 6,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-6-3",
+          "name": "Aerial Mastery",
+          "description": "Grant Hover an additional charge.",
+          "icon": "",
+          "row": 6,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-6-5",
+          "name": "Ancient Flame",
+          "description": "Using supportive healing spells makes a subsequent Living Flame faster to cast.",
+          "icon": "",
+          "row": 6,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-0",
+          "name": "Blast Furnace",
+          "description": "Extend the damage-over-time effect of Fire Breath.",
+          "icon": "",
+          "row": 7,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-2",
+          "name": "Exuberance",
+          "description": "Move faster while your health is high.",
+          "icon": "",
+          "row": 7,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-4",
+          "name": "Unravel",
+          "description": "Deal damage to an enemy's absorb shield.",
+          "icon": "",
+          "row": 7,
+          "column": 4,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-7-6",
+          "name": "Time Spiral",
+          "description": "Allow you and your allies an additional use of a major movement ability during its effect.",
+          "icon": "",
+          "row": 7,
+          "column": 6,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-8-1",
+          "name": "Tip the Scales",
+          "description": "Make your next empowered spell instant and cast at its maximum empower level.",
+          "icon": "",
+          "row": 8,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-8-3",
+          "name": "Zephyr",
+          "description": "Protect nearby allies against area damage and increase their movement speed.",
+          "icon": "",
+          "row": 8,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-8-5",
+          "name": "Spatial Paradox",
+          "description": "Temporarily allow you and a friendly healer to cast while moving with extended spell range.",
+          "icon": "",
+          "row": 8,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-9-1",
+          "name": "Protracted Talons",
+          "description": "Allow Azure Strike to hit additional enemies.",
+          "icon": "",
+          "row": 9,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-9-3",
+          "name": "Fly With Me",
+          "description": "Reduce the cooldown of Rescue.",
+          "icon": "",
+          "row": 9,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-9-5",
+          "name": "Source of Magic",
+          "description": "Link to a friendly healer so your empowered spells restore some of their mana.",
+          "icon": "",
+          "row": 9,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "class-9-6",
+          "name": "Potent Mana",
+          "description": "Improve the healing and damage of the healer benefiting from Source of Magic.",
+          "icon": "",
+          "row": 9,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        }
+      ],
+      "connections": [
+        {
+          "from": "class-0-1",
+          "to": "class-1-0"
+        },
+        {
+          "from": "class-0-1",
+          "to": "class-1-2"
+        },
+        {
+          "from": "class-0-3",
+          "to": "class-1-3"
+        },
+        {
+          "from": "class-0-5",
+          "to": "class-1-4"
+        },
+        {
+          "from": "class-0-5",
+          "to": "class-1-6"
+        },
+        {
+          "from": "class-1-0",
+          "to": "class-2-1"
+        },
+        {
+          "from": "class-1-2",
+          "to": "class-2-1"
+        },
+        {
+          "from": "class-1-3",
+          "to": "class-2-3"
+        },
+        {
+          "from": "class-1-4",
+          "to": "class-2-5"
+        },
+        {
+          "from": "class-1-6",
+          "to": "class-2-5"
+        },
+        {
+          "from": "class-2-1",
+          "to": "class-3-0"
+        },
+        {
+          "from": "class-2-1",
+          "to": "class-3-2"
+        },
+        {
+          "from": "class-2-3",
+          "to": "class-3-3"
+        },
+        {
+          "from": "class-2-3",
+          "to": "class-3-4"
+        },
+        {
+          "from": "class-2-5",
+          "to": "class-3-6"
+        },
+        {
+          "from": "class-3-0",
+          "to": "class-4-1"
+        },
+        {
+          "from": "class-3-2",
+          "to": "class-4-1"
+        },
+        {
+          "from": "class-3-3",
+          "to": "class-4-3"
+        },
+        {
+          "from": "class-3-4",
+          "to": "class-4-5"
+        },
+        {
+          "from": "class-3-6",
+          "to": "class-4-5"
+        },
+        {
+          "from": "class-4-1",
+          "to": "class-5-0"
+        },
+        {
+          "from": "class-4-1",
+          "to": "class-5-2"
+        },
+        {
+          "from": "class-4-3",
+          "to": "class-5-3"
+        },
+        {
+          "from": "class-4-5",
+          "to": "class-5-4"
+        },
+        {
+          "from": "class-4-5",
+          "to": "class-5-6"
+        },
+        {
+          "from": "class-5-0",
+          "to": "class-6-1"
+        },
+        {
+          "from": "class-5-2",
+          "to": "class-6-3"
+        },
+        {
+          "from": "class-5-3",
+          "to": "class-6-3"
+        },
+        {
+          "from": "class-5-4",
+          "to": "class-6-5"
+        },
+        {
+          "from": "class-5-6",
+          "to": "class-6-5"
+        },
+        {
+          "from": "class-6-1",
+          "to": "class-7-0"
+        },
+        {
+          "from": "class-6-1",
+          "to": "class-7-2"
+        },
+        {
+          "from": "class-6-3",
+          "to": "class-7-4"
+        },
+        {
+          "from": "class-6-5",
+          "to": "class-7-6"
+        },
+        {
+          "from": "class-7-0",
+          "to": "class-8-1"
+        },
+        {
+          "from": "class-7-2",
+          "to": "class-8-3"
+        },
+        {
+          "from": "class-7-4",
+          "to": "class-8-3"
+        },
+        {
+          "from": "class-7-6",
+          "to": "class-8-5"
+        },
+        {
+          "from": "class-8-1",
+          "to": "class-9-1"
+        },
+        {
+          "from": "class-8-3",
+          "to": "class-9-3"
+        },
+        {
+          "from": "class-8-5",
+          "to": "class-9-5"
+        },
+        {
+          "from": "class-8-5",
+          "to": "class-9-6"
+        }
+      ]
+    }
+  }
+}

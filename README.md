@@ -2,12 +2,18 @@
 
 A homebrew **talent tree creator** for World of Warcraft classes and specializations, in the style of the Wowhead talent calculator.
 
-Two pages, one data file:
+Two pages, one shared talent model:
 
 - **Talent Calculator** (`index.html`) — spend points in a tree: ranks, unlock rules, connection lines.
 - **Talent Designer** (`designer.html`) — build that tree visually: drag & drop talents, connect them, edit names, descriptions, icons, ranks, node kinds and active-spell details, and create whole new classes and specs.
 
-Everything is stored in `config/talent-project.json`, which both pages read.
+Both pages load the same small [configuration manifest](config/talent-project.json), which references:
+
+- [Shared hero talents](config/hero-talent.json), stored once per distinct hero tree.
+- Class talent files under `config/class/`, shared by every configured spec of that class.
+- Specialization files under `config/spec/<class>/<spec>.json`, containing spec and Apex sections plus references to the shared talents.
+
+Class-qualified folders avoid collisions such as Mage/Frost and Death Knight/Frost. Unfinished specializations have explicit `available: false` placeholder files rather than invented talents.
 
 ## Run it
 
@@ -18,7 +24,7 @@ cd wow-workbook
 python -m http.server 8000
 ```
 
-Open <http://localhost:8000/>.
+Open <http://localhost:8000/>. Alternatively, Node 22+ users can run `npm start` and open <http://127.0.0.1:8123/>.
 
 ## Designing a tree
 
@@ -26,7 +32,18 @@ Open <http://localhost:8000/>.
 2. Pick a class and spec, or create your own with **＋ Class** / **＋ Spec**.
 3. Click an empty socket to create a talent, then edit it in the right-hand panel.
 4. Drag talents to rearrange them; drag the gold dot from one talent onto another to connect them.
-5. Changes autosave to your browser. Use **Export** to download the project, then replace `config/talent-project.json` and commit it to publish.
+5. Changes autosave to your browser. **Export class** downloads only the selected class (all its specs, shared class talents and referenced hero talents). Importing updates only the classes in that file; other classes are preserved.
+6. To publish the downloaded class, run `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json`, then commit the changed configuration files. Do not replace the manifest with a class export.
+
+## Configuration maintenance
+
+Node 22+ is needed only for developer validation/migration, not to run the static site. No npm dependencies are needed.
+
+- `npm test` — regression tests for loading, sharing, migration and class exports.
+- `npm run check:talents` — validate that every referenced file and shared section resolves.
+- `npm run migrate:talents` — split a legacy whole-project file, or rewrite the existing scaffold deterministically.
+
+Migration and validation run locally; commit the resulting files when ready. Both apps still accept old whole-project files and local drafts.
 
 ## Documentation
 

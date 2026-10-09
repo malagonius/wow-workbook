@@ -1,0 +1,226 @@
+{
+  "class": "Paladin",
+  "spec": "Retribution",
+  "description": "Paladin / Retribution: CLASS-TREE REFERENCE ONLY. Original paraphrases inspired by remembered Dragonflight / The War Within hybrid design; not verified Midnight data. Numbers, ranks, placement and sparse connections are illustrative. Specialization, Apex and Hero trees are intentionally not populated. Uses the workbook's 34-point budget, not a claim about retail point totals. All Paladin references share identical class nodes.",
+  "sections": [
+    {
+      "classTalent": "Paladin/class"
+    }
+  ],
+  "designNotes": {
+    "status": "Synthetic memory-inspired class-only brainstorming baseline; not an official tree or a balance simulation.",
+    "baselineAssumptions": {
+      "alreadyKnown": [
+        "Crusader Strike",
+        "Judgment",
+        "Consecration",
+        "Flash of Light",
+        "Hammer of Justice",
+        "Divine Shield",
+        "Divine Protection",
+        "Redemption",
+        "Intercession",
+        "Devotion Aura",
+        "Word of Glory through role rules"
+      ],
+      "spellNotes": "For this design model only. Holy Power generation, spenders and Word of Glory availability require specialization rules. Divine Shield and Divine Protection are personal; Devotion Aura is a persistent group benefit. Intercession is the combat resurrection. Do not count these assumed baseline spells as talent-granted new buttons.",
+      "excludedSpecializationTools": [
+        "Aura Mastery (Holy group defensive)",
+        "Blessing of Spellwarding (Protection specialization option)",
+        "Guardian of Ancient Kings (Protection defensive)",
+        "Holy Shock / Avenger's Shield / Templar's Verdict / Divine Storm as shared-class unlocks"
+      ],
+      "allocationCaveat": "Divine Toll, Avenging Wrath, Divine Purpose and several named modifiers have role-dependent or expansion-dependent placement. Shared placement here is a deliberate synthetic comparison, not a verified current retail allocation. Historical choice nodes are shown independently; no retail exclusivity is claimed."
+    },
+    "graphRules": "Sparse forward prerequisite links only; all other nodes are roots. This is not a reconstructed retail path graph. No 8/20-point gates or level requirements are asserted. There are no encoded choice nodes, auto-granted ranks or import strings for the game.",
+    "tuningRules": "Slash-separated values are Rank 1 / Rank 2. Listed values are provisional examples. Cooldown reductions are additive except where explicitly described otherwise. No cooldown may fall below 1 second. Effective healing excludes overhealing. Baseline cooldown, resource and proc interactions need testing before implementation.",
+    "categoriesByNodeId": {
+      "class-0-0": [
+        "healing",
+        "emergency-heal",
+        "ally-targetable"
+      ],
+      "class-0-2": [
+        "utility",
+        "mobility",
+        "ally-targetable"
+      ],
+      "class-0-4": [
+        "damage-button"
+      ],
+      "class-0-6": [
+        "utility",
+        "dispel"
+      ],
+      "class-1-0": [
+        "healing",
+        "emergency-heal"
+      ],
+      "class-1-2": [
+        "utility",
+        "mobility"
+      ],
+      "class-1-4": [
+        "damage"
+      ],
+      "class-1-6": [
+        "utility",
+        "aura",
+        "group-utility"
+      ],
+      "class-2-0": [
+        "defensive-external",
+        "ally-targetable"
+      ],
+      "class-2-2": [
+        "utility",
+        "control",
+        "interrupt"
+      ],
+      "class-2-4": [
+        "utility",
+        "control"
+      ],
+      "class-2-6": [
+        "utility",
+        "mobility"
+      ],
+      "class-3-0": [
+        "utility",
+        "mobility"
+      ],
+      "class-3-2": [
+        "utility",
+        "control"
+      ],
+      "class-3-4": [
+        "utility",
+        "control"
+      ],
+      "class-3-6": [
+        "healing",
+        "personal-defense"
+      ],
+      "class-4-0": [
+        "defensive-external",
+        "ally-targetable"
+      ],
+      "class-4-2": [
+        "defensive-external"
+      ],
+      "class-4-4": [
+        "healing",
+        "personal-defense"
+      ],
+      "class-4-6": [
+        "damage",
+        "healing"
+      ],
+      "class-5-0": [
+        "personal-defense",
+        "utility",
+        "mobility"
+      ],
+      "class-5-2": [
+        "damage",
+        "healing",
+        "resource"
+      ],
+      "class-5-4": [
+        "offensive-cooldown",
+        "healing"
+      ],
+      "class-5-6": [
+        "utility",
+        "control"
+      ],
+      "class-6-0": [
+        "role-dependent-button",
+        "damage",
+        "healing"
+      ],
+      "class-6-2": [
+        "damage",
+        "healing"
+      ],
+      "class-6-4": [
+        "damage",
+        "healing"
+      ],
+      "class-6-6": [
+        "healing",
+        "group-utility"
+      ],
+      "class-7-0": [
+        "healing"
+      ],
+      "class-7-2": [
+        "healing",
+        "emergency-heal"
+      ],
+      "class-7-4": [
+        "healing",
+        "group-utility"
+      ],
+      "class-7-6": [
+        "damage",
+        "utility",
+        "interrupt"
+      ],
+      "class-8-0": [
+        "personal-defense",
+        "damage",
+        "healing"
+      ],
+      "class-8-2": [
+        "personal-defense",
+        "healing",
+        "emergency-heal"
+      ],
+      "class-8-4": [
+        "personal-defense"
+      ],
+      "class-8-6": [
+        "resource",
+        "damage",
+        "healing",
+        "personal-defense"
+      ],
+      "class-9-0": [
+        "resource",
+        "damage",
+        "healing",
+        "personal-defense"
+      ],
+      "class-9-2": [
+        "healing",
+        "personal-defense"
+      ],
+      "class-9-4": [
+        "personal-defense",
+        "healing"
+      ],
+      "class-9-6": [
+        "defensive-external"
+      ],
+      "class-10-0": [
+        "healing",
+        "damage"
+      ],
+      "class-10-2": [
+        "healing",
+        "personal-defense"
+      ],
+      "class-10-4": [
+        "defensive-external",
+        "damage",
+        "healing"
+      ],
+      "class-10-6": [
+        "role-dependent-button",
+        "damage",
+        "healing"
+      ]
+    }
+  }
+}

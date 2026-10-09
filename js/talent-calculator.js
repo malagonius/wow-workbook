@@ -1,7 +1,7 @@
-import { normalizeProject, nodeLabel } from './talent-model.js';
+import { nodeLabel } from './talent-model.js';
+import { loadTalentProject } from './talent-config.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 
-const PROJECT_URL='config/talent-project.json';
 const ABILITIES_URL='config/abilities.json';
 let project=null,abilities=null;
 const ranks=new Map(),choices=new Map();
@@ -9,10 +9,9 @@ const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=
 
 async function loadConfig(){
   try{
-    const [projectResponse,abilitiesResponse]=await Promise.all([fetch(PROJECT_URL),fetch(ABILITIES_URL)]);
-    if(!projectResponse.ok)throw Error('Canonical talent project unavailable ('+projectResponse.status+')');
+    const [loadedProject,abilitiesResponse]=await Promise.all([loadTalentProject(),fetch(ABILITIES_URL)]);
     if(!abilitiesResponse.ok)throw Error('Ability configuration could not be loaded');
-    project=normalizeProject(await projectResponse.json());
+    project=loadedProject;
     abilities=await abilitiesResponse.json();
     const classes=Object.keys(project.content||{});
     classSelect.innerHTML='';

@@ -1,0 +1,713 @@
+{
+  "class": "Evoker",
+  "spec": "Augmentation",
+  "description": "Augmentation Evoker baseline based on remembered retail WoW talents, primarily from the Dragonflight / The War Within era. Not verified against Wowhead or current Midnight data. Positions, connections, ranks and summarized effects are editable approximations, not an official build. Uses this workbook's 34/34/4/13 point budgets. Hero section represents Chronowarden only; Scalecommander is not included. Apex is intentionally empty pending verified data.",
+  "sections": [
+    {
+      "classTalent": "Evoker/class"
+    },
+    {
+      "id": "spec",
+      "title": "Augmentation — baseline",
+      "type": "spec",
+      "maxPoints": 34,
+      "columns": 7,
+      "rowCount": 10,
+      "selectableEmpty": true,
+      "nodes": [
+        {
+          "id": "spec-0-3",
+          "name": "Ebon Might",
+          "description": "Increase the primary stat of nearby allies and strengthen your own damage. Your core offensive spells extend its duration.",
+          "icon": "",
+          "row": 0,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-1-1",
+          "name": "Eruption",
+          "description": "Spend Essence to erupt the ground beneath an enemy, dealing area damage and extending Ebon Might.",
+          "icon": "",
+          "row": 1,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "Essence",
+          "range": "",
+          "charges": "",
+          "castTime": "Cast",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-1-3",
+          "name": "Upheaval",
+          "description": "Empower an earthen blast that damages and knocks up enemies. Higher empower levels expand its area; it also extends Ebon Might.",
+          "icon": "",
+          "row": 1,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "Empowered",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-1-5",
+          "name": "Blistering Scales",
+          "description": "Protect an ally with additional armor and reactive scales that explode when the ally is struck.",
+          "icon": "",
+          "row": 1,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-0",
+          "name": "Essence Burst",
+          "description": "Living Flame and Azure Strike can make your next Eruption cost no Essence.",
+          "icon": "",
+          "row": 2,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-2",
+          "name": "Prescience",
+          "description": "Increase an ally's critical strike chance and help prioritize them for your support effects.",
+          "icon": "",
+          "row": 2,
+          "column": 2,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-4",
+          "name": "Ricocheting Pyroclast",
+          "description": "Improve Eruption's damage against additional nearby enemies.",
+          "icon": "",
+          "row": 2,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-2-6",
+          "name": "Molten Blood",
+          "description": "Blistering Scales also grants its target a protective absorb effect.",
+          "icon": "",
+          "row": 2,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-3-1",
+          "name": "Power Nexus",
+          "description": "Increase your maximum Essence.",
+          "icon": "",
+          "row": 3,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-3-3",
+          "name": "Breath of Eons",
+          "description": "Fly over enemies and mark them with Temporal Wounds. Damage dealt by supported allies contributes to a later burst against marked enemies.",
+          "icon": "",
+          "row": 3,
+          "column": 3,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-3-5",
+          "name": "Regenerative Chitin",
+          "description": "Improve the durability and replenishment of Blistering Scales.",
+          "icon": "",
+          "row": 3,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-0",
+          "name": "Accretion",
+          "description": "Casting Eruption reduces the remaining cooldown of Upheaval.",
+          "icon": "",
+          "row": 4,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-2",
+          "name": "Anachronism",
+          "description": "Casting Prescience can grant Essence Burst.",
+          "icon": "",
+          "row": 4,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-3",
+          "name": "Stretch Time",
+          "description": "Improve the defensive benefits associated with Breath of Eons.",
+          "icon": "",
+          "row": 4,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-4",
+          "name": "Seismic Slam",
+          "description": "Enhance Upheaval's crowd-control effect.",
+          "icon": "",
+          "row": 4,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-4-6",
+          "name": "Reactive Hide",
+          "description": "Increase the retaliation damage of Blistering Scales.",
+          "icon": "",
+          "row": 4,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-5-1",
+          "name": "Volcanism",
+          "description": "Strengthen Eruption as part of your Essence-spending rotation.",
+          "icon": "",
+          "row": 5,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-5-3",
+          "name": "Interwoven Threads",
+          "description": "Reduce the cooldowns of your spells.",
+          "icon": "",
+          "row": 5,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-5-5",
+          "name": "Timelessness",
+          "description": "Reduce the threat generated by a friendly player.",
+          "icon": "",
+          "row": 5,
+          "column": 5,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-0",
+          "name": "Tectonic Locus",
+          "description": "Improve Upheaval's damage against its primary target.",
+          "icon": "",
+          "row": 6,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-2",
+          "name": "Fate Mirror",
+          "description": "Allies with Prescience can echo a portion of their damage and healing.",
+          "icon": "",
+          "row": 6,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-4",
+          "name": "Inferno's Blessing",
+          "description": "Fire Breath grants supported allies a blessing that adds fire damage to their attacks and spells.",
+          "icon": "",
+          "row": 6,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-6-6",
+          "name": "Draconic Attunements",
+          "description": "Provide an attunement that improves the survivability or movement of nearby allies.",
+          "icon": "",
+          "row": 6,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-7-1",
+          "name": "Time Skip",
+          "description": "Channel to accelerate the recovery of your spell cooldowns.",
+          "icon": "",
+          "row": 7,
+          "column": 1,
+          "type": "talent",
+          "kind": "active",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "Channeled",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-7-3",
+          "name": "Overlord",
+          "description": "Breath of Eons also triggers Eruptions against enemies you fly over.",
+          "icon": "",
+          "row": 7,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-7-5",
+          "name": "Dream of Spring",
+          "description": "Allow Emerald Blossom to contribute to your Ebon Might extension gameplay.",
+          "icon": "",
+          "row": 7,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-0",
+          "name": "Tomorrow, Today",
+          "description": "Increase the cooldown acceleration provided by Time Skip.",
+          "icon": "",
+          "row": 8,
+          "column": 0,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-2",
+          "name": "Imminent Destruction",
+          "description": "Breath of Eons temporarily improves the efficiency of your Eruptions.",
+          "icon": "",
+          "row": 8,
+          "column": 2,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-4",
+          "name": "Aspects' Favor",
+          "description": "Obsidian Scales and Hover temporarily strengthen the benefits of your attunements.",
+          "icon": "",
+          "row": 8,
+          "column": 4,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-8-6",
+          "name": "Lush Growth",
+          "description": "Improve your healing spells.",
+          "icon": "",
+          "row": 8,
+          "column": 6,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 2,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-9-1",
+          "name": "Motes of Possibility",
+          "description": "Your empowered spells can create motes that allies collect to accelerate cooldown recovery.",
+          "icon": "",
+          "row": 9,
+          "column": 1,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-9-3",
+          "name": "Plot the Future",
+          "description": "Your empowered spells grant a haste benefit that depends on how far they are empowered.",
+          "icon": "",
+          "row": 9,
+          "column": 3,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        },
+        {
+          "id": "spec-9-5",
+          "name": "Symbiotic Bloom",
+          "description": "Verdant Embrace leaves additional healing on its target.",
+          "icon": "",
+          "row": 9,
+          "column": 5,
+          "type": "talent",
+          "kind": "passive",
+          "maxRank": 1,
+          "cost": "",
+          "range": "",
+          "charges": "",
+          "castTime": "",
+          "cooldown": ""
+        }
+      ],
+      "connections": [
+        {
+          "from": "spec-0-3",
+          "to": "spec-1-1"
+        },
+        {
+          "from": "spec-0-3",
+          "to": "spec-1-3"
+        },
+        {
+          "from": "spec-0-3",
+          "to": "spec-1-5"
+        },
+        {
+          "from": "spec-1-1",
+          "to": "spec-2-0"
+        },
+        {
+          "from": "spec-1-1",
+          "to": "spec-2-2"
+        },
+        {
+          "from": "spec-1-3",
+          "to": "spec-2-4"
+        },
+        {
+          "from": "spec-1-5",
+          "to": "spec-2-6"
+        },
+        {
+          "from": "spec-2-0",
+          "to": "spec-3-1"
+        },
+        {
+          "from": "spec-2-2",
+          "to": "spec-3-3"
+        },
+        {
+          "from": "spec-2-4",
+          "to": "spec-3-3"
+        },
+        {
+          "from": "spec-2-6",
+          "to": "spec-3-5"
+        },
+        {
+          "from": "spec-3-1",
+          "to": "spec-4-0"
+        },
+        {
+          "from": "spec-3-1",
+          "to": "spec-4-2"
+        },
+        {
+          "from": "spec-3-3",
+          "to": "spec-4-3"
+        },
+        {
+          "from": "spec-3-3",
+          "to": "spec-4-4"
+        },
+        {
+          "from": "spec-3-5",
+          "to": "spec-4-6"
+        },
+        {
+          "from": "spec-4-0",
+          "to": "spec-5-1"
+        },
+        {
+          "from": "spec-4-2",
+          "to": "spec-5-3"
+        },
+        {
+          "from": "spec-4-3",
+          "to": "spec-5-3"
+        },
+        {
+          "from": "spec-4-4",
+          "to": "spec-5-5"
+        },
+        {
+          "from": "spec-4-6",
+          "to": "spec-5-5"
+        },
+        {
+          "from": "spec-5-1",
+          "to": "spec-6-0"
+        },
+        {
+          "from": "spec-5-1",
+          "to": "spec-6-2"
+        },
+        {
+          "from": "spec-5-3",
+          "to": "spec-6-4"
+        },
+        {
+          "from": "spec-5-5",
+          "to": "spec-6-6"
+        },
+        {
+          "from": "spec-6-0",
+          "to": "spec-7-1"
+        },
+        {
+          "from": "spec-6-2",
+          "to": "spec-7-1"
+        },
+        {
+          "from": "spec-6-4",
+          "to": "spec-7-3"
+        },
+        {
+          "from": "spec-6-6",
+          "to": "spec-7-5"
+        },
+        {
+          "from": "spec-7-1",
+          "to": "spec-8-0"
+        },
+        {
+          "from": "spec-7-3",
+          "to": "spec-8-2"
+        },
+        {
+          "from": "spec-7-5",
+          "to": "spec-8-4"
+        },
+        {
+          "from": "spec-7-5",
+          "to": "spec-8-6"
+        },
+        {
+          "from": "spec-8-0",
+          "to": "spec-9-1"
+        },
+        {
+          "from": "spec-8-2",
+          "to": "spec-9-3"
+        },
+        {
+          "from": "spec-8-4",
+          "to": "spec-9-3"
+        },
+        {
+          "from": "spec-8-6",
+          "to": "spec-9-5"
+        }
+      ]
+    },
+    {
+      "id": "apex",
+      "title": "Apex — awaiting verified talents",
+      "type": "apex",
+      "maxPoints": 4,
+      "columns": 7,
+      "rowCount": 3,
+      "selectableEmpty": true,
+      "nodes": [],
+      "connections": []
+    },
+    {
+      "heroTalent": "Evoker/hero"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ Then open <http://localhost:8000/> (calculator) or <http://localhost:8000/design
 
 > **Gotcha:** browsers cache ES modules aggressively. If a change does not appear, hard-reload (`Ctrl+Shift+R`) or restart the server on a different port. This costs more debugging time than any actual bug in this codebase.
 
-There is no build, no bundler, no dependency install and no test runner.
+There is no build, no bundler and no dependency install. Node 22+ runs the built-in tests with `npm test`; `npm run check:talents` verifies configuration loading.
 
 ## Where to make a change
 
@@ -50,7 +50,7 @@ A worked example — adding `cooldown`:
 
 ## Manual test checklist
 
-There are no automated tests, so run this before calling a change done.
+Run `npm test` and `npm run check:talents`, then use this checklist for browser interactions.
 
 **Calculator**
 
@@ -70,15 +70,23 @@ There are no automated tests, so run this before calling a change done.
 - [ ] Changing columns/rows resizes the grid and warns before deleting talents that fall outside.
 - [ ] Undo/redo (`Ctrl+Z` / `Ctrl+Shift+Z`) covers moves, edits, deletes and structural changes.
 - [ ] Creating a class then a spec produces four empty sections.
-- [ ] Export → Import round-trips the project; Reset draft restores the repository baseline.
+- [ ] Export class → Import classes round-trips the selected class without removing any other class.
+- [ ] Class edits appear when switching specs and survive undo/redo and a page reload.
+- [ ] Shared hero edits appear in the other specs using that hero tree, while different heroes and other classes stay unchanged.
+- [ ] Reset draft restores the repository baseline and shared edit identity.
 
 ## Publishing changes to the repository data
 
 The designer saves drafts to IndexedDB in the browser, not to disk. To make a tree part of the repository:
 
-1. **Export** in the designer.
-2. Replace `config/talent-project.json` with the downloaded file.
-3. Commit.
+1. Select the class and click **Export class** in the designer.
+2. Run `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json` from the repository root.
+3. Run `npm test` and `npm run check:talents`.
+4. Commit the changed files under `config/`. Other classes are preserved.
+
+The manifest is only a registry; never replace it with a class export. New specs get their own file, shared class edits belong in the corresponding class file, and shared hero edits belong in the hero registry. `available: false` identifies an unconfigured specialization. Use **＋ Spec** with an existing unconfigured spec name to initialize its tree.
+
+`npm run migrate:talents` also migrates a legacy whole-project file. The GitHub validation workflow performs this migration and commits generated files on trusted pushes, without modifying pull-request branches from forks.
 
 ## Roadmap
 
@@ -89,4 +97,4 @@ Tracked in [TALENT-DESIGNER-TODO.md](TALENT-DESIGNER-TODO.md). The highest-value
 3. **Multi-section designer view** — edit class/spec/hero side by side instead of one section at a time.
 4. **Richer choice nodes** — per-option icons in the editor and a proper picker in the calculator.
 5. **Build sharing** — encode spent talents into a URL so a build can be linked.
-6. **Save to GitHub** — commit `talent-project.json` from the browser via a PR.
+6. **Save to GitHub** — apply a current-class export to its scaffold files from the browser via a PR.

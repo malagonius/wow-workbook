@@ -4,12 +4,14 @@ WoW Workbook is a **static site**: plain HTML, CSS and ES modules. There is no b
 
 ## The one rule
 
-> **The talent project JSON is the single source of truth, and both apps render it through the same renderer.**
+> **The split talent configuration is the single source of truth, and both apps render its resolved model through the same renderer.**
 
 Everything else follows from that. The Calculator does not own a tree format, the Designer does not own a second one, and neither draws talents its own way.
 
 ```text
-                   config/talent-project.json
+              manifest + class/spec files + hero-talent.json
+                              │
+                      talent-config.js         ← fetch · split · compact · merge
                               │
                       talent-model.js          ← normalize · validate · construct
                               │
@@ -27,6 +29,7 @@ Everything else follows from that. The Calculator does not own a tree format, th
 
 | File | Responsibility |
 | --- | --- |
+| `js/talent-config.js` | Loads the manifest and split files, serializes shared references, scopes exports to a class, merges class imports and generates the scaffold. Pure data plus injectable fetching — no DOM. |
 | `js/talent-model.js` | The schema. Normalizes any supported input into the canonical shape, constructs nodes/sections/trees, and validates them. Pure data — no DOM. |
 | `js/talent-tree-renderer.js` | The only module that turns a section into DOM. Draws the grid, the nodes, the SVG connection lines, and wires interaction callbacks. Has no opinion about game rules. |
 | `js/talent-calculator.js` | Interprets a tree as a playable talent calculator: point spending, ranks, unlock rules, spellbook modal. |
@@ -81,10 +84,16 @@ They are never inferred from proximity. The calculator's unlock rule reads them 
 
 ## Undo/redo
 
-The designer snapshots the whole project as JSON. Structural changes go through `mutate()`, which pushes the pre-change snapshot. Text fields use `beginEdit()` on focus and `commitEdit()` on change, so a sentence typed into a description is one undo step rather than forty.
+The designer snapshots the whole project as compact v6 JSON, with shared sections stored once. Normalizing a snapshot restores shared object identity, so class edits still propagate after undo/redo or a reload. Structural changes go through `mutate()`, which pushes the pre-change snapshot. Text fields use `beginEdit()` on focus and `commitEdit()` on change, so a sentence typed into a description is one undo step rather than forty.
+
+## Shared talents
+
+All configured specializations of a class point to the same class section object. Existing specs without a class section inherit it. Identical hero sections within a class are stored once and linked by references; different hero trees remain separate. Spec and Apex sections are always specialization-local. Deleting a shared section removes it from every tree that uses it; duplicating a spec keeps shared class/hero references while cloning spec/Apex sections.
+
+Export and the JSON dialog contain only the selected class. Import merges the included classes, replacing their complete spec registry while leaving all other classes unchanged. Drafts and history still cover the entire workspace.
 
 ## Known constraints
 
 - Editing a node's text patches the tree label in place (`patchSelectedNode`) instead of re-rendering, otherwise the input would lose focus on every keystroke.
-- The designer autosaves to IndexedDB. The repository JSON only changes when someone exports and commits the file.
+- The designer autosaves to IndexedDB. Repository files change only through direct edits or applying a class export with the migration script and committing the generated files.
 - `normalizeProject` still accepts the legacy v1/v2 shapes, so old exports keep working.

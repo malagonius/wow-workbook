@@ -1,13 +1,60 @@
 # Canonical Talent Project Format
 
-`config/talent-project.json` is the single source of truth for talent-tree structure.
+[The manifest](../config/talent-project.json) indexes the split configuration. It contains no talent nodes:
 
-## Contract
+```json
+{
+  "format": "wow-workbook-talent-manifest",
+  "version": 1,
+  "content": { "Death Knight": ["Blood", "Frost"] },
+  "classTalents": { "Death Knight": "class/death-knight.json" },
+  "heroTalents": "hero-talent.json",
+  "specFiles": {
+    "Death Knight/Blood": "spec/death-knight/blood.json",
+    "Death Knight/Frost": "spec/death-knight/frost.json"
+  }
+}
+```
+
+Class files contain `{ "class": "Death Knight", "sections": { "Death Knight/class": <section> } }`. The hero registry contains `{ "heroes": { "Death Knight/hero": <section> } }`. Spec files contain tree metadata and ordered sections: shared references such as `{ "classTalent": "Death Knight/class" }` and `{ "heroTalent": "Death Knight/hero" }`, together with inline spec/Apex sections. Missing specialization trees have `{ "class": "Death Knight", "spec": "Frost", "available": false }` scaffold files. An empty class file has `sections: {}`.
+
+References resolve to shared editable section objects. Shared sections never cross class boundaries. Distinct hero sections get distinct keys; no existing hero content is overwritten just because it has the same section ID.
+
+## Compact class export and draft format (v6)
+
+Exports contain only one selected class; browser drafts contain all classes. Both use:
 
 ```json
 {
   "format": "wow-workbook-talent-project",
-  "version": 5,
+  "version": 6,
+  "content": { "Death Knight": ["Blood", "Frost"] },
+  "shared": {
+    "classes": { "Death Knight/class": { "id": "class", "type": "class", "nodes": [], "connections": [] } },
+    "heroes": { "Death Knight/hero": { "id": "hero", "type": "hero", "nodes": [], "connections": [] } }
+  },
+  "trees": {
+    "Death Knight/Blood": {
+      "class": "Death Knight", "spec": "Blood", "description": "",
+      "sections": [
+        { "classTalent": "Death Knight/class" },
+        { "id": "spec", "type": "spec", "nodes": [], "connections": [] },
+        { "id": "apex", "type": "apex", "nodes": [], "connections": [] },
+        { "heroTalent": "Death Knight/hero" }
+      ]
+    }
+  }
+}
+```
+
+Importing a class replaces that class's registry and trees, not the entire project. Apply an exported class to disk with `node scripts/migrate-talent-config.mjs --import <export-file>`; the script merges it with the existing configuration before generating files.
+
+## Resolved runtime contract
+
+```json
+{
+  "format": "wow-workbook-talent-project",
+  "version": 6,
   "content": {
     "Death Knight": ["Blood", "Frost", "Unholy", "Lichborn"]
   },
@@ -97,13 +144,13 @@
 ## Rules
 
 - `format` must be `wow-workbook-talent-project`.
-- `version` is currently `5`.
+- Resolved projects and compact exports use version `6`; the file manifest has its own version `1`.
 - A node ID is stable identity; row/column are layout information and may change.
 - Empty talent sockets are real nodes and must not be represented by `null` when they are selectable.
 - Connections belong to their section. There is no separate canonical connection file.
-- Export/import uses this exact project object.
-- IndexedDB drafts use this exact project object.
-- The Calculator and Designer consume the canonical project and normalize it through the shared model.
+- Class exports and IndexedDB drafts use the compact representation above; renderers receive resolved sections.
+- The Calculator and Designer use `loadTalentProject` and normalize through the shared model.
+- Conflicting class copies in legacy imports fail explicitly instead of discarding talents. Identical copies are shared, and existing trees without a class section inherit it.
 
 ## Versions
 
@@ -114,13 +161,10 @@
 | 3 | Added node `kind`, `maxRank` and `choices`; added section `columns` and `rowCount`. |
 | 4 | Increased the minimum/default section width from 4 to 7 columns. |
 | 5 | Added optional `cost`, `range`, `charges`, `castTime` and `cooldown` fields for active abilities. |
+| 6 | Shared class/hero references; split repository scaffold; current-class exports and class-safe import merging. |
 
 Older files still load: `normalizeProject` upgrades them in memory, filling in the current defaults (`kind: "active"`, `maxRank: 1`, and at least 7 columns). Re-exporting from the Designer writes the current version.
 
 ## Repository state
 
-The canonical migration is complete. `config/talent-project.json` contains the talent-tree data previously split across the legacy tree and connection files.
-
-The Calculator and Designer load only `config/talent-project.json`; the legacy `config/talent-trees.json` and `config/talent-connections.json` files have been removed.
-
-The stored file is still written in the v2 shape and is upgraded on load, which is valid. Exporting from the Designer rewrites it at version 5.
+The repository uses the split manifest/class/spec/hero scaffold. Both apps can still load older whole-project files during migration, and old local drafts and imports are upgraded to the shared v6 model.

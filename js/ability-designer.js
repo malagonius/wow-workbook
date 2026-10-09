@@ -1,5 +1,6 @@
-const STORAGE_KEY = 'wow-workbook-abilities-draft';
 const $ = id => document.getElementById(id);
+let getAbilities = () => ({});
+let updateAbilities = () => {};
 
 const TYPE_ALIASES = new Map([
   ['Class Ability', 'spell'],
@@ -9,12 +10,12 @@ const TYPE_ALIASES = new Map([
 ]);
 
 function loadAbilities() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
-  catch { return {}; }
+  // Edits belong to the same project as talents, not a separate localStorage file.
+  return structuredClone(getAbilities());
 }
 
 function saveAbilities(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  updateAbilities(data);
 }
 
 function classKey() { return $('designer-class').value; }
@@ -120,7 +121,7 @@ function removeAbility(entry) {
   renderAbilities();
 }
 
-function renderAbilities() {
+export function renderAbilities() {
   const entries = currentEntries();
   const element = $('designer-abilities-list');
   if (!element) return;
@@ -198,5 +199,8 @@ function inject() {
   renderAbilities();
 }
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inject);
-else inject();
+export function initializeAbilityDesigner(options) {
+  getAbilities = options.getAbilities;
+  updateAbilities = options.onChange;
+  inject();
+}

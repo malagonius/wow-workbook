@@ -5,7 +5,8 @@ import {
 } from './talent-model.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 import { loadDraft, saveDraft, clearDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
-import { compactProject, fileSlug, loadTalentProject, mergeProject } from './talent-config.js';
+import { classFileName, compactProject, loadTalentProject, mergeLegacyAbilities, mergeProject } from './talent-config.js';
+import { initializeAbilityDesigner, renderAbilities } from './ability-designer.js';
 
 const HISTORY_LIMIT = 60;
 const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
@@ -150,6 +151,7 @@ function render() {
   renderConnections();
   validate();
   updateHistoryButtons();
+  renderAbilities();
 }
 
 function onNodeClick(node, section) {
@@ -690,6 +692,7 @@ async function importProject() {
 
 async function resetDraft() {
   if (!confirm('Discard the local draft and restore the repository data?')) return;
+  clearTimeout(saveTimer);
   await clearDraft();
   project = normalizeProject(compactProject(baselineProject));
   selectedNodeId = null;
@@ -774,12 +777,33 @@ async function init() {
   if (draft) {
     try {
       project = normalizeProject(draft);
+      if (!Object.hasOwn(draft, 'abilities')) {
+        project = mergeLegacyAbilities(project, baselineProject.abilities);
+      }
       setStatus(`Restored local draft · ${new Date(draft.savedAt).toLocaleString()}`, 'saved');
     } catch {
       setStatus('Saved draft was incompatible; using repository baseline.', 'error');
     }
   } else setStatus('Using repository baseline.', 'saved');
 
+  // Preserve ability edits created by the previous, separate ability editor.
+  try {
+    const legacy = localStorage.getItem('wow-workbook-abilities-draft');
+    if (legacy) {
+      project = mergeLegacyAbilities(project, JSON.parse(legacy));
+      if ('indexedDB' in window) {
+        await saveDraft(projectPayload());
+        localStorage.removeItem('wow-workbook-abilities-draft');
+      }
+    }
+  } catch (error) {
+    setStatus(`Legacy ability draft could not be migrated: ${error.message}`, 'error');
+  }
+
+  initializeAbilityDesigner({
+    getAbilities: () => project.abilities,
+    onChange: abilities => mutate(() => { project.abilities = abilities; })
+  });
   populateSelectors();
 
   classSelect.addEventListener('change', () => updateSpecs());
@@ -804,7 +828,8 @@ async function init() {
   $('copy-json').addEventListener('click', () => navigator.clipboard.writeText($('json-output').value));
   $('export-project').addEventListener('click', () => {
     if (!classSelect.value) return;
-    downloadProject(compactProject(project, classSelect.value), `${fileSlug(classSelect.value)}-talents.json`);
+    downloadProject(compactProject(project, classSelect.value), classFileName(classSelect.value));
+    setStatus(`Exported ${classSelect.value} · replace config/class/${classFileName(classSelect.value)} to publish.`, 'saved');
   });
   $('import-project').addEventListener('click', () => $('project-file').click());
   $('project-file').addEventListener('change', importProject);

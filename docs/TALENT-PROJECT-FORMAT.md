@@ -1,34 +1,37 @@
 # Canonical Talent Project Format
 
-[The manifest](../config/talent-project.json) indexes the split configuration. It contains no talent nodes:
+[The manifest](../config/talent-project.json) indexes one self-contained file per class. It contains no talent nodes or duplicate spec registry:
 
 ```json
 {
   "format": "wow-workbook-talent-manifest",
-  "version": 1,
-  "content": { "Death Knight": ["Blood", "Frost"] },
-  "classTalents": { "Death Knight": "class/death-knight.json" },
-  "heroTalents": "hero-talent.json",
-  "specFiles": {
-    "Death Knight/Blood": "spec/death-knight/blood.json",
-    "Death Knight/Frost": "spec/death-knight/frost.json"
+  "version": 2,
+  "classFiles": {
+    "Death Knight": "class/death-knight-talents.json",
+    "Mage": "class/mage-talents.json"
   }
 }
 ```
 
-Class files contain `{ "class": "Death Knight", "sections": { "Death Knight/class": <section> } }`. The hero registry contains `{ "heroes": { "Death Knight/hero": <section> } }`. Spec files contain tree metadata and ordered sections: shared references such as `{ "classTalent": "Death Knight/class" }` and `{ "heroTalent": "Death Knight/hero" }`, together with inline spec/Apex sections. Missing specialization trees have `{ "class": "Death Knight", "spec": "Frost", "available": false }` scaffold files. An empty class file has `sections: {}`.
+Each class file uses the compact v6 format below and contains exactly one class in `content`, all of its configured trees, shared class/hero sections, spec-local Apex sections, and class/spec abilities. All references resolve within that file. A listed spec without a tree is unconfigured; a class with no configured specs still has its own file.
+
+The manifest does not list specs. Replacing an existing class file with an export updates the complete class without index edits; adding a new class requires one `classFiles` entry. The legacy manifest version 1 (`classTalents`, `specFiles`, `heroTalents`) remains readable for migration.
 
 References resolve to shared editable section objects. Shared sections never cross class boundaries. Distinct hero sections get distinct keys; no existing hero content is overwritten just because it has the same section ID.
 
-## Compact class export and draft format (v6)
+## Class files, exports and draft format (project v6)
 
-Exports contain only one selected class; browser drafts contain all classes. Both use:
+Repository class files and exports contain only one class and use exactly the same format; browser drafts contain all classes. Both use:
 
 ```json
 {
   "format": "wow-workbook-talent-project",
   "version": 6,
   "content": { "Death Knight": ["Blood", "Frost"] },
+  "abilities": {
+    "Death Knight": [{ "name": "Death Coil", "type": "spell", "description": "Class ability" }],
+    "Death Knight/Blood": [{ "name": "Blood Presence", "type": "passive", "description": "Spec ability" }]
+  },
   "shared": {
     "classes": { "Death Knight/class": { "id": "class", "type": "class", "nodes": [], "connections": [] } },
     "heroes": { "Death Knight/hero": { "id": "hero", "type": "hero", "nodes": [], "connections": [] } }
@@ -47,7 +50,9 @@ Exports contain only one selected class; browser drafts contain all classes. Bot
 }
 ```
 
-Importing a class replaces that class's registry and trees, not the entire project. Apply an exported class to disk with `node scripts/migrate-talent-config.mjs --import <export-file>`; the script merges it with the existing configuration before generating files.
+Importing a class replaces that class's registry, trees and abilities, not the entire project. Publish an export by replacing its matching `config/class/<class>-talents.json`. The optional `node scripts/migrate-talent-config.mjs --import <export-file>` command merges it with the repository and updates the index, useful for new classes.
+
+The `abilities` object uses the class name for class-wide abilities and `Class/Spec` for specialization abilities. Entries retain authored fields such as `name`, `type`, `description`, `icon`, `school`, `cost`, `range`, `charges`, `castTime`, and `cooldown`. Missing `abilities` in older files defaults to `{}`. Ability edits participate in the same draft and undo/redo history as talents.
 
 ## Resolved runtime contract
 
@@ -144,7 +149,7 @@ Importing a class replaces that class's registry and trees, not the entire proje
 ## Rules
 
 - `format` must be `wow-workbook-talent-project`.
-- Resolved projects and compact exports use version `6`; the file manifest has its own version `1`.
+- Resolved projects, class files and compact exports use project version `6`; the class index has independent manifest version `2`.
 - A node ID is stable identity; row/column are layout information and may change.
 - Empty talent sockets are real nodes and must not be represented by `null` when they are selectable.
 - Connections belong to their section. There is no separate canonical connection file.
@@ -161,10 +166,10 @@ Importing a class replaces that class's registry and trees, not the entire proje
 | 3 | Added node `kind`, `maxRank` and `choices`; added section `columns` and `rowCount`. |
 | 4 | Increased the minimum/default section width from 4 to 7 columns. |
 | 5 | Added optional `cost`, `range`, `charges`, `castTime` and `cooldown` fields for active abilities. |
-| 6 | Shared class/hero references; split repository scaffold; current-class exports and class-safe import merging. |
+| 6 | Shared class/hero references; self-contained class files and exports; class-safe import merging. Optional `abilities` travels with the project. |
 
 Older files still load: `normalizeProject` upgrades them in memory, filling in the current defaults (`kind: "active"`, `maxRank: 1`, and at least 7 columns). Re-exporting from the Designer writes the current version.
 
 ## Repository state
 
-The repository uses the split manifest/class/spec/hero scaffold. Both apps can still load older whole-project files during migration, and old local drafts and imports are upgraded to the shared v6 model.
+The repository uses manifest version 2 plus one compact-v6 JSON per class. There are no separate spec, hero or ability JSON files. Both apps can still load older whole-project files and legacy version-1 manifests during migration. Old local drafts/imports are upgraded to the shared v6 model, and separate browser ability drafts migrate into the project draft.

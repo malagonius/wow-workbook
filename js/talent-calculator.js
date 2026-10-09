@@ -2,17 +2,13 @@ import { nodeLabel } from './talent-model.js';
 import { loadTalentProject } from './talent-config.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 
-const ABILITIES_URL='config/abilities.json';
-let project=null,abilities=null;
+let project=null;
 const ranks=new Map(),choices=new Map();
 const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=$('specSelect'),treeContainer=$('treeContainer');
 
 async function loadConfig(){
   try{
-    const [loadedProject,abilitiesResponse]=await Promise.all([loadTalentProject(),fetch(ABILITIES_URL)]);
-    if(!abilitiesResponse.ok)throw Error('Ability configuration could not be loaded');
-    project=loadedProject;
-    abilities=await abilitiesResponse.json();
+    project=await loadTalentProject();
     const classes=Object.keys(project.content||{});
     classSelect.innerHTML='';
     classes.forEach(name=>classSelect.add(new Option(name,name)));
@@ -101,16 +97,10 @@ function render(){
     }
   });
 }
-function loadLocalAbilities(){
-  try{return JSON.parse(localStorage.getItem('wow-workbook-abilities-draft')||'{}')}catch{return {}}
-}
 function openAbilities(){
-  const local=loadLocalAbilities();
   const list=[
-    ...(abilities?.[classSelect.value]||[]),
-    ...(abilities?.[currentKey()]||[]),
-    ...(local?.[classSelect.value]||[]),
-    ...(local?.[currentKey()]||[])
+    ...(project?.abilities?.[classSelect.value]||[]),
+    ...(project?.abilities?.[currentKey()]||[])
   ];
   $('modalTitle').textContent=classSelect.value+' / '+specSelect.value+' — Abilities';
   $('spellList').innerHTML=list.length?list.map(a=>{

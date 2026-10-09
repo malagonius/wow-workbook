@@ -207,6 +207,7 @@ export function projectFromLegacy(config, legacyConnections = {}) {
     format: TALENT_PROJECT_FORMAT,
     version: TALENT_PROJECT_VERSION,
     content: cloneTree(config?.content || {}),
+    abilities: cloneTree(config?.abilities || {}),
     trees
   };
 }
@@ -256,13 +257,14 @@ export function normalizeProject(project) {
       format: TALENT_PROJECT_FORMAT,
       version: TALENT_PROJECT_VERSION,
       content: cloneTree(project.content || {}),
+      abilities: cloneTree(project.abilities || {}),
       trees
     };
   }
 
   if (project.format === TALENT_PROJECT_FORMAT && project.version === 1) {
     return normalizeProject(projectFromLegacy(
-      { content: project.content || {}, trees: project.trees || {} },
+      { content: project.content || {}, abilities: project.abilities || {}, trees: project.trees || {} },
       project.connections || {}
     ));
   }

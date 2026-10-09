@@ -1,4 +1,4 @@
-// Disk configuration is split; renderers still receive ordinary, resolved trees.
+// Each class file is self-contained; renderers receive ordinary, resolved trees.
 import { normalizeProject, TALENT_PROJECT_FORMAT, TALENT_PROJECT_VERSION } from './talent-model.js';
 
 export const TALENT_MANIFEST_FORMAT = 'wow-workbook-talent-manifest';
@@ -7,6 +7,10 @@ export const PROJECT_URL = 'config/talent-project.json';
 export function fileSlug(name) {
   // Preserve punctuation as escapes rather than collapsing distinct names.
   return encodeURIComponent(name.toLowerCase().replaceAll(' ', '-'));
+}
+
+export function classFileName(className) {
+  return `${fileSlug(className)}-talents.json`;
 }
 
 export function compactProject(project, className = null) {
@@ -47,8 +51,11 @@ export function compactProject(project, className = null) {
       })
     };
   }
+  const abilities = Object.fromEntries(Object.entries(project.abilities || {}).filter(([key]) =>
+    className === null || key === className || key.startsWith(`${className}/`)
+  ));
   return JSON.parse(JSON.stringify({
-    format: TALENT_PROJECT_FORMAT, version: TALENT_PROJECT_VERSION, content, shared, trees
+    format: TALENT_PROJECT_FORMAT, version: TALENT_PROJECT_VERSION, content, abilities, shared, trees
   }));
 }
 
@@ -57,6 +64,14 @@ export function mergeProject(current, imported) {
   const next = compactProject(current);
   const incoming = compactProject(normalizeProject(imported));
   const replaced = new Set(Object.keys(incoming.content));
+  // Older exports did not carry abilities. Do not interpret that omission as
+  // deleting already-published abilities; new exports use an explicit registry.
+  if (Object.hasOwn(imported, 'abilities')) {
+    for (const key of Object.keys(next.abilities)) {
+      if (replaced.has(key.split('/')[0])) delete next.abilities[key];
+    }
+  }
+  Object.assign(next.abilities, incoming.abilities);
   for (const [key, tree] of Object.entries(next.trees)) {
     if (replaced.has(tree.class)) delete next.trees[key];
   }
@@ -71,35 +86,65 @@ export function mergeProject(current, imported) {
   return normalizeProject(next);
 }
 
+export function mergeLegacyAbilities(project, legacy) {
+  const next = compactProject(project);
+  for (const [key, items] of Object.entries(legacy || {})) {
+    if (!Object.hasOwn(next.content, key.split('/')[0]) || !Array.isArray(items)) continue;
+    const list = next.abilities[key] || [];
+    const seen = new Set(list.map(item => JSON.stringify(item)));
+    for (const item of items) {
+      const fingerprint = JSON.stringify(item);
+      if (!seen.has(fingerprint)) {
+        list.push(item);
+        seen.add(fingerprint);
+      }
+    }
+    next.abilities[key] = list;
+  }
+  return normalizeProject(next);
+}
+
 export function splitProject(project) {
-  const compact = compactProject(project);
+  // Retain the public helper name for existing integrations. Only classes split now.
   const files = {};
   const manifest = {
-    format: TALENT_MANIFEST_FORMAT, version: 1, content: compact.content,
-    classTalents: {}, heroTalents: 'hero-talent.json', specFiles: {}
+    format: TALENT_MANIFEST_FORMAT, version: 2, classFiles: {}
   };
   const usedPaths = new Set();
-  function reserve(path) {
+  for (const className of Object.keys(project.content)) {
+    const path = `class/${classFileName(className)}`;
     if (usedPaths.has(path)) throw new Error(`Configuration filename collision: ${path}`);
     usedPaths.add(path);
-    return path;
-  }
-  files['hero-talent.json'] = { heroes: compact.shared.heroes };
-  for (const [className, specs] of Object.entries(compact.content)) {
-    const classPath = reserve(`class/${fileSlug(className)}.json`);
-    const sections = Object.fromEntries(Object.entries(compact.shared.classes).filter(([key]) => key.startsWith(`${className}/`)));
-    manifest.classTalents[className] = classPath;
-    files[classPath] = { class: className, sections };
-    for (const specName of specs) {
-      const key = `${className}/${specName}`;
-      const path = reserve(`spec/${fileSlug(className)}/${fileSlug(specName)}.json`);
-      // Explicit placeholders make unfinished specs visible in the scaffold.
-      files[path] = compact.trees[key] || { class: className, spec: specName, available: false };
-      manifest.specFiles[key] = path;
-    }
+    manifest.classFiles[className] = path;
+    files[path] = compactProject(project, className);
   }
   files['talent-project.json'] = manifest;
   return files;
+}
+
+function validateClassFile(data, className, path) {
+  if (data.format !== TALENT_PROJECT_FORMAT || Object.keys(data.content || {}).length !== 1 ||
+      !Object.hasOwn(data.content, className) || !Array.isArray(data.content[className])) {
+    throw new Error(`Class mismatch in ${path}: expected only ${className}.`);
+  }
+  for (const [key, tree] of Object.entries(data.trees || {})) {
+    if (tree.class !== className || key !== `${className}/${tree.spec}` ||
+        !data.content[className].includes(tree.spec)) {
+      throw new Error(`Specialization mismatch in ${path}: ${key}`);
+    }
+  }
+  for (const registry of ['classes', 'heroes']) {
+    for (const key of Object.keys(data.shared?.[registry] || {})) {
+      if (!key.startsWith(`${className}/`)) throw new Error(`Shared talent class mismatch in ${path}: ${key}`);
+    }
+  }
+  for (const [key, items] of Object.entries(data.abilities || {})) {
+    if ((key !== className && !key.startsWith(`${className}/`)) || !Array.isArray(items)) {
+      throw new Error(`Ability class mismatch in ${path}: ${key}`);
+    }
+  }
+  // Resolve in isolation: a class cannot borrow missing talents from another file.
+  return compactProject(normalizeProject(data), className);
 }
 
 export async function loadTalentProject(url = PROJECT_URL, fetcher = fetch) {
@@ -111,6 +156,30 @@ export async function loadTalentProject(url = PROJECT_URL, fetcher = fetch) {
   const manifest = await read(url);
   if (manifest.format !== TALENT_MANIFEST_FORMAT) return normalizeProject(manifest);
   const base = url.slice(0, url.lastIndexOf('/') + 1);
+  if (manifest.version === 2) {
+    if (!manifest.classFiles || typeof manifest.classFiles !== 'object' || Array.isArray(manifest.classFiles)) {
+      throw new Error('Talent manifest must contain a classFiles registry.');
+    }
+    const classes = await Promise.all(Object.entries(manifest.classFiles).map(async ([className, path]) => {
+      if (typeof path !== 'string' || !path) throw new Error(`Missing class filename for ${className}.`);
+      return validateClassFile(await read(base + path), className, path);
+    }));
+    const project = {
+      format: TALENT_PROJECT_FORMAT, version: TALENT_PROJECT_VERSION,
+      content: {}, abilities: {}, shared: { classes: {}, heroes: {} }, trees: {}
+    };
+    // The spec registry lives in each class file, so replacing it needs no index edits.
+    for (const data of classes) {
+      Object.assign(project.content, data.content);
+      Object.assign(project.abilities, data.abilities);
+      Object.assign(project.trees, data.trees);
+      Object.assign(project.shared.classes, data.shared.classes);
+      Object.assign(project.shared.heroes, data.shared.heroes);
+    }
+    return normalizeProject(project);
+  }
+  if (manifest.version !== 1) throw new Error(`Unsupported talent manifest version: ${manifest.version}`);
+  // Legacy split manifests remain readable for migration and older installations.
   const project = {
     format: TALENT_PROJECT_FORMAT, version: TALENT_PROJECT_VERSION,
     content: manifest.content, shared: { classes: {}, heroes: {} }, trees: {}
@@ -134,5 +203,9 @@ export async function loadTalentProject(url = PROJECT_URL, fetcher = fetch) {
   for (const [key, tree] of specs) {
     if (tree.available !== false) project.trees[key] = tree;
   }
+  // The old repository kept baseline abilities outside talent exports.
+  const abilitiesResponse = await fetcher(base + 'abilities.json');
+  if (abilitiesResponse.ok) project.abilities = await abilitiesResponse.json();
+  else if (abilitiesResponse.status !== 404) throw new Error('Legacy ability configuration could not be loaded.');
   return normalizeProject(project);
 }

@@ -74,19 +74,23 @@ Run `npm test` and `npm run check:talents`, then use this checklist for browser 
 - [ ] Class edits appear when switching specs and survive undo/redo and a page reload.
 - [ ] Shared hero edits appear in the other specs using that hero tree, while different heroes and other classes stay unchanged.
 - [ ] Reset draft restores the repository baseline and shared edit identity.
+- [ ] Ability additions, edits and removals survive autosave, undo/redo, reload and class export/import.
+- [ ] Replacing only a class JSON updates its specs, talents and abilities in the Calculator.
 
 ## Publishing changes to the repository data
 
 The designer saves drafts to IndexedDB in the browser, not to disk. To make a tree part of the repository:
 
 1. Select the class and click **Export class** in the designer.
-2. Run `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json` from the repository root.
+2. Replace the matching `config/class/<class>-talents.json` with the downloaded file. Its filename and format already match the repository.
 3. Run `npm test` and `npm run check:talents`.
 4. Commit the changed files under `config/`. Other classes are preserved.
 
-The manifest is only a registry; never replace it with a class export. New specs get their own file, shared class edits belong in the corresponding class file, and shared hero edits belong in the hero registry. `available: false` identifies an unconfigured specialization. Use **＋ Spec** with an existing unconfigured spec name to initialize its tree.
+The manifest's `classFiles` registry lists class filenames only; never replace it with a class export. All spec, class, hero, Apex and ability data belong in the owning class file. A spec listed in `content` without a tree is unconfigured. Use **＋ Spec** with that name to initialize it. Adding/removing specs within an existing class never requires a manifest edit.
 
-`npm run migrate:talents` also migrates a legacy whole-project file. Review and commit the generated files yourself; migration does not create Git commits.
+For a new class, add its export to `config/class/` and its name/path to `classFiles`. Alternatively, run `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json`; it merges the export and updates the index automatically. `npm run migrate:talents` also consolidates legacy split/whole-project configuration. It removes only obsolete known data files after writing the new index. Review and commit the generated files yourself; migration does not create Git commits.
+
+Autosave covers the full project (including abilities) in IndexedDB. If testing published repository changes with an old browser draft, export any unsaved work first, then use **Reset draft**. Legacy ability drafts are migrated into project autosave and removed from the separate localStorage key only after a successful save.
 
 ## Roadmap
 
@@ -97,4 +101,4 @@ Tracked in [TALENT-DESIGNER-TODO.md](TALENT-DESIGNER-TODO.md). The highest-value
 3. **Multi-section designer view** — edit class/spec/hero side by side instead of one section at a time.
 4. **Richer choice nodes** — per-option icons in the editor and a proper picker in the calculator.
 5. **Build sharing** — encode spent talents into a URL so a build can be linked.
-6. **Save to GitHub** — apply a current-class export to its scaffold files from the browser via a PR.
+6. **Save to GitHub** — replace the selected class file from the browser via a PR.

@@ -1,0 +1,17 @@
+{
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Demon Hunter": [
+      "Havoc",
+      "Vengeance",
+      "Devourer"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
+}

@@ -1,0 +1,17 @@
+{
+  "format": "wow-workbook-talent-project",
+  "version": 6,
+  "content": {
+    "Warlock": [
+      "Affliction",
+      "Demonology",
+      "Destruction"
+    ]
+  },
+  "abilities": {},
+  "shared": {
+    "classes": {},
+    "heroes": {}
+  },
+  "trees": {}
+}

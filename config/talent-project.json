@@ -1,143 +1,20 @@
 {
   "format": "wow-workbook-talent-manifest",
-  "version": 1,
-  "content": {
-    "Death Knight": [
-      "Blood",
-      "Frost",
-      "Unholy",
-      "Lichborn"
-    ],
-    "Demon Hunter": [
-      "Havoc",
-      "Vengeance",
-      "Devourer"
-    ],
-    "Druid": [
-      "Balance",
-      "Feral",
-      "Guardian",
-      "Restoration"
-    ],
-    "Evoker": [
-      "Devastation",
-      "Preservation",
-      "Augmentation"
-    ],
-    "Hunter": [
-      "Beast Mastery",
-      "Marksmanship",
-      "Survival"
-    ],
-    "Mage": [
-      "Arcane",
-      "Fire",
-      "Frost"
-    ],
-    "Monk": [
-      "Brewmaster",
-      "Mistweaver",
-      "Windwalker"
-    ],
-    "Paladin": [
-      "Holy",
-      "Protection",
-      "Retribution"
-    ],
-    "Priest": [
-      "Discipline",
-      "Holy",
-      "Shadow",
-      "Thaumaturgy"
-    ],
-    "Rogue": [
-      "Assassination",
-      "Outlaw",
-      "Subtlety"
-    ],
-    "Shaman": [
-      "Elemental",
-      "Enhancement",
-      "Restoration",
-      "Primal Weaver"
-    ],
-    "Warlock": [
-      "Affliction",
-      "Demonology",
-      "Destruction"
-    ],
-    "Warrior": [
-      "Arms",
-      "Fury",
-      "Protection"
-    ],
-    "Thinker": [
-      "Bio-Tech",
-      "Blastologist"
-    ]
-  },
-  "classTalents": {
-    "Death Knight": "class/death-knight.json",
-    "Demon Hunter": "class/demon-hunter.json",
-    "Druid": "class/druid.json",
-    "Evoker": "class/evoker.json",
-    "Hunter": "class/hunter.json",
-    "Mage": "class/mage.json",
-    "Monk": "class/monk.json",
-    "Paladin": "class/paladin.json",
-    "Priest": "class/priest.json",
-    "Rogue": "class/rogue.json",
-    "Shaman": "class/shaman.json",
-    "Warlock": "class/warlock.json",
-    "Warrior": "class/warrior.json",
-    "Thinker": "class/thinker.json"
-  },
-  "heroTalents": "hero-talent.json",
-  "specFiles": {
-    "Death Knight/Blood": "spec/death-knight/blood.json",
-    "Death Knight/Frost": "spec/death-knight/frost.json",
-    "Death Knight/Unholy": "spec/death-knight/unholy.json",
-    "Death Knight/Lichborn": "spec/death-knight/lichborn.json",
-    "Demon Hunter/Havoc": "spec/demon-hunter/havoc.json",
-    "Demon Hunter/Vengeance": "spec/demon-hunter/vengeance.json",
-    "Demon Hunter/Devourer": "spec/demon-hunter/devourer.json",
-    "Druid/Balance": "spec/druid/balance.json",
-    "Druid/Feral": "spec/druid/feral.json",
-    "Druid/Guardian": "spec/druid/guardian.json",
-    "Druid/Restoration": "spec/druid/restoration.json",
-    "Evoker/Devastation": "spec/evoker/devastation.json",
-    "Evoker/Preservation": "spec/evoker/preservation.json",
-    "Evoker/Augmentation": "spec/evoker/augmentation.json",
-    "Hunter/Beast Mastery": "spec/hunter/beast-mastery.json",
-    "Hunter/Marksmanship": "spec/hunter/marksmanship.json",
-    "Hunter/Survival": "spec/hunter/survival.json",
-    "Mage/Arcane": "spec/mage/arcane.json",
-    "Mage/Fire": "spec/mage/fire.json",
-    "Mage/Frost": "spec/mage/frost.json",
-    "Monk/Brewmaster": "spec/monk/brewmaster.json",
-    "Monk/Mistweaver": "spec/monk/mistweaver.json",
-    "Monk/Windwalker": "spec/monk/windwalker.json",
-    "Paladin/Holy": "spec/paladin/holy.json",
-    "Paladin/Protection": "spec/paladin/protection.json",
-    "Paladin/Retribution": "spec/paladin/retribution.json",
-    "Priest/Discipline": "spec/priest/discipline.json",
-    "Priest/Holy": "spec/priest/holy.json",
-    "Priest/Shadow": "spec/priest/shadow.json",
-    "Priest/Thaumaturgy": "spec/priest/thaumaturgy.json",
-    "Rogue/Assassination": "spec/rogue/assassination.json",
-    "Rogue/Outlaw": "spec/rogue/outlaw.json",
-    "Rogue/Subtlety": "spec/rogue/subtlety.json",
-    "Shaman/Elemental": "spec/shaman/elemental.json",
-    "Shaman/Enhancement": "spec/shaman/enhancement.json",
-    "Shaman/Restoration": "spec/shaman/restoration.json",
-    "Shaman/Primal Weaver": "spec/shaman/primal-weaver.json",
-    "Warlock/Affliction": "spec/warlock/affliction.json",
-    "Warlock/Demonology": "spec/warlock/demonology.json",
-    "Warlock/Destruction": "spec/warlock/destruction.json",
-    "Warrior/Arms": "spec/warrior/arms.json",
-    "Warrior/Fury": "spec/warrior/fury.json",
-    "Warrior/Protection": "spec/warrior/protection.json",
-    "Thinker/Bio-Tech": "spec/thinker/bio-tech.json",
-    "Thinker/Blastologist": "spec/thinker/blastologist.json"
+  "version": 2,
+  "classFiles": {
+    "Death Knight": "class/death-knight-talents.json",
+    "Demon Hunter": "class/demon-hunter-talents.json",
+    "Druid": "class/druid-talents.json",
+    "Evoker": "class/evoker-talents.json",
+    "Hunter": "class/hunter-talents.json",
+    "Mage": "class/mage-talents.json",
+    "Monk": "class/monk-talents.json",
+    "Paladin": "class/paladin-talents.json",
+    "Priest": "class/priest-talents.json",
+    "Rogue": "class/rogue-talents.json",
+    "Shaman": "class/shaman-talents.json",
+    "Warlock": "class/warlock-talents.json",
+    "Warrior": "class/warrior-talents.json",
+    "Thinker": "class/thinker-talents.json"
   }
 }

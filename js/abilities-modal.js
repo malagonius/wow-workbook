@@ -1,5 +1,4 @@
-const abilitiesUrl = 'config/abilities.json';
-const localAbilitiesKey = 'wow-workbook-abilities-draft';
+import { loadTalentProject } from './talent-config.js';
 
 const get = id => document.getElementById(id);
 const classSelect = get('classSelect');
@@ -12,20 +11,9 @@ let abilitiesPromise;
 
 function loadAbilities() {
   if (!abilitiesPromise) {
-    abilitiesPromise = fetch(abilitiesUrl).then(response => {
-      if (!response.ok) throw new Error(`Unable to load ${abilitiesUrl}`);
-      return response.json();
-    });
+    abilitiesPromise = loadTalentProject().then(project => project.abilities);
   }
   return abilitiesPromise;
-}
-
-function loadLocalAbilities() {
-  try {
-    return JSON.parse(localStorage.getItem(localAbilitiesKey) || '{}');
-  } catch {
-    return {};
-  }
 }
 
 function currentAbilities(data) {
@@ -33,10 +21,7 @@ function currentAbilities(data) {
   const specializationKey = `${classKey}/${specSelect.value}`;
   const baselineClass = data[classKey] || [];
   const baselineSpec = data[specializationKey] || [];
-  const local = loadLocalAbilities();
-  const localClass = local[classKey] || [];
-  const localSpec = local[specializationKey] || [];
-  return [...baselineClass, ...baselineSpec, ...localClass, ...localSpec];
+  return [...baselineClass, ...baselineSpec];
 }
 
 function renderAbilities(items) {

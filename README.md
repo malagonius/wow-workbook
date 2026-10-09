@@ -9,11 +9,11 @@ Two pages, one shared talent model:
 
 Both pages load the same small [configuration manifest](config/talent-project.json), which references:
 
-- [Shared hero talents](config/hero-talent.json), stored once per distinct hero tree.
-- Class talent files under `config/class/`, shared by every configured spec of that class.
-- Specialization files under `config/spec/<class>/<spec>.json`, containing spec and Apex sections plus references to the shared talents.
+- **One self-contained JSON file per class** under `config/class/`, such as `death-knight-talents.json` or `thinker-talents.json`.
+- Each file contains the class's spec registry, class talents, every configured specialization, hero talents, Apex sections, and class/spec abilities.
+- Shared class and hero talents are stored once **inside that class file**, never in a separate global file.
 
-Class-qualified folders avoid collisions such as Mage/Frost and Death Knight/Frost. Unfinished specializations have explicit `available: false` placeholder files rather than invented talents.
+Unfinished specializations remain listed in the class file's `content` registry without invented talent trees. The manifest indexes class filenames only: changing a class's specs does not require changing the manifest.
 
 ## Run it
 
@@ -32,8 +32,11 @@ Open <http://localhost:8000/>. Alternatively, Node 22+ users can run `npm start`
 2. Pick a class and spec, or create your own with **＋ Class** / **＋ Spec**.
 3. Click an empty socket to create a talent, then edit it in the right-hand panel.
 4. Drag talents to rearrange them; drag the gold dot from one talent onto another to connect them.
-5. Changes autosave to your browser. **Export class** downloads only the selected class (all its specs, shared class talents and referenced hero talents). Importing updates only the classes in that file; other classes are preserved.
-6. To publish the downloaded class, run `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json`, then commit the changed configuration files. Do not replace the manifest with a class export.
+5. Talent and ability changes autosave together to your browser. **Export class** downloads all data for the selected class. Importing replaces only the classes in that file; other classes are preserved.
+6. **Replace the matching file in `config/class/` with the download**, then commit that file. For example, replace `config/class/thinker-talents.json` with the exported `thinker-talents.json`. No splitting or migration is needed. Do not replace the manifest with a class export.
+7. For a brand-new class, place its export in `config/class/` and add its name/path to the manifest's `classFiles` registry. Alternatively, the import maintenance command below does this automatically.
+
+Browser autosave is a local draft, not a write to repository files. If a previously saved draft is showing old data after replacing a class file, use **Reset draft** to reload the repository baseline (this discards local edits).
 
 ## Configuration maintenance
 
@@ -41,9 +44,10 @@ Node 22+ is needed only for developer validation/migration, not to run the stati
 
 - `npm test` — regression tests for loading, sharing, migration and class exports.
 - `npm run check:talents` — validate that every referenced file and shared section resolves.
-- `npm run migrate:talents` — split a legacy whole-project file, or rewrite the existing scaffold deterministically.
+- `npm run migrate:talents` — consolidate legacy split/whole-project data into one file per class, or rewrite the current layout deterministically.
+- `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json` — optional automated publishing; merge an export and update the class index, including new classes.
 
-Migration and validation run locally; commit the resulting files when ready. Both apps still accept old whole-project files and local drafts.
+Migration and validation run locally; commit the resulting files when ready. Migration removes obsolete legacy class/spec/hero/ability JSON only after writing the new files and manifest. Old whole-project files, split manifests and browser drafts remain supported; old separate browser ability edits are migrated into the project draft.
 
 ## Documentation
 

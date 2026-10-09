@@ -25,7 +25,7 @@ function memoryFetch(files) {
   };
 }
 
- test('class talents share one object across specs but never across classes', () => {
+test('class talents share one object across specs but never across classes', () => {
   const project = fixture();
   const blood = project.trees['Death Knight/Blood'].sections[0];
   const frost = project.trees['Death Knight/Frost'].sections[0];
@@ -35,7 +35,7 @@ function memoryFetch(files) {
   assert.equal(frost.nodes[0].description, 'Shared edit');
 });
 
- test('compact serialization deduplicates class and identical hero sections', () => {
+test('compact serialization deduplicates class and identical hero sections', () => {
   const compact = compactProject(fixture());
   assert.equal(Object.keys(compact.shared.classes).length, 2);
   assert.equal(Object.keys(compact.shared.heroes).length, 2);
@@ -43,7 +43,7 @@ function memoryFetch(files) {
   assert.deepEqual(normalizeProject(compact), fixture());
 });
 
- test('class export includes all its specs and no other class data', () => {
+test('class export includes all its specs and no other class data', () => {
   const compact = compactProject(fixture(), 'Death Knight');
   assert.deepEqual(Object.keys(compact.content), ['Death Knight']);
   assert.deepEqual(Object.keys(compact.trees), ['Death Knight/Blood', 'Death Knight/Frost']);
@@ -53,7 +53,7 @@ function memoryFetch(files) {
   assert.throws(() => compactProject(fixture(), 'Missing'), /Unknown class/);
 });
 
- test('split scaffold has collision-safe per-class spec paths and missing-spec placeholders', async () => {
+test('split scaffold has collision-safe per-class spec paths and missing-spec placeholders', async () => {
   const project = fixture();
   const files = splitProject(project);
   assert.ok(files['spec/death-knight/frost.json']);
@@ -65,7 +65,7 @@ function memoryFetch(files) {
   assert.deepEqual(await loadTalentProject('config/talent-project.json', memoryFetch(files)), project);
 });
 
- test('split reload preserves shared hero edit identity', async () => {
+test('split reload preserves shared hero edit identity', async () => {
   const project = await loadTalentProject('config/talent-project.json', memoryFetch(splitProject(fixture())));
   const blood = project.trees['Death Knight/Blood'].sections.find(s => s.type === 'hero');
   const frost = project.trees['Death Knight/Frost'].sections.find(s => s.type === 'hero');
@@ -74,7 +74,7 @@ function memoryFetch(files) {
   assert.equal(frost.nodes[0].name, 'Shared hero edit');
 });
 
- test('different hero trees remain separate, Apex stays in each spec file', () => {
+test('different hero trees remain separate, Apex stays in each spec file', () => {
   const project = fixture();
   project.trees['Death Knight/Frost'].sections.find(s => s.type === 'hero').nodes[0].name = 'Frost hero';
   const files = splitProject(project);
@@ -83,7 +83,7 @@ function memoryFetch(files) {
   assert.ok(!files['spec/death-knight/frost.json'].sections.some(s => s.type === 'class' || s.type === 'hero'));
 });
 
- test('class imports preserve unrelated classes and remove replaced-class stale specs', () => {
+test('class imports preserve unrelated classes and remove replaced-class stale specs', () => {
   const current = fixture();
   const imported = compactProject(current, 'Death Knight');
   delete imported.trees['Death Knight/Frost'];
@@ -95,7 +95,7 @@ function memoryFetch(files) {
   assert.equal(merged.trees['Death Knight/Blood'].sections[0].nodes[0].name, 'Updated class');
 });
 
- test('legacy whole-project imports and old draft JSON remain supported', async () => {
+test('legacy whole-project imports and old draft JSON remain supported', async () => {
   const legacy = structuredClone(fixture());
   legacy.version = 5;
   assert.deepEqual(mergeProject(fixture(), legacy), fixture());
@@ -103,27 +103,27 @@ function memoryFetch(files) {
   assert.deepEqual(normalizeProject(JSON.parse(JSON.stringify(compactProject(fixture())))), fixture());
 });
 
- test('missing shared references fail explicitly rather than silently dropping talents', () => {
+test('missing shared references fail explicitly rather than silently dropping talents', () => {
   const compact = compactProject(fixture());
   delete compact.shared.classes['Death Knight/class'];
   assert.throws(() => normalizeProject(compact), /Missing shared talent section/);
 });
 
- test('conflicting old class copies are rejected without data loss', () => {
+test('conflicting old class copies are rejected without data loss', () => {
   // JSON copies emulate old disk files; structuredClone preserves shared aliases.
   const legacy = JSON.parse(JSON.stringify(fixture()));
   legacy.trees['Death Knight/Frost'].sections[0].nodes[0].name = 'Conflicting talent';
   assert.throws(() => normalizeProject(legacy), /Conflicting class talents/);
 });
 
- test('existing specs without a class section inherit the shared class tree', () => {
+test('existing specs without a class section inherit the shared class tree', () => {
   const legacy = structuredClone(fixture());
   legacy.trees['Death Knight/Frost'].sections = legacy.trees['Death Knight/Frost'].sections.filter(s => s.type !== 'class');
   const project = normalizeProject(legacy);
   assert.equal(project.trees['Death Knight/Frost'].sections[0], project.trees['Death Knight/Blood'].sections[0]);
 });
 
- test('missing config files and wrong spec identities produce actionable errors', async () => {
+test('missing config files and wrong spec identities produce actionable errors', async () => {
   const files = splitProject(fixture());
   delete files['spec/mage/frost.json'];
   await assert.rejects(loadTalentProject('config/talent-project.json', memoryFetch(files)), /spec\/mage\/frost.json.*404/);
@@ -131,7 +131,7 @@ function memoryFetch(files) {
   await assert.rejects(loadTalentProject('config/talent-project.json', memoryFetch(files)), /Specialization mismatch/);
 });
 
- test('filename normalization detects collisions and escapes path separators', () => {
+test('filename normalization detects collisions and escapes path separators', () => {
   assert.equal(fileSlug('Bio-Tech'), 'bio-tech');
   assert.equal(fileSlug('../Example'), '..%2Fexample');
   const project = fixture();
@@ -139,12 +139,12 @@ function memoryFetch(files) {
   assert.throws(() => splitProject(project), /filename collision/);
 });
 
- test('empty projects can still round-trip', async () => {
+test('empty projects can still round-trip', async () => {
   const project = normalizeProject({ format: 'wow-workbook-talent-project', version: 5, content: {}, trees: {} });
   assert.deepEqual(await loadTalentProject('config/talent-project.json', memoryFetch(splitProject(project))), project);
 });
 
- test('repository data round-trips losslessly through the scaffold', async () => {
+test('repository data round-trips losslessly through the scaffold', async () => {
   const root = fileURLToPath(new URL('../', import.meta.url));
   const fetcher = async path => ({ ok: true, json: async () => JSON.parse(await readFile(resolve(root, path), 'utf8')) });
   const project = await loadTalentProject('config/talent-project.json', fetcher);

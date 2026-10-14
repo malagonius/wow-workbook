@@ -1829,7 +1829,7 @@
     "Priest/Thaumaturgy": {
       "class": "Priest",
       "spec": "Thaumaturgy",
-      "description": "Homebrew melee / short-range support DPS Priest wielding a one-handed weapon and an off-hand item. Crushing Strike and persistent Mind Flay / Mind Sear tethers generate Insight. Mind Blast spends all Insight to create an independent single-target damage vulnerability; Shadow Word: Death extends every active weakness on its target. Mastery: Exploit Weakness separately stores a portion of your damage as a bonus-damage reserve for eligible contributors. First talent draft, not a complete or balanced tree. Unagreed values are marked TBD. Class, hero and Apex sections are unchanged.",
+      "description": "Homebrew melee / short-range support DPS Priest wielding a one-handed weapon and an off-hand item. Crushing Strike and persistent Mind Flay / Mind Sear tethers generate Insight. Mind Blast spends all Insight to create an independent single-target damage vulnerability; Shadow Word: Death extends every active weakness on its target. Mastery: Exploit Weakness separately stores a portion of your damage as a bonus-damage reserve for eligible contributors. First talent draft, not a complete or balanced tree. Class, hero and Apex sections are unchanged.",
       "sections": [
         {
           "classTalent": "Priest/class"
@@ -1862,7 +1862,7 @@
             {
               "id": "spec-crushing-strike",
               "name": "Crushing Strike",
-              "description": "Strike an enemy with your one-handed weapon, dealing damage and generating Insight. Damage, Insight generated and cooldown are TBD.",
+              "description": "Strike an enemy with your one-handed weapon, dealing damage and generating Insight.",
               "icon": "",
               "row": 0,
               "column": 2,
@@ -1870,27 +1870,27 @@
               "kind": "active",
               "maxRank": 1,
               "range": "Melee",
-              "castTime": "TBD",
-              "cooldown": "TBD"
+              "castTime": "",
+              "cooldown": ""
             },
             {
               "id": "spec-mind-flay",
               "name": "Mind Flay",
-              "description": "Establish a psychic tether to one enemy, dealing periodic Shadow damage and generating Insight for its duration. The tether persists while you move and use other abilities; it is not a conventional channel.\n\nMind Flay provides 100% of the baseline tether damage and Insight generation. Applying Mind Flay replaces your existing Mind Flay or Mind Sear tethers. Duration, tick rate, short casting range, break distance, Insight generated and cooldown are TBD.",
+              "description": "Establish a psychic tether to one enemy, dealing periodic Shadow damage and generating Insight for its duration. The tether persists while you move and use other abilities; it is not a conventional channel.\n\nMind Flay provides 100% of the baseline tether damage and Insight generation. Applying Mind Flay replaces your existing Mind Flay or Mind Sear tethers.",
               "icon": "",
               "row": 0,
               "column": 4,
               "type": "talent",
               "kind": "active",
               "maxRank": 1,
-              "range": "Short range (TBD)",
-              "castTime": "TBD; no maintained channel",
-              "cooldown": "TBD"
+              "range": "Short range",
+              "castTime": "No maintained channel",
+              "cooldown": ""
             },
             {
               "id": "spec-close-examination",
               "name": "Close Examination",
-              "description": "Draft proposal: Crushing Strike generates additional Insight against enemies affected by your Mind Flay or Mind Sear. Additional Insight is TBD.",
+              "description": "Draft proposal: Crushing Strike generates additional Insight against enemies affected by your Mind Flay or Mind Sear.",
               "icon": "",
               "row": 1,
               "column": 1,
@@ -1901,7 +1901,7 @@
             {
               "id": "spec-mind-blast",
               "name": "Mind Blast",
-              "description": "Consume all available Insight to expose a weakness in one enemy, increasing the damage it takes from eligible contributors for a duration. Weakness strength scales with the Insight consumed.\n\nEach cast creates a separate weakness with its own strength and timer. A new cast does not replace, refresh or weaken previous applications. This ability is single-target and does not spread weakness.\n\nDraft stacking rule: your active weakness percentages add rather than multiply. Direct damage, strength per Insight, duration, short range, cast time, cooldown and behavior at zero Insight are TBD.",
+              "description": "Consume all available Insight to expose a weakness in one enemy, increasing the damage it takes from eligible contributors for a duration. Weakness strength scales with the Insight consumed.\n\nEach cast creates a separate weakness with its own strength and timer. A new cast does not replace, refresh or weaken previous applications. This ability is single-target and does not spread weakness.\n\nDraft stacking rule: your active weakness percentages add rather than multiply.",
               "icon": "",
               "row": 1,
               "column": 3,
@@ -1909,28 +1909,28 @@
               "kind": "active",
               "maxRank": 1,
               "cost": "All available Insight",
-              "range": "Short range (TBD)",
-              "castTime": "TBD",
-              "cooldown": "TBD"
+              "range": "Short range",
+              "castTime": "",
+              "cooldown": ""
             },
             {
               "id": "spec-mind-sear",
               "name": "Mind Sear",
-              "description": "Establish psychic tethers to up to three enemies. Each tether deals 40% of Mind Flay's periodic damage and generates 40% of its Insight over the same duration and tick schedule. Three active targets provide 120% combined damage and Insight generation.\n\nYou can move and use other abilities while the tethers persist. Applying Mind Sear replaces your existing Mind Flay or Mind Sear tethers. Mind Sear does not spread Mind Blast weaknesses. Target selection, short casting range, break distance and cooldown are TBD.",
+              "description": "Establish psychic tethers to up to three enemies. Each tether deals 40% of Mind Flay's periodic damage and generates 40% of its Insight over the same duration and tick schedule. Three active targets provide 120% combined damage and Insight generation.\n\nYou can move and use other abilities while the tethers persist. Applying Mind Sear replaces your existing Mind Flay or Mind Sear tethers. Mind Sear does not spread Mind Blast weaknesses.",
               "icon": "",
               "row": 1,
               "column": 5,
               "type": "talent",
               "kind": "active",
               "maxRank": 1,
-              "range": "Short range (TBD)",
-              "castTime": "TBD; no maintained channel",
-              "cooldown": "TBD"
+              "range": "Short range",
+              "castTime": "No maintained channel",
+              "cooldown": ""
             },
             {
               "id": "spec-perfect-understanding",
               "name": "Perfect Understanding",
-              "description": "When Mastery: Exploit Weakness triggers, retain a portion of the reserve that would normally be consumed, without reducing the additional damage dealt.\n\nDraft interaction: the retained portion scales with the target's total active Mind Blast weakness percentage, up to a limit. Bonus damage remains limited by the reserve available before the trigger. Retention scaling and its cap are TBD and must remain below 100%.",
+              "description": "When Mastery: Exploit Weakness triggers, retain a portion of the reserve that would normally be consumed, without reducing the additional damage dealt.\n\nDraft interaction: the retained portion scales with the target's total active Mind Blast weakness percentage, up to a limit below 100%. Bonus damage remains limited by the reserve available before the trigger.",
               "icon": "",
               "row": 2,
               "column": 0,
@@ -1941,7 +1941,7 @@
             {
               "id": "spec-reserve-judgment",
               "name": "Reserve Judgment",
-              "description": "Store all your current Insight, emptying your resource bar so you can build Insight again. Your next Mind Blast consumes both stored and currently available Insight to determine the strength of its new weakness.\n\nOnly one bank can be held. Draft limit: stored Insight cannot exceed one normal resource bar. Bank duration, cooldown and behavior when recast with an existing bank are TBD.",
+              "description": "Store all your current Insight, emptying your resource bar so you can build Insight again. Your next Mind Blast consumes both stored and currently available Insight to determine the strength of its new weakness.\n\nOnly one bank can be held. Draft limit: stored Insight cannot exceed one normal resource bar.",
               "icon": "",
               "row": 2,
               "column": 2,
@@ -1949,48 +1949,136 @@
               "kind": "active",
               "maxRank": 1,
               "cost": "Banks all current Insight",
-              "castTime": "TBD",
-              "cooldown": "TBD"
+              "castTime": "",
+              "cooldown": ""
             },
             {
               "id": "spec-shadow-word-death",
               "name": "Shadow Word: Death",
-              "description": "Deal Shadow damage to one enemy and extend every active Mind Blast weakness you have applied to it, preserving each application's strength. Expired weaknesses are not restored.\n\nThis specialization talent modifies the class ability rather than granting a second copy. Damage, extension amount, short range, cooldown and maximum extension rules are TBD.",
+              "description": "Deal Shadow damage to one enemy and extend every active Mind Blast weakness you have applied to it, preserving each application's strength. Expired weaknesses are not restored.\n\nThis specialization talent modifies the class ability rather than granting a second copy.",
               "icon": "",
               "row": 2,
               "column": 4,
               "type": "talent",
               "kind": "active",
               "maxRank": 1,
-              "range": "Short range (TBD)",
-              "castTime": "TBD",
-              "cooldown": "TBD"
+              "range": "Short range",
+              "castTime": "",
+              "cooldown": ""
             },
             {
               "id": "spec-moment-of-clarity",
               "name": "Moment of Clarity",
-              "description": "Reset the cooldowns of Mind Blast and Shadow Word: Death. This does not generate Insight or create weaknesses by itself. Cooldown, cast time and interaction with any future charge talents are TBD.",
+              "description": "Reset the cooldowns of Mind Blast and Shadow Word: Death. This does not generate Insight or create weaknesses by itself.",
               "icon": "",
               "row": 3,
               "column": 2,
               "type": "talent",
               "kind": "active",
               "maxRank": 1,
-              "castTime": "TBD",
-              "cooldown": "TBD"
+              "castTime": "",
+              "cooldown": ""
             },
             {
               "id": "spec-lay-bare",
               "name": "Lay Bare",
-              "description": "Temporarily amplify your Mind Blast damage vulnerabilities. Draft scope: both existing weaknesses and weaknesses created during this effect benefit. When Lay Bare ends, surviving weaknesses return to their normal strength; the amplification is not stored permanently.\n\nThis amplifies percentage vulnerability, not the Mastery reserve. Amplification, duration and cooldown are TBD.",
+              "description": "Temporarily amplify your Mind Blast damage vulnerabilities. Draft scope: both existing weaknesses and weaknesses created during this effect benefit. When Lay Bare ends, surviving weaknesses return to their normal strength; the amplification is not stored permanently.\n\nThis amplifies percentage vulnerability, not the Mastery reserve.",
               "icon": "",
               "row": 3,
               "column": 4,
               "type": "talent",
               "kind": "active",
               "maxRank": 1,
-              "castTime": "TBD",
-              "cooldown": "TBD"
+              "castTime": "",
+              "cooldown": ""
+            },
+            {
+              "id": "spec-crushing-revelation",
+              "name": "Crushing Revelation",
+              "description": "Crushing Strike contributes 20% more reserve to Mastery: Exploit Weakness. This increases only the reserve generated by the strike, not its direct damage or the damage of reserve triggers.",
+              "icon": "",
+              "row": 3,
+              "column": 0,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-unbroken-inquiry",
+              "name": "Unbroken Inquiry",
+              "description": "Increase the duration of Mind Flay and Mind Sear tethers by 4 seconds. Their tick rate, damage per tick and Insight per tick are unchanged. This does not extend Mind Blast weaknesses.",
+              "icon": "",
+              "row": 3,
+              "column": 6,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-deep-reserves",
+              "name": "Deep Reserves",
+              "description": "Increase your maximum Insight by 20%. Reserve Judgment can store up to this increased maximum, allowing a larger combined expenditure with your next Mind Blast.",
+              "icon": "",
+              "row": 4,
+              "column": 1,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-sudden-comprehension",
+              "name": "Sudden Comprehension",
+              "description": "Every fifth periodic pulse of Mind Flay or Mind Sear empowers your next Crushing Strike to generate 50% additional Insight. A Mind Sear pulse counts once, regardless of how many enemies it hits.\n\nProgress persists when changing tether modes. The empowerment does not stack and is consumed by your next successful Crushing Strike.",
+              "icon": "",
+              "row": 4,
+              "column": 3,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-deaths-instruction",
+              "name": "Death's Instruction",
+              "description": "Against enemies below 20% health, Shadow Word: Death extends each of your active Mind Blast weaknesses by 50% more time. It still cannot restore expired weaknesses.",
+              "icon": "",
+              "row": 4,
+              "column": 5,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-occult-ward",
+              "name": "Occult Ward",
+              "description": "Crushing Strike against an enemy affected by one or more of your Mind Blast weaknesses grants a shield absorbing damage equal to 5% of your maximum health for 6 seconds. Can occur once every 10 seconds.\n\nMultiple weaknesses do not grant additional shields. The shield does not stack; a new application replaces the previous one.",
+              "icon": "",
+              "row": 5,
+              "column": 0,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-measured-violence",
+              "name": "Measured Violence",
+              "description": "Mind Blast also deals direct Shadow damage equal to 30% of your spell power per Insight consumed, including Insight stored by Reserve Judgment. This damage is separate from the strength of its new weakness.\n\nThe direct hit can contribute to Mastery: Exploit Weakness under its normal rules; Mastery-generated bonus damage cannot feed the reserve again.",
+              "icon": "",
+              "row": 5,
+              "column": 2,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-reaching-thoughts",
+              "name": "Reaching Thoughts",
+              "description": "Increase the casting range of Mind Flay, Mind Sear, Mind Blast and Shadow Word: Death by 5 yards. Increase the maximum distance at which your tethers remain connected by 5 yards.\n\nCrushing Strike remains a melee ability. This does not increase Mind Sear's target count or alter its target selection.",
+              "icon": "",
+              "row": 5,
+              "column": 6,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
             }
           ],
           "connections": [
@@ -2001,7 +2089,15 @@
             { "from": "spec-0-0", "to": "spec-perfect-understanding" },
             { "from": "spec-mind-blast", "to": "spec-reserve-judgment" },
             { "from": "spec-shadow-word-death", "to": "spec-moment-of-clarity" },
-            { "from": "spec-mind-blast", "to": "spec-lay-bare" }
+            { "from": "spec-mind-blast", "to": "spec-lay-bare" },
+            { "from": "spec-close-examination", "to": "spec-crushing-revelation" },
+            { "from": "spec-mind-sear", "to": "spec-unbroken-inquiry" },
+            { "from": "spec-reserve-judgment", "to": "spec-deep-reserves" },
+            { "from": "spec-close-examination", "to": "spec-sudden-comprehension" },
+            { "from": "spec-shadow-word-death", "to": "spec-deaths-instruction" },
+            { "from": "spec-crushing-revelation", "to": "spec-occult-ward" },
+            { "from": "spec-deep-reserves", "to": "spec-measured-violence" },
+            { "from": "spec-unbroken-inquiry", "to": "spec-reaching-thoughts" }
           ]
         },
         {
@@ -2078,7 +2174,7 @@
         }
       ],
       "designNotes": {
-        "status": "First sliced talent draft: ten new talents plus the established Mastery. Descriptions only, not implemented combat mechanics or a balanced complete tree. Working names, layout and connections are provisional.",
+        "status": "Expanded talent draft: eighteen talents plus the established Mastery. The second slice adds eight passive proposals for tether uptime, melee generation, resource capacity, Mastery contribution, execute extension, personal defense, spender damage and short-range flexibility. Numbers are editable first-pass proposals, not tested balance. Descriptions only, not implemented combat mechanics or a complete tree. Working names, layout and connections are provisional.",
         "identity": "Melee / short-range support DPS Priest using a one-handed weapon and an off-hand item. Understand enemies through psychic tethers, build Insight in melee, then spend it to expose weaknesses. Not an allied-stat buffer.",
         "baselineSpells": "Shared Priest class abilities remain unchanged. Mind Blast and Shadow Word: Death specialization nodes describe specialization behavior for the corresponding class abilities, not duplicate buttons. Mind Sear is now an enemy tether, not the previous Communion ally-link ability. Class-node prerequisite enforcement remains open.",
         "resource": "Crushing Strike and tethers generate Insight. Mind Blast spends all available Insight; Reserve Judgment lets the next Blast spend banked plus current Insight. The resource cap, generation, mana costs, cooldowns, cast times and zero-Insight casting rule are TBD. Fractional tether generation must preserve Mind Sear's 40% per-target ratio.",

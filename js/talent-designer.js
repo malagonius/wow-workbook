@@ -4,7 +4,7 @@ import {
   NODE_KINDS, SECTION_TYPES
 } from './talent-model.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
-import { loadDraft, saveDraft, clearDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
+import { loadDraft, saveDraft, clearDraft, downloadProject, saveProjectFile, readProjectFile } from './talent-designer-storage.js';
 import { classFileName, compactProject, loadTalentProject, mergeLegacyAbilities, mergeProject } from './talent-config.js';
 import { initializeAbilityDesigner, renderAbilities } from './ability-designer.js';
 import { initializeClassPicker } from './class-picker.js';
@@ -842,7 +842,13 @@ async function init() {
 
   baselineProject = await loadRepositoryProject();
   project = normalizeProject(compactProject(baselineProject));
-  const draft = await loadDraft();
+  let draft = null;
+  let draftLoadError = null;
+  try {
+    draft = await loadDraft();
+  } catch (error) {
+    draftLoadError = error;
+  }
   if (draft) {
     try {
       project = normalizeProject(draft);
@@ -853,6 +859,8 @@ async function init() {
     } catch {
       setStatus('Saved draft was incompatible; using repository baseline.', 'error');
     }
+  } else if (draftLoadError) {
+    setStatus(`Browser draft unavailable: ${draftLoadError.message}. Using repository baseline.`, 'error');
   } else setStatus('Using repository baseline.', 'saved');
 
   // Preserve ability edits created by the previous, separate ability editor.
@@ -895,6 +903,20 @@ async function init() {
   $('show-json').addEventListener('click', showJson);
   $('apply-json').addEventListener('click', applyJson);
   $('copy-json').addEventListener('click', () => navigator.clipboard.writeText($('json-output').value));
+  $('save-project').addEventListener('click', async () => {
+    if (!classSelect.value) return;
+    const button = $('save-project');
+    const className = classSelect.value;
+    button.disabled = true;
+    try {
+      const result = await saveProjectFile(compactProject(project, className), classFileName(className));
+      setStatus(`${result === 'saved' ? 'Saved to file' : 'Downloaded'}: ${classFileName(className)}`, 'saved');
+    } catch (error) {
+      if (error.name !== 'AbortError') setStatus(`File save failed: ${error.message}`, 'error');
+    } finally {
+      button.disabled = false;
+    }
+  });
   $('export-project').addEventListener('click', () => {
     if (!classSelect.value) return;
     downloadProject(compactProject(project, classSelect.value), classFileName(classSelect.value));

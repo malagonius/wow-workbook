@@ -2,6 +2,7 @@ const DB_NAME = 'wow-workbook-talent-designer';
 const DB_VERSION = 1;
 const STORE_NAME = 'drafts';
 const DRAFT_KEY = 'current';
+const fileHandles = new Map();
 
 function openDatabase() {
   return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ export async function loadDraft() {
 }
 
 export async function saveDraft(payload) {
-  if (!('indexedDB' in window)) return;
+  if (!('indexedDB' in window)) throw new Error('Browser draft storage is unavailable. Use Save class to keep a file.');
   const db = await openDatabase();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readwrite');
@@ -64,8 +65,34 @@ export function downloadProject(payload, filename = 'talent-project.json') {
   const anchor = document.createElement('a');
   anchor.href = url;
   anchor.download = filename;
+  document.body.append(anchor);
   anchor.click();
-  URL.revokeObjectURL(url);
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+export async function saveProjectFile(payload, filename) {
+  if (typeof window.showSaveFilePicker !== 'function') {
+    downloadProject(payload, filename);
+    return 'downloaded';
+  }
+  let handle = fileHandles.get(filename);
+  if (!handle) {
+    handle = await window.showSaveFilePicker({
+      suggestedName: filename,
+      types: [{ description: 'Talent class JSON', accept: { 'application/json': ['.json'] } }]
+    });
+  }
+  const writable = await handle.createWritable();
+  try {
+    await writable.write(JSON.stringify(payload, null, 2) + '\n');
+    await writable.close();
+  } catch (error) {
+    await writable.abort().catch(() => {});
+    throw error;
+  }
+  fileHandles.set(filename, handle);
+  return 'saved';
 }
 
 export function readProjectFile(file) {

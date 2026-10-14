@@ -5,6 +5,44 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createTree, normalizeProject } from '../js/talent-model.js';
 import { classFileName, compactProject, fileSlug, loadTalentProject, mergeLegacyAbilities, mergeProject, splitProject } from '../js/talent-config.js';
+import { saveProjectFile, saveDraft } from '../js/talent-designer-storage.js';
+
+test('class file saves commit to disk and reuse the selected file', async () => {
+  const writes = [];
+  let selections = 0;
+  let commits = 0;
+  const previousWindow = globalThis.window;
+  globalThis.window = {
+    showSaveFilePicker: async options => {
+      selections++;
+      assert.equal(options.suggestedName, 'storage-test.json');
+      return { createWritable: async () => ({
+        write: async text => writes.push(text),
+        close: async () => { commits++; },
+        abort: async () => {}
+      }) };
+    }
+  };
+  try {
+    assert.equal(await saveProjectFile({ version: 6 }, 'storage-test.json'), 'saved');
+    await saveProjectFile({ version: 6, changed: true }, 'storage-test.json');
+    assert.equal(selections, 1);
+    assert.equal(commits, 2);
+    assert.deepEqual(JSON.parse(writes[1]), { version: 6, changed: true });
+  } finally {
+    globalThis.window = previousWindow;
+  }
+});
+
+test('unavailable browser storage reports failure instead of claiming a save', async () => {
+  const previousWindow = globalThis.window;
+  globalThis.window = {};
+  try {
+    await assert.rejects(saveDraft({}), /storage is unavailable/);
+  } finally {
+    globalThis.window = previousWindow;
+  }
+});
 
 test('Priest baseline matches the captured Wowhead nodes, positions, choices and directed connections', async () => {
   const project = JSON.parse(await readFile(new URL('../config/class/priest.json', import.meta.url), 'utf8'));

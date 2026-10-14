@@ -1829,7 +1829,7 @@
     "Priest/Thaumaturgy": {
       "class": "Priest",
       "spec": "Thaumaturgy",
-      "description": "Homebrew ranged support Priest: an esoteric scholar of hidden correspondences, true names and spiritual fault lines. Mind Sear: Communion connects you to two chosen allies, sharing your perception of enemy weaknesses rather than increasing allied stats. Mind Flay gathers Insight and sustains Unveil Weakness; Mind Blast spends Insight to exploit it. Offensive vulnerabilities benefit you and your connected allies, not the entire party. Uses the Augmentation baseline's exact class/spec/hero node positions, ranks and connection graph, with Priest utility and original occult mechanics. All values are provisional design numbers, not official WoW talents or tested balance. Apex remains open for later design.",
+      "description": "Homebrew melee / short-range support DPS Priest wielding a one-handed weapon and an off-hand item. Crushing Strike and persistent Mind Flay / Mind Sear tethers generate Insight. Mind Blast spends all Insight to create an independent single-target damage vulnerability; Shadow Word: Death extends every active weakness on its target. Mastery: Exploit Weakness separately stores a portion of your damage as a bonus-damage reserve for eligible contributors. First talent draft, not a complete or balanced tree. Unagreed values are marked TBD. Class, hero and Apex sections are unchanged.",
       "sections": [
         {
           "classTalent": "Priest/class"
@@ -1846,7 +1846,7 @@
             {
               "id": "spec-0-0",
               "name": "Mastery: Exploit Weakness",
-              "description": "Your damaging spells expose hidden weaknesses in their target, building an Exploitation reserve equal to [Mastery %] of the damage dealt.\n\nWhenever you or an eligible Mind Sear: Communion ally damages that target, the reserve inflicts additional damage equal to the triggering hit, up to the amount remaining. This additional damage is attributed to you and consumes an equal amount of reserve.\n\nAdditional applications add to the reserve. Mastery-generated damage, echoes, stored-damage detonations and retaliation cannot build or trigger the reserve.",
+              "description": "Your damage builds an Exploitation reserve on its target equal to [Mastery %] of the damage dealt.\n\nWhenever you or an eligible ally damages that target, the reserve inflicts additional damage equal to the triggering hit, up to the amount remaining. This additional damage is attributed to you and normally consumes an equal amount of reserve.\n\nAdditional applications add to the reserve. Mastery-generated damage, echoes, stored-damage detonations and retaliation cannot build or trigger the reserve. This reserve is separate from Mind Blast's percentage damage vulnerability. Contributor eligibility and scaling above five players remain subject to the specialization's draft support rules.",
               "icon": "",
               "row": 0,
               "column": 0,
@@ -1858,9 +1858,151 @@
               "charges": "",
               "castTime": "",
               "cooldown": ""
+            },
+            {
+              "id": "spec-crushing-strike",
+              "name": "Crushing Strike",
+              "description": "Strike an enemy with your one-handed weapon, dealing damage and generating Insight. Damage, Insight generated and cooldown are TBD.",
+              "icon": "",
+              "row": 0,
+              "column": 2,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "range": "Melee",
+              "castTime": "TBD",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-mind-flay",
+              "name": "Mind Flay",
+              "description": "Establish a psychic tether to one enemy, dealing periodic Shadow damage and generating Insight for its duration. The tether persists while you move and use other abilities; it is not a conventional channel.\n\nMind Flay provides 100% of the baseline tether damage and Insight generation. Applying Mind Flay replaces your existing Mind Flay or Mind Sear tethers. Duration, tick rate, short casting range, break distance, Insight generated and cooldown are TBD.",
+              "icon": "",
+              "row": 0,
+              "column": 4,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "range": "Short range (TBD)",
+              "castTime": "TBD; no maintained channel",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-close-examination",
+              "name": "Close Examination",
+              "description": "Draft proposal: Crushing Strike generates additional Insight against enemies affected by your Mind Flay or Mind Sear. Additional Insight is TBD.",
+              "icon": "",
+              "row": 1,
+              "column": 1,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-mind-blast",
+              "name": "Mind Blast",
+              "description": "Consume all available Insight to expose a weakness in one enemy, increasing the damage it takes from eligible contributors for a duration. Weakness strength scales with the Insight consumed.\n\nEach cast creates a separate weakness with its own strength and timer. A new cast does not replace, refresh or weaken previous applications. This ability is single-target and does not spread weakness.\n\nDraft stacking rule: your active weakness percentages add rather than multiply. Direct damage, strength per Insight, duration, short range, cast time, cooldown and behavior at zero Insight are TBD.",
+              "icon": "",
+              "row": 1,
+              "column": 3,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "cost": "All available Insight",
+              "range": "Short range (TBD)",
+              "castTime": "TBD",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-mind-sear",
+              "name": "Mind Sear",
+              "description": "Establish psychic tethers to up to three enemies. Each tether deals 40% of Mind Flay's periodic damage and generates 40% of its Insight over the same duration and tick schedule. Three active targets provide 120% combined damage and Insight generation.\n\nYou can move and use other abilities while the tethers persist. Applying Mind Sear replaces your existing Mind Flay or Mind Sear tethers. Mind Sear does not spread Mind Blast weaknesses. Target selection, short casting range, break distance and cooldown are TBD.",
+              "icon": "",
+              "row": 1,
+              "column": 5,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "range": "Short range (TBD)",
+              "castTime": "TBD; no maintained channel",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-perfect-understanding",
+              "name": "Perfect Understanding",
+              "description": "When Mastery: Exploit Weakness triggers, retain a portion of the reserve that would normally be consumed, without reducing the additional damage dealt.\n\nDraft interaction: the retained portion scales with the target's total active Mind Blast weakness percentage, up to a limit. Bonus damage remains limited by the reserve available before the trigger. Retention scaling and its cap are TBD and must remain below 100%.",
+              "icon": "",
+              "row": 2,
+              "column": 0,
+              "type": "talent",
+              "kind": "passive",
+              "maxRank": 1
+            },
+            {
+              "id": "spec-reserve-judgment",
+              "name": "Reserve Judgment",
+              "description": "Store all your current Insight, emptying your resource bar so you can build Insight again. Your next Mind Blast consumes both stored and currently available Insight to determine the strength of its new weakness.\n\nOnly one bank can be held. Draft limit: stored Insight cannot exceed one normal resource bar. Bank duration, cooldown and behavior when recast with an existing bank are TBD.",
+              "icon": "",
+              "row": 2,
+              "column": 2,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "cost": "Banks all current Insight",
+              "castTime": "TBD",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-shadow-word-death",
+              "name": "Shadow Word: Death",
+              "description": "Deal Shadow damage to one enemy and extend every active Mind Blast weakness you have applied to it, preserving each application's strength. Expired weaknesses are not restored.\n\nThis specialization talent modifies the class ability rather than granting a second copy. Damage, extension amount, short range, cooldown and maximum extension rules are TBD.",
+              "icon": "",
+              "row": 2,
+              "column": 4,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "range": "Short range (TBD)",
+              "castTime": "TBD",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-moment-of-clarity",
+              "name": "Moment of Clarity",
+              "description": "Reset the cooldowns of Mind Blast and Shadow Word: Death. This does not generate Insight or create weaknesses by itself. Cooldown, cast time and interaction with any future charge talents are TBD.",
+              "icon": "",
+              "row": 3,
+              "column": 2,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "castTime": "TBD",
+              "cooldown": "TBD"
+            },
+            {
+              "id": "spec-lay-bare",
+              "name": "Lay Bare",
+              "description": "Temporarily amplify your Mind Blast damage vulnerabilities. Draft scope: both existing weaknesses and weaknesses created during this effect benefit. When Lay Bare ends, surviving weaknesses return to their normal strength; the amplification is not stored permanently.\n\nThis amplifies percentage vulnerability, not the Mastery reserve. Amplification, duration and cooldown are TBD.",
+              "icon": "",
+              "row": 3,
+              "column": 4,
+              "type": "talent",
+              "kind": "active",
+              "maxRank": 1,
+              "castTime": "TBD",
+              "cooldown": "TBD"
             }
           ],
-          "connections": []
+          "connections": [
+            { "from": "spec-crushing-strike", "to": "spec-close-examination" },
+            { "from": "spec-mind-flay", "to": "spec-mind-sear" },
+            { "from": "spec-mind-flay", "to": "spec-mind-blast" },
+            { "from": "spec-mind-blast", "to": "spec-shadow-word-death" },
+            { "from": "spec-0-0", "to": "spec-perfect-understanding" },
+            { "from": "spec-mind-blast", "to": "spec-reserve-judgment" },
+            { "from": "spec-shadow-word-death", "to": "spec-moment-of-clarity" },
+            { "from": "spec-mind-blast", "to": "spec-lay-bare" }
+          ]
         },
         {
           "id": "apex",
@@ -1936,29 +2078,17 @@
         }
       ],
       "designNotes": {
-        "status": "First playable-concept draft; talent descriptions only, not a combat simulation or implemented WoW specialization.",
-        "identity": "Hermetic rites, sacred geometry, divination and knowledge of hidden laws. Neither a Voidform spec nor an allied-stat buffer. Core direct damage is Shadow; restorative and warding rites are Holy.",
-        "baselineSpells": "Shadow Word: Pain, Flash Heal, Fade, Smite and Mind Sear: Communion are assumed to be known before talent selection. Communion is a baseline ability, not a talent point purchase; its rules are also displayed in Unveil Weakness's tooltip. Mind Flay and Mind Blast are unlocked by their specialization nodes. Mind Sear is a historical Priest spell name; its ally-link behavior here is an original homebrew reinterpretation, not its retail effect.",
-        "communionAbility": {
-          "name": "Mind Sear: Communion",
-          "description": "Sear a fragment of your consciousness into another mind, sharing the hidden weaknesses you perceive. Connect a living friendly player in your party or raid for 30 seconds. Maintain at most two distinct allies; you are always eligible without occupying a link slot. Recasting on an existing ally refreshes their link; selecting a third replaces the oldest applied or refreshed link. Instant, Mana cost, 40-yard application range, two charges with sequential 12-second recharge, on the global cooldown. No channel is maintained and this spell deals no damage. Links do not share personal haste, personal damage modifiers, Insight or spell procs.",
-          "cost": "Mana",
-          "range": "40 yards",
-          "charges": "2",
-          "castTime": "Instant",
-          "cooldown": "12-second recharge",
-          "duration": "30 seconds",
-          "maxLinkedAllies": 2
-        },
-        "communionRules": "An ally's link timer continues while more than 60 yards from you, but its offensive benefits are suspended until they return. Death of either participant ends that link; leaving your party or raid ends it. Pets and guardians inherit their owner's eligibility and occupy no link slots. Eligibility is checked when each hit occurs, so changing links affects existing vulnerabilities immediately; changing links never creates, refreshes or extends an enemy mark. Link extensions affect only your existing unexpired links, never create or revive them, and cap remaining duration at the talented base duration plus 15 seconds. Reapplication resets duration to that base. Losing a link does not erase damage already recorded by Grand Conjunction.",
-        "resource": "Mana pays for spells. Insight is a separate resource, initially capped at 6. Mind Flay channels for 3 seconds with 3 ticks before haste, generating 1 Insight per tick. Mind Blast costs 2 Insight, has a 1.5-second cast and 2 charges with a 9-second recharge. Haste accelerates Mind Flay's channel; it does not add extra ticks. Insight cannot exceed its current cap.",
-        "supportScope": "Offensive support means you and up to two currently eligible Mind Sear: Communion allies, including their pets and guardians. Allies may be chosen across raid subgroups; unlinked players receive no offensive benefit from your marks. Environmental damage is excluded. This shares access to enemy vulnerability, not a second damage-done buff. Defensive or utility descriptions that say party continue to mean your current subgroup of up to five players and do not require Communion.",
-        "weaknessRules": "Unveil Weakness lasts 12 seconds, has a 30-second cooldown, affects at most 5 enemies including its primary target, and increases damage taken from eligible Communion contributors by 6%. Select nearest enemies within 8 yards of the primary target. Extension effects only extend your existing active Unveil Weakness; they never create it or revive an expired debuff. Remaining duration is capped at 20 seconds unless a talent explicitly changes this cap. A completed Mind Flay channel extends its target by 1 second; Mind Blast extends its target by 2 seconds.",
-        "stackingAndLimits": "For each attacker-enemy pair, different Thaumaturgy vulnerability families add together, capped at 15% total. Each named family uses only its strongest active application from a Priest for whom that attacker is currently eligible; ineligible applications cannot suppress an eligible one. Equal-strength ties use the earliest application. Effects enhancing a named vulnerability remain in that same family. Bonuses apply once and never multiply one another. Only the winning eligible Grand Conjunction records a hit; only the winning eligible Occult Diagnosis may trigger Law of Correspondence. This prevents overlapping Priests from recording or echoing the same hit multiple times.",
-        "echoRules": "Recorded damage is the eligible hit's amount before Thaumaturgy vulnerability bonuses. Echoes, stored-damage detonations and retaliation from Thaumaturgy never trigger, feed or record one another. Each delayed effect resolves once; it is cancelled if its target is no longer valid. Personal echoes can benefit from vulnerability once, but cannot create another echo.",
-        "rankRules": "Where a node has two ranks, slash-separated values give Rank 1 / Rank 2. Listed cooldown reductions stack additively and cannot reduce a cooldown below 1 second. Percentages and timings are initial tuning proposals.",
-        "augmentationMapping": "Ebon Might -> Unveil Weakness; Eruption -> Mind Blast; Upheaval -> Mind Flay; Blistering Scales -> Ward of Correspondence; Prescience -> Occult Diagnosis; Breath of Eons -> Grand Conjunction; Time Skip -> Stillness of the Adept. Chronowarden is reimagined as the original Akashic Seer hero path. The Evoker tree is unchanged.",
-        "openDecisions": "Selected-contributor support is now drafted through baseline Mind Sear: Communion. Link duration, range, recharge, vulnerability percentages, spell coefficients and resource tuning remain provisional. Whether to replace the adapted class tree with a faithful retail Priest baseline, Apex identity, and a second hero path remain open."
+        "status": "First sliced talent draft: ten new talents plus the established Mastery. Descriptions only, not implemented combat mechanics or a balanced complete tree. Working names, layout and connections are provisional.",
+        "identity": "Melee / short-range support DPS Priest using a one-handed weapon and an off-hand item. Understand enemies through psychic tethers, build Insight in melee, then spend it to expose weaknesses. Not an allied-stat buffer.",
+        "baselineSpells": "Shared Priest class abilities remain unchanged. Mind Blast and Shadow Word: Death specialization nodes describe specialization behavior for the corresponding class abilities, not duplicate buttons. Mind Sear is now an enemy tether, not the previous Communion ally-link ability. Class-node prerequisite enforcement remains open.",
+        "resource": "Crushing Strike and tethers generate Insight. Mind Blast spends all available Insight; Reserve Judgment lets the next Blast spend banked plus current Insight. The resource cap, generation, mana costs, cooldowns, cast times and zero-Insight casting rule are TBD. Fractional tether generation must preserve Mind Sear's 40% per-target ratio.",
+        "tetherRules": "Mind Flay tethers one enemy at 100% effect. Mind Sear tethers up to three enemies at 40% damage and Insight generation each, using the same duration and tick schedule. They are mutually exclusive and persist while moving or casting other abilities. Tethers do not automatically spread Mind Blast weaknesses. Target selection, break distance, shared versus separate cooldowns and retargeting behavior are TBD.",
+        "supportScope": "Up to five eligible player contributors receive full support effectiveness; effectiveness decreases above five. Exact eligibility, whether the Priest counts toward five, pet ownership rules, the dilution formula and application of scaling to the Mastery reserve are TBD. The prior two-ally Communion restriction is superseded.",
+        "weaknessRules": "Every Mind Blast creates an independent single-target percentage damage vulnerability whose strength depends on Insight spent. Applications retain separate timers; later Blasts do not replace or refresh earlier ones. Shadow Word: Death extends all your active applications on its target and never revives expired ones. Strength, duration, extension amount and extension limits are TBD.",
+        "stackingAndLimits": "Draft proposal: percentages from your concurrent Mind Blast weaknesses add rather than multiply. Multiple-Priest interactions, maximum total vulnerability and extension safeguards are not decided. The previous strongest-only family rule and flat 15% cap are not part of this draft.",
+        "masteryRules": "Your damage adds [Mastery %] to a target-local Exploitation reserve. Eligible hits trigger equal bonus damage, limited by available reserve, and normally consume that amount. Mastery-generated bonus damage cannot build or trigger reserves. Perfect Understanding retains part of the normal consumption without reducing the bonus hit; its proposed link to weakness percentage and its sub-100% cap require tuning. Damage accounting order relative to percentage vulnerability remains open.",
+        "cooldownRules": "Moment of Clarity resets Blast and Death without supplying resources. Reserve Judgment banks Insight for one combined expenditure. Lay Bare temporarily amplifies percentage vulnerabilities, not the Mastery reserve; its proposed amplification ends with its buff rather than being snapshotted permanently.",
+        "openDecisions": "Numerical tuning, direct damage coefficients, Insight cap, costs, short-range distances, cooldowns, charge behavior, vulnerability stacking approval, extension limits and contributor rules remain open. Close Examination and weakness-scaled Perfect Understanding are draft proposals. Class and hero sections are unchanged; Apex is preserved as an older draft and still references mechanics requiring later reconciliation. This tree no longer claims an exact Augmentation layout."
       }
     }
   }

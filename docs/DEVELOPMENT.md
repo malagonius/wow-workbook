@@ -23,6 +23,7 @@ There is no build, no bundler and no dependency install. Node 22+ runs the built
 | --- | --- |
 | Add a field to talents (cooldown, spell ID, resource cost…) | `talent-model.js` (`makeNode` + `normalizeNode`), then the designer's node form, then the renderer if it should be visible |
 | Change how a talent looks | `css/talent-tree.css` and, if it needs new state, `getNodeState` in the consuming app |
+| Change responsive layout or shared accessibility styling | `css/mobile.css`, loaded last by both pages; mobile defaults expand at 701px and the designer gains its sidebar at 1001px |
 | Change talent-spending rules | `talent-calculator.js` only |
 | Add an editing gesture | `talent-tree-renderer.js` (emit a handler) + `talent-designer.js` (implement it) |
 | Add a validation rule | `validateSection` in `talent-model.js` — both apps pick it up automatically |
@@ -50,7 +51,11 @@ A worked example — adding `cooldown`:
 
 ## Manual test checklist
 
+<<<<<<< Updated upstream
 Run `npm test` and `npm run check:talents`, then use this checklist for browser interactions.
+=======
+There is no checked-in automated test runner. Run this checklist before calling a change done; the browser-based Playwright verification below covers the mobile changes.
+>>>>>>> Stashed changes
 
 **Calculator**
 
@@ -76,6 +81,62 @@ Run `npm test` and `npm run check:talents`, then use this checklist for browser 
 - [ ] Reset draft restores the repository baseline and shared edit identity.
 - [ ] Ability additions, edits and removals survive autosave, undo/redo, reload and class export/import.
 - [ ] Replacing only a class JSON updates its specs, talents and abilities in the Calculator.
+
+## Mobile accessibility verification
+
+Verified on 2026-10-13 using Playwright Chromium with mobile and touch emulation,
+plus axe-core 4.10.3. Tests used isolated browser contexts so synthetic designer
+edits did not change the repository data or the user's draft.
+
+Both pages passed at **320x740, 375x812, 390x844, 844x390 (landscape), 768x1024,
+and 1440x900**: 12 page/viewport checks with no page-level horizontal overflow,
+no active targets smaller than 44x44 CSS pixels (checkbox labels provide the
+touch target), and no uncaught JavaScript errors. Wide graphs intentionally
+scroll within their focusable canvas instead of shrinking talent buttons.
+
+Automated axe scans reported **zero violations** for the WCAG 2 A/AA, 2.1 AA,
+and 2.2 AA tags in all 12 page/viewport checks. Additional scans passed for
+selected talent details, the touch talent-details dialog, the spellbook, the
+JSON dialog, and the create-class dialog.
+
+Playwright interaction checks passed:
+
+- Touch inspection does not spend a point; Add point and Refund point work.
+- Closing talent details preserves the tree position.
+- Touch menu navigation reaches the designer; Escape closes the menu.
+- Talent edits render immediately; committed edits undo and redo.
+- Connect mode creates a connection by selecting a source and target; undo removes it; cancellation works.
+- The spellbook contains keyboard focus, closes with Escape, and restores focus.
+- Phone screenshots were reviewed for both pages at 390x844.
+
+### Designer usability follow-up
+
+The initial automated checks did not catch a cramped, height-limited designer
+canvas or the awkward trips between canvas and editor to create connections.
+The revised designer defaults to List below 701px, retains an optional spatial
+Tree view, scrolls vertically with the page, and isolates horizontal graph
+scrolling from the section heading. A sticky Select/Connect control supports
+source-then-target linking without leaving the canvas. Editing is explicit.
+
+Both List and Tree were rechecked at **320, 375, 390, 768, and 1440px**:
+10 view/width checks passed with no page overflow, no vertical canvas clipping,
+no horizontal clipping in List, no runtime errors, and no axe WCAG A/AA findings.
+Additional Playwright checks passed for source highlighting, accessible outgoing
+connections, no page jump when linking, undo/cancel, editing, view switching,
+preserved graph pan, stationary section headings, and the calculator's touch
+add/refund workflow. Keyboard source/target selection, Escape, and unobscured
+focus also passed. At 320px all canvas action labels fit without wrapping;
+the revised canvas was reviewed in a phone screenshot.
+
+When repeating checks after changes, wait for the tree to render before using
+the toolbar. Text-edit history commits on field change, so leave the field
+before checking Undo. Use fresh contexts or disable the browser cache to avoid
+testing stale ES modules.
+
+Automated checks are not accessibility certification. Physical iOS/Android
+devices, VoiceOver/TalkBack, desktop screen readers, OS text scaling, and the
+virtual keyboard still need manual verification. Choice cycling uses the same
+rank logic as desktop but was not covered by a dedicated touch fixture.
 
 ## Publishing changes to the repository data
 

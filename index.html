@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/talent-calculator.css">
 <link rel="stylesheet" href="css/talent-tree.css">
 <link rel="stylesheet" href="css/app-navigation.css">
+<link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
 <div id="app-header"></div>
@@ -19,6 +20,7 @@
     <button class="btn primary" id="abilitiesBtn">View Abilities</button>
   </div>
 </section>
+<<<<<<< Updated upstream
 <main>
   <div class="tree-header"><div><div class="class-name" id="className"></div><h2 id="specName"></h2><p id="specDescription"></p></div><div class="points"><strong id="pointCount">0 / 0</strong><span>Talent points</span></div></div>
   <div class="tree-wrap" id="treeContainer"></div>
@@ -26,6 +28,47 @@
   <div class="details" id="details"></div>
 </main>
 <div class="modal" id="spellModal" aria-hidden="true"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle">Abilities</h3><button class="close" id="closeModal" aria-label="Close">×</button></div><div id="spellList"></div></div></div>
+=======
+
+<main id="main-content">
+  <div class="tree-header">
+    <div>
+      <div class="class-name" id="className"></div>
+      <h2 id="specName"></h2>
+      <p id="specDescription"></p>
+    </div>
+    <div class="points">
+      <strong id="pointCount">0 / 0</strong>
+      <span>Talent points</span>
+    </div>
+  </div>
+
+  <div class="tree-wrap" id="treeContainer" role="region" aria-label="Talent trees" tabindex="0"></div>
+
+  <div class="legend">
+    <span class="legend-active">Active ability</span>
+    <span class="legend-passive">Passive</span>
+    <span class="legend-choice">Choice node</span>
+  </div>
+
+  <section class="details" id="details" aria-label="Talent details"></section>
+</main>
+
+<dialog id="talentDetailsModal" class="talent-detail-dialog" aria-label="Talent details">
+  <button class="close" id="closeTalentDetails" type="button" aria-label="Close talent details">×</button>
+</dialog>
+
+<dialog class="modal" id="spellModal" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="modalTitle">Spellbook</h3>
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+    </div>
+    <div id="spellList"></div>
+  </div>
+</dialog>
+
+>>>>>>> Stashed changes
 <script type="module" src="js/app-navigation.js"></script>
 <script type="module" src="js/talent-calculator.js"></script>
 

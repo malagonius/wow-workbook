@@ -8,11 +8,12 @@
   <link rel="stylesheet" href="css/talent-tree.css">
   <link rel="stylesheet" href="css/talent-designer.css">
   <link rel="stylesheet" href="css/app-navigation.css">
+  <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body class="designer-page">
   <div id="app-header"></div>
 
-  <main class="designer">
+  <main class="designer" id="main-content">
     <header class="designer-header">
       <div>
         <p class="eyebrow">WOW WORKBOOK</p>
@@ -45,13 +46,28 @@
       <input id="project-file" type="file" accept="application/json,.json" hidden>
     </section>
     <p id="storage-status" class="storage-status" role="status">Loading local draft…</p>
-    <p class="designer-hint">Drag a talent to move it · click an empty socket to create one · drag the gold dot onto a talent or empty socket to connect them (or click the dot, then click the target) · click a connection line to delete it</p>
-
     <section class="designer-workspace">
-      <div id="designer-tree" class="designer-tree"></div>
+      <div class="designer-canvas">
+        <div class="canvas-toolbar">
+          <div class="canvas-segments" role="group" aria-label="Canvas view">
+            <button id="view-list" type="button" aria-pressed="false">List</button>
+            <button id="view-tree" type="button" aria-pressed="true">Tree</button>
+          </div>
+          <div class="canvas-segments" role="group" aria-label="Talent action">
+            <button id="mode-select" type="button" aria-pressed="true">Select</button>
+            <button id="mode-connect" type="button" aria-pressed="false">Connect</button>
+          </div>
+          <p id="canvas-status" role="status">No talent selected</p>
+          <button id="edit-selected" type="button" disabled>Edit talent</button>
+        </div>
+        <div id="designer-tree" class="designer-tree" role="region" aria-label="Talent design canvas" tabindex="0"></div>
+      </div>
 
       <aside class="designer-panel">
         <h2>Talent</h2>
+        <div class="designer-actions">
+          <button id="back-to-tree" type="button">Back to tree</button>
+        </div>
         <p id="selection-hint">Select a talent to edit it.</p>
         <form id="node-form" hidden autocomplete="off">
           <label>Name<input id="node-name"></label>
@@ -159,7 +175,11 @@
     </section>
   </main>
 
+<<<<<<< Updated upstream
   <dialog id="content-dialog" class="designer-modal">
+=======
+  <dialog id="content-dialog" aria-labelledby="content-dialog-title">
+>>>>>>> Stashed changes
     <form method="dialog" class="json-dialog-content" id="content-form">
       <header class="modal-header"><h2 id="content-dialog-title">Create</h2><button type="button" class="modal-close" id="content-dialog-close" aria-label="Close">×</button></header>
       <div class="modal-body">
@@ -173,6 +193,7 @@
     </form>
   </dialog>
 
+<<<<<<< Updated upstream
   <dialog id="json-dialog" class="designer-modal">
     <form method="dialog" class="json-dialog-content">
       <header class="modal-header"><h2>Current class JSON</h2><button type="button" class="modal-close" id="json-dialog-close" aria-label="Close">×</button></header>
@@ -182,6 +203,15 @@
           <button type="button" id="apply-json" class="primary">Apply JSON</button>
           <button type="button" id="copy-json">Copy JSON</button>
         </div>
+=======
+  <dialog id="json-dialog" aria-labelledby="json-dialog-title">
+    <form method="dialog" class="json-dialog-content">
+      <header><h2 id="json-dialog-title">Project JSON</h2><button aria-label="Close">×</button></header>
+      <textarea id="json-output" aria-label="Project JSON" spellcheck="false"></textarea>
+      <div class="designer-actions">
+        <button type="button" id="apply-json">Apply JSON</button>
+        <button type="button" id="copy-json">Copy JSON</button>
+>>>>>>> Stashed changes
       </div>
     </form>
   </dialog>

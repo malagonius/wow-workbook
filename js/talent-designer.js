@@ -15,6 +15,9 @@ let project;
 let baselineProject;
 let selectedNodeId = null;
 let connectSourceId = null;
+let connectMode = false;
+let canvasView = matchMedia('(max-width: 700px)').matches ? 'list' : 'tree';
+let connectionReceipt = '';
 let saveTimer;
 let contentCreationMode = null;
 let pendingSnapshot = null;
@@ -114,6 +117,8 @@ function updateSections(preferredSection = sectionSelect.value) {
   sectionSelect.innerHTML = sections.map(section => `<option value="${escapeHtml(section.id)}">${escapeHtml(section.title)}</option>`).join('');
   sectionSelect.value = sections.some(section => section.id === preferredSection) ? preferredSection : sections[0]?.id || '';
   selectedNodeId = null;
+  connectSourceId = null;
+  connectionReceipt = '';
   render();
 }
 
@@ -140,11 +145,21 @@ function render() {
       selectedNodeId,
       connectSourceId,
       getSectionSummary: current => `${current.nodes.length} talents · ${current.maxPoints || 0} points`,
-      getNodeState: (current, node) => ({ available: true, title: nodeTooltip(node) }),
+      getNodeState: (current, node) => ({ available: true, selected: node.id === selectedNodeId, title: nodeTooltip(node) }),
       handlers: { onNodeClick, onSocketClick, onNodeMove, onNodeSwap, onConnect, onConnectToSocket, onEdgeClick, onHandleClick }
     });
   }
 
+  treeEl.classList.toggle('list-view', canvasView === 'list');
+  $('view-list').setAttribute('aria-pressed', String(canvasView === 'list'));
+  $('view-tree').setAttribute('aria-pressed', String(canvasView === 'tree'));
+  $('mode-select').setAttribute('aria-pressed', String(!connectMode));
+  $('mode-connect').setAttribute('aria-pressed', String(connectMode));
+  const source = section?.nodes.find(node => node.id === connectSourceId);
+  $('canvas-status').textContent = connectMode
+    ? (source ? `Target for: ${source.name || source.id}` : connectionReceipt || 'Source talent')
+    : selectedNode()?.name || selectedNode()?.id || 'No talent selected';
+  $('edit-selected').disabled = !selectedNode() || connectMode;
   updateNodeForm();
   updateSectionForm();
   updateTreeForm();
@@ -154,11 +169,18 @@ function render() {
   renderAbilities();
 }
 
-function onNodeClick(node, section) {
+function onNodeClick(node, section, event) {
   if (connectSourceId && connectSourceId !== node.id) {
     const from = connectSourceId;
     connectSourceId = null;
     onConnect(from, node.id, section);
+    return;
+  }
+  if (connectMode) {
+    connectionReceipt = '';
+    selectedNodeId = node.id;
+    connectSourceId = connectSourceId === node.id ? null : node.id;
+    render();
     return;
   }
   connectSourceId = null;
@@ -167,6 +189,8 @@ function onNodeClick(node, section) {
 }
 
 function onHandleClick(node) {
+  connectMode = true;
+  connectionReceipt = '';
   connectSourceId = connectSourceId === node.id ? null : node.id;
   setStatus(connectSourceId ? `Connecting from "${node.name || node.id}" — click the target talent, or press Escape.` : 'Connection cancelled.', 'dirty');
   render();
@@ -176,6 +200,7 @@ function onSocketClick(section, row, column) {
   const from = connectSourceId;
   connectSourceId = null;
   createNodeAtSocket(section, row, column, from);
+  if (!from && matchMedia('(hover: none)').matches) $('node-form').scrollIntoView({ block: 'start' });
 }
 
 function createNodeAtSocket(section, row, column, from = null) {
@@ -217,10 +242,14 @@ function onConnect(from, to, section) {
   connectSourceId = null;
   if (from === to) return;
   if (section.connections.some(connection => connection.from === from && connection.to === to)) {
+    connectionReceipt = 'Connection already exists';
     setStatus('Those talents are already connected.', 'dirty');
     render();
     return;
   }
+  const source = section.nodes.find(node => node.id === from);
+  const target = section.nodes.find(node => node.id === to);
+  connectionReceipt = `${source?.name || from} → ${target?.name || to}`;
   mutate(() => {
     section.connections.push(makeConnection(from, to));
     if (isEmptyNode(section.nodes.find(node => node.id === to))) selectedNodeId = to;
@@ -274,6 +303,26 @@ function updateNodeForm() {
   $('choice-b-description').value = second?.description || '';
   updateIconPreview(node.icon);
 }
+
+for (const view of ['list', 'tree']) $('view-' + view).addEventListener('click', () => {
+  canvasView = view;
+  render();
+  layoutConnections(treeEl);
+});
+for (const mode of ['select', 'connect']) $('mode-' + mode).addEventListener('click', () => {
+  connectMode = mode === 'connect';
+  connectSourceId = null;
+  connectionReceipt = '';
+  render();
+});
+$('edit-selected').addEventListener('click', () => {
+  $('node-form').scrollIntoView({ block: 'start' });
+  $('node-name').focus({ preventScroll: true });
+});
+$('back-to-tree').addEventListener('click', () => {
+  treeEl.scrollIntoView({ block: 'start' });
+  treeEl.focus({ preventScroll: true });
+});
 
 function applyNodeForm() {
   const section = currentSection();
@@ -332,7 +381,7 @@ function renderConnections() {
   const nodes = new Map(section.nodes.map(node => [node.id, node]));
   const connections = section.connections || [];
   if (!connections.length) {
-    list.innerHTML = '<p class="connection-empty">No connections yet. Drag the gold dot from one talent onto another.</p>';
+    list.innerHTML = '<p class="connection-empty">No connections</p>';
     return;
   }
 
@@ -756,8 +805,10 @@ function wireShortcuts() {
     } else if ((event.ctrlKey || event.metaKey) && key === 'y') {
       event.preventDefault();
       travelHistory(redoStack, undoStack);
-    } else if (event.key === 'Escape' && connectSourceId) {
+    } else if (event.key === 'Escape' && (connectSourceId || connectMode)) {
       connectSourceId = null;
+      connectMode = false;
+      connectionReceipt = '';
       setStatus('Connection cancelled.', 'dirty');
       render();
     } else if (!typing && event.key === 'Delete' && selectedNodeId) {
@@ -808,7 +859,7 @@ async function init() {
 
   classSelect.addEventListener('change', () => updateSpecs());
   specSelect.addEventListener('change', () => updateSections());
-  sectionSelect.addEventListener('change', () => { selectedNodeId = null; render(); });
+  sectionSelect.addEventListener('change', () => { selectedNodeId = null; connectSourceId = null; connectionReceipt = ''; render(); });
 
   wireNodeForm();
   wirePanels();

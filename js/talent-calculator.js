@@ -2,7 +2,14 @@ import { nodeLabel } from './talent-model.js';
 import { loadTalentProject } from './talent-config.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 
+<<<<<<< Updated upstream
 let project=null;
+=======
+const PROJECT_URL='config/talent-project.json';
+const SPELLS_URL='config/spells.json';
+let project=null,spells=null;
+let inspectedNodeId=null;
+>>>>>>> Stashed changes
 const ranks=new Map(),choices=new Map();
 const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=$('specSelect'),treeContainer=$('treeContainer');
 
@@ -25,7 +32,7 @@ async function loadConfig(){
 
 function currentKey(){return classSelect.value+'/'+specSelect.value}
 function getTree(){return project?.trees[currentKey()]}
-function resetPoints(){ranks.clear();choices.clear()}
+function resetPoints(){ranks.clear();choices.clear();inspectedNodeId=null}
 function populateSpecs(){
   resetPoints();specSelect.innerHTML='';
   const specs=project?.content?.[classSelect.value]||[];
@@ -71,8 +78,8 @@ function nodeState(section,node){
   if(node.maxRank>1)lines.push('Rank '+rank+' / '+node.maxRank);
   if(node.description)lines.push(node.description);
   if(node.kind==='choice'&&choiceCount(node))lines.push(node.choices.map(c=>c.name).filter(Boolean).join(' or '));
-  lines.push(selected?(canRemove(section,node.id)?'Right-click to refund a rank':'Another selected talent depends on this'):(available?'Click to spend a point':'Requires a connected talent'));
-  const tooltipFooter=selected?(canRemove(section,node.id)?'Right-click to refund a rank':'Another selected talent depends on this'):(available?'Click to spend a point':'Requires a connected talent');
+  const tooltipFooter=selected?(canRemove(section,node.id)?'Refund available':'Another selected talent depends on this'):(available?'Point available':'Requires a connected talent');
+  lines.push(tooltipFooter);
   return {rank,selected,available,partial:selected&&rank<node.maxRank,choiceIndex:choices.has(node.id)?choices.get(node.id):-1,title:lines.join('\n'),tooltipFooter};
 }
 function render(){
@@ -85,18 +92,30 @@ function render(){
     return;
   }
   const sections=tree.sections||[];
+<<<<<<< Updated upstream
   $('pointCount').textContent=sections.reduce((a,s)=>a+sectionPoints(s),0)+' / '+sections.reduce((a,s)=>a+(s.maxPoints||0),0);
   $('details').innerHTML='<h3>Talent tree</h3><p>Click a talent to spend a point, right-click to refund one. Multi-rank talents fill up one point at a time, and choice talents cycle between their options. Starting nodes are selectable first; every later node requires a selected connected parent.</p>';
+=======
+  $('pointCount').textContent=`${sections.reduce((a,s)=>a+sectionPoints(s),0)} / ${sections.reduce((a,s)=>a+(s.maxPoints||0),0)}`;
+  renderDetails(sections);
+>>>>>>> Stashed changes
   renderSections(treeContainer,sections,{
     mode:'calculator',
     getNodeState:nodeState,
     getSectionSummary:s=>sectionPoints(s)+' / '+(s.maxPoints||0),
     handlers:{
-      onNodeClick:(node,section)=>{addRank(section,node);render()},
-      onNodeAlt:(node,section)=>{removeRank(section,node);render()}
+      onNodeClick:(node,section,event)=>{
+        inspectedNodeId=node.id;
+        const touch=event.pointerType==='touch'||matchMedia('(hover: none)').matches;
+        if(!touch)addRank(section,node);
+        render();
+        if(touch){$('talentDetailsModal').append($('details'));$('talentDetailsModal').showModal()}
+      },
+      onNodeAlt:(node,section)=>{inspectedNodeId=node.id;removeRank(section,node);render()}
     }
   });
 }
+<<<<<<< Updated upstream
 function openAbilities(){
   const list=[
     ...(project?.abilities?.[classSelect.value]||[]),
@@ -113,3 +132,49 @@ function openAbilities(){
 function escapeHtml(value){return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
 function closeModal(){$('spellModal').classList.remove('open');$('spellModal').setAttribute('aria-hidden','true')}
 $('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('abilitiesBtn').addEventListener('click',openAbilities);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();
+=======
+function renderDetails(sections){
+  const host=$('details');
+  host.replaceChildren();
+  const section=sections.find(item=>item.nodes.some(node=>node.id===inspectedNodeId));
+  const node=section?.nodes.find(item=>item.id===inspectedNodeId);
+  const title=document.createElement('h3');
+  title.textContent=node?nodeLabel(node):'Talent details';
+  host.append(title);
+  if(!node)return;
+  for(const text of [node.description,[node.cost,node.range,node.castTime,node.cooldown,node.charges].filter(Boolean).join(' · '),`Rank ${rankOf(node.id)} / ${node.maxRank}`,node.kind==='choice'?(node.choices||[]).map(choice=>`${choice.name}: ${choice.description||''}`).join('\n'):null]){
+    if(!text)continue;
+    const paragraph=document.createElement('p');paragraph.textContent=text;host.append(paragraph);
+  }
+  const status=document.createElement('p');
+  status.textContent=nodeState(section,node).tooltipFooter;host.append(status);
+  const actions=document.createElement('div');actions.className='talent-actions';
+  const add=document.createElement('button');add.type='button';add.className='btn primary';
+  const cycle=rankOf(node.id)>0&&node.kind==='choice'&&choiceCount(node)>1;
+  add.textContent=cycle?'Next choice':'Add point';
+  add.disabled=!cycle&&(rankOf(node.id)>=node.maxRank||sectionPoints(section)>=(section.maxPoints||0)||!isNodeAvailable(section,node));
+  const refund=document.createElement('button');refund.type='button';refund.className='btn';refund.textContent='Refund point';
+  refund.disabled=!rankOf(node.id)||(rankOf(node.id)===1&&!canRemove(section,node.id));
+  const act=(operation,label)=>{operation(section,node);render();Array.from(host.querySelectorAll('button')).find(button=>button.textContent===label&&!button.disabled)?.focus({preventScroll:true})};
+  add.addEventListener('click',()=>act(addRank,add.textContent));
+  refund.addEventListener('click',()=>act(removeRank,refund.textContent));
+  actions.append(add,refund);host.append(actions);
+}
+function openSpells(){
+  const list=spells?.[currentKey()]||[];$('modalTitle').textContent=`${specSelect.value} — Spellbook`;
+  $('spellList').innerHTML=list.length?list.map(s=>`<article class="spell"><div class="spell-title"><strong>${s.name}</strong><span class="badge">${s.school}</span></div><div class="spell-meta"><span>Range: ${s.range}</span><span>Cost: ${s.cost}</span></div><p>${s.effect}</p></article>`).join(''):'<div class="spell"><p>No spell configuration exists for this specialization yet.</p></div>';
+  $('spellModal').classList.add('open');$('spellModal').showModal();$('closeModal').focus();
+}
+function closeModal(){$('spellModal').close();$('spellModal').classList.remove('open')}
+const detailDialog=$('talentDetailsModal');
+$('closeTalentDetails').addEventListener('click',()=>detailDialog.close());
+detailDialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();detailDialog.close()}});
+detailDialog.addEventListener('close',()=>{
+  $('main-content').append($('details'));
+  treeContainer.querySelector(`[data-id="${CSS.escape(inspectedNodeId||'')}"]`)?.focus({preventScroll:true});
+});
+$('spellModal').addEventListener('cancel',event=>{event.preventDefault();closeModal()});
+$('spellModal').addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeModal()}});
+$('spellModal').addEventListener('close',()=>{$('spellModal').classList.remove('open');$('spellsBtn').focus()});
+$('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('spellsBtn').addEventListener('click',openSpells);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();
+>>>>>>> Stashed changes

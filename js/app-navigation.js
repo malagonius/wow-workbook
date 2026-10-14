@@ -14,13 +14,14 @@ function renderNavigation() {
 
   const activePage = currentPage();
   const links = NAV_ITEMS.map(item => `
-    <a class="app-nav-link${item.href === activePage ? ' is-active' : ''}" href="${item.href}">
+    <a class="app-nav-link${item.href === activePage ? ' is-active' : ''}" href="${item.href}"${item.href === activePage ? ' aria-current="page"' : ''}>
       <span class="app-nav-icon" aria-hidden="true">${item.icon}</span>
       <span>${item.label}</span>
     </a>
   `).join('');
 
   host.innerHTML = `
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="app-header">
       <a class="app-brand" href="index.html" aria-label="WoW Workbook home">
         <span class="app-brand-title">WoW Workbook</span>
@@ -47,6 +48,13 @@ function renderNavigation() {
   toggle.addEventListener('click', () => {
     const open = navigation.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !navigation.classList.contains('is-open')) return;
+    navigation.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.focus();
   });
 
   navigation.addEventListener('click', event => {

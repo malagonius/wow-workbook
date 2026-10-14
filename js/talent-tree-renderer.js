@@ -101,7 +101,7 @@ function buildNode(section, node, options) {
   if (node.id === options.connectSourceId) classes.push('connect-source');
   button.className = classes.join(' ');
   button.setAttribute('aria-label', state.title || label || node.id);
-  if (options.mode === 'calculator' && !state.selected && !state.available) button.disabled = true;
+  button.setAttribute('aria-pressed', String(!!state.selected));
 
   button.appendChild(buildIcon(node));
 
@@ -109,6 +109,24 @@ function buildNode(section, node, options) {
   name.className = 'node-name';
   name.textContent = label;
   button.appendChild(name);
+
+  if (options.mode === 'designer') {
+    if (!label) name.textContent = 'Empty talent';
+    const position = document.createElement('span');
+    position.className = 'node-position';
+    position.textContent = `Row ${node.row + 1} / Column ${node.column + 1}`;
+    button.appendChild(position);
+    const targets = (section.connections || []).filter(connection => connection.from === node.id)
+      .map(connection => section.nodes.find(target => target.id === connection.to))
+      .filter(Boolean).map(target => nodeLabel(target) || target.id);
+    if (targets.length) {
+      const links = document.createElement('span');
+      links.className = 'node-links';
+      links.textContent = `→ ${targets.join(', ')}`;
+      button.appendChild(links);
+    }
+    button.setAttribute('aria-label', [state.title || label || node.id, position.textContent, targets.length ? `Connected to: ${targets.join(', ')}` : ''].filter(Boolean).join('\n'));
+  }
 
   if (options.showRanks !== false) {
     const rank = document.createElement('span');
@@ -280,7 +298,13 @@ function buildSection(section, options) {
   }
 
   graph.appendChild(grid);
-  element.appendChild(graph);
+  const viewport = document.createElement('div');
+  viewport.className = 'graph-viewport';
+  viewport.tabIndex = 0;
+  viewport.setAttribute('role', 'region');
+  viewport.setAttribute('aria-label', `${section.title || section.id} talent graph`);
+  viewport.appendChild(graph);
+  element.appendChild(viewport);
   return element;
 }
 
@@ -362,10 +386,16 @@ export function layoutConnections(container) {
 }
 
 export function renderSections(container, sections, options = {}) {
+  const focusedId = container.contains(document.activeElement) ? document.activeElement.dataset.id : null;
+  const offsets = new Map(Array.from(container.querySelectorAll('.talent-section'), section => [section.dataset.sectionId, section.querySelector('.graph-viewport')?.scrollLeft || 0]));
   hideTooltip();
   container.innerHTML = '';
   container.classList.toggle('designer-mode', options.mode === 'designer');
   sections.forEach(section => container.appendChild(buildSection(section, options)));
+  container.querySelectorAll('.talent-section').forEach(section => {
+    section.querySelector('.graph-viewport').scrollLeft = offsets.get(section.dataset.sectionId) || 0;
+  });
+  if (focusedId) container.querySelector(`[data-id="${CSS.escape(focusedId)}"]`)?.focus({ preventScroll: true });
   requestAnimationFrame(() => layoutConnections(container));
 }
 

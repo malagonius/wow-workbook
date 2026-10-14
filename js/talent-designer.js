@@ -7,6 +7,7 @@ import { renderSections, layoutConnections, renderEmptyState } from './talent-tr
 import { loadDraft, saveDraft, clearDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
 import { classFileName, compactProject, loadTalentProject, mergeLegacyAbilities, mergeProject } from './talent-config.js';
 import { initializeAbilityDesigner, renderAbilities } from './ability-designer.js';
+import { initializeClassPicker } from './class-picker.js';
 
 const HISTORY_LIMIT = 60;
 const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
@@ -16,7 +17,7 @@ let baselineProject;
 let selectedNodeId = null;
 let connectSourceId = null;
 let connectMode = false;
-let canvasView = matchMedia('(max-width: 700px)').matches ? 'list' : 'tree';
+let canvasView = 'tree';
 let connectionReceipt = '';
 let saveTimer;
 let contentCreationMode = null;
@@ -30,6 +31,7 @@ const specSelect = $('designer-spec');
 const sectionSelect = $('designer-section');
 const treeEl = $('designer-tree');
 const statusEl = $('storage-status');
+const refreshClassPicker = initializeClassPicker(classSelect, specSelect, () => project?.content || {});
 
 function currentKey() { return `${classSelect.value}/${specSelect.value}`; }
 function currentTree() { return project.trees[currentKey()]; }
@@ -134,6 +136,7 @@ function nodeTooltip(node) {
 }
 
 function render() {
+  refreshClassPicker();
   refreshSectionOptions();
   const section = currentSection();
 
@@ -186,6 +189,7 @@ function onNodeClick(node, section, event) {
   connectSourceId = null;
   selectedNodeId = node.id;
   render();
+  openNodeEditor();
 }
 
 function onHandleClick(node) {
@@ -200,7 +204,7 @@ function onSocketClick(section, row, column) {
   const from = connectSourceId;
   connectSourceId = null;
   createNodeAtSocket(section, row, column, from);
-  if (!from && matchMedia('(hover: none)').matches) $('node-form').scrollIntoView({ block: 'start' });
+  if (!connectMode) openNodeEditor();
 }
 
 function createNodeAtSocket(section, row, column, from = null) {
@@ -278,6 +282,7 @@ function updateNodeForm() {
   const node = selectedNode();
   $('node-form').hidden = !node;
   $('selection-hint').hidden = !!node;
+  if (!node && $('node-dialog').open) $('node-dialog').close();
   if (!node) return;
 
   $('node-id').value = node.id;
@@ -315,13 +320,26 @@ for (const mode of ['select', 'connect']) $('mode-' + mode).addEventListener('cl
   connectionReceipt = '';
   render();
 });
-$('edit-selected').addEventListener('click', () => {
-  $('node-form').scrollIntoView({ block: 'start' });
+function openNodeEditor() {
+  if (!selectedNode() || connectMode) return;
+  if (!$('node-dialog').open) $('node-dialog').showModal();
   $('node-name').focus({ preventScroll: true });
+}
+$('edit-selected').addEventListener('click', openNodeEditor);
+$('node-dialog-close').addEventListener('click', () => $('node-dialog').close());
+$('node-dialog').addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  event.preventDefault();
+  $('node-dialog').close();
 });
-$('back-to-tree').addEventListener('click', () => {
-  treeEl.scrollIntoView({ block: 'start' });
-  treeEl.focus({ preventScroll: true });
+$('node-dialog').addEventListener('close', () => {
+  commitEdit();
+  treeEl.querySelector(`[data-id="${CSS.escape(selectedNodeId || '')}"]`)?.focus({ preventScroll: true });
+});
+$('node-dialog').addEventListener('click', event => {
+  if (event.target !== $('node-dialog')) return;
+  const bounds = event.target.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) event.target.close();
 });
 
 function applyNodeForm() {

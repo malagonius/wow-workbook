@@ -51,15 +51,13 @@ A worked example — adding `cooldown`:
 
 ## Manual test checklist
 
-<<<<<<< Updated upstream
 Run `npm test` and `npm run check:talents`, then use this checklist for browser interactions.
-=======
-There is no checked-in automated test runner. Run this checklist before calling a change done; the browser-based Playwright verification below covers the mobile changes.
->>>>>>> Stashed changes
+
+If the shell does not expand the test wildcard, run `node --test tests/talent-config.test.mjs` directly.
 
 **Calculator**
 
-- [ ] Class and spec dropdowns populate; switching resets spent points.
+- [ ] Class icons reveal specializations on hover, click or keyboard Arrow Down; switching resets spent points.
 - [ ] Row 0 talents are selectable; deeper talents stay locked until a parent is taken.
 - [ ] Left-click spends a rank, right-click refunds; multi-rank talents count up.
 - [ ] A talent cannot be refunded while a selected child depends only on it.
@@ -68,7 +66,8 @@ There is no checked-in automated test runner. Run this checklist before calling 
 **Designer**
 
 - [ ] The tree renders with the same visuals as the calculator.
-- [ ] Clicking a talent opens the editor; name, kind and rank changes appear immediately.
+- [ ] In Edit mode, clicking a talent opens its modal editor; changes autosave and support undo/redo. Close or Escape returns to the tree without losing its position.
+- [ ] Connect mode selects a source and target without opening the editor. Creating a connected talent in an empty socket stays in Connect mode.
 - [ ] Dragging a talent onto an empty socket moves it; dragging onto another talent swaps them.
 - [ ] Dragging the gold dot onto another talent connects them; clicking the dot then a target does the same.
 - [ ] Clicking a connection line deletes it.
@@ -137,6 +136,29 @@ Automated checks are not accessibility certification. Physical iOS/Android
 devices, VoiceOver/TalkBack, desktop screen readers, OS text scaling, and the
 virtual keyboard still need manual verification. Choice cycling uses the same
 rank logic as desktop but was not covered by a dedicated touch fixture.
+
+### Icon Picker And Modal Editing (2026-10-14)
+
+Both pages now share an icon-only class picker with hover/click specialization
+menus and keyboard support (Arrow Down opens, Tab navigates, Escape dismisses).
+Known class icons load from Wowhead's image CDN; custom classes use a gear icon,
+with initials if the image cannot load. Data still flows through the existing
+class/spec selectors and no project-format change is required.
+
+The designer defaults to the spatial Tree view on phones as well as desktop.
+Seven-column trees fit typical phone widths; wider authored grids scroll inside
+the graph. List remains available. Edit opens the existing autosaved node form in
+a modal; Connect keeps source/target selection separate and never opens it.
+Secondary project commands are under Tools.
+
+Browser checks covered both pages at 320, 390, 768 and 1440px, with no page-level
+horizontal overflow or uncaught JavaScript errors. Touch checks covered class/spec
+selection, modal edits and undo, connecting and undo, List/Tree switching, calculator
+inspection/add/refund, and the abilities dialog. Desktop checks covered hover
+menus, modal opening, Escape dismissal and keyboard specialization navigation.
+All 22 configuration tests and `check:talents` passed. This follow-up does not
+repeat the earlier axe audit; compact phone talent targets can be narrower than
+44px, and real-device touch/virtual-keyboard checks remain manual.
 
 ## Publishing changes to the repository data
 

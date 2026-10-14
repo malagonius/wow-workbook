@@ -16,9 +16,7 @@
   <main class="designer" id="main-content">
     <header class="designer-header">
       <div>
-        <p class="eyebrow">WOW WORKBOOK</p>
         <h1>Talent Designer</h1>
-        <p>Design the tree visually. The JSON remains the source of truth.</p>
       </div>
     </header>
 
@@ -32,17 +30,22 @@
       <label>Section
         <select id="designer-section"></select>
       </label>
-      <button id="add-class" type="button">＋ Class</button>
-      <button id="add-spec" type="button">＋ Spec</button>
       <button id="add-node" type="button">＋ Talent</button>
-      <button id="add-ability" type="button">＋ Ability</button>
-      <button id="clear-section" type="button">Clear section</button>
       <button id="undo" type="button" title="Undo (Ctrl+Z)">↶ Undo</button>
       <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
+      <details class="designer-tools">
+        <summary>Tools</summary>
+        <div class="designer-tools-actions">
+      <button id="add-class" type="button">＋ Class</button>
+      <button id="add-spec" type="button">＋ Spec</button>
+      <button id="add-ability" type="button">＋ Ability</button>
+      <button id="clear-section" type="button">Clear section</button>
       <button id="show-json" type="button">&lt;&gt; JSON</button>
       <button id="export-project" type="button" title="Export all class data in one JSON file, ready to replace its file in config/class/">Export class</button>
       <button id="import-project" type="button" title="Update imported classes without removing other classes">Import classes</button>
       <button id="reset-draft" type="button">Reset draft</button>
+        </div>
+      </details>
       <input id="project-file" type="file" accept="application/json,.json" hidden>
     </section>
     <p id="storage-status" class="storage-status" role="status">Loading local draft…</p>
@@ -54,7 +57,7 @@
             <button id="view-tree" type="button" aria-pressed="true">Tree</button>
           </div>
           <div class="canvas-segments" role="group" aria-label="Talent action">
-            <button id="mode-select" type="button" aria-pressed="true">Select</button>
+            <button id="mode-select" type="button" aria-pressed="true">Edit</button>
             <button id="mode-connect" type="button" aria-pressed="false">Connect</button>
           </div>
           <p id="canvas-status" role="status">No talent selected</p>
@@ -63,11 +66,9 @@
         <div id="designer-tree" class="designer-tree" role="region" aria-label="Talent design canvas" tabindex="0"></div>
       </div>
 
-      <aside class="designer-panel">
-        <h2>Talent</h2>
-        <div class="designer-actions">
-          <button id="back-to-tree" type="button">Back to tree</button>
-        </div>
+      <dialog id="node-dialog" class="designer-modal" aria-labelledby="node-dialog-title">
+        <header class="modal-header"><h2 id="node-dialog-title">Edit talent</h2><button type="button" class="modal-close" id="node-dialog-close" aria-label="Close talent editor">×</button></header>
+        <div class="modal-body designer-panel">
         <p id="selection-hint">Select a talent to edit it.</p>
         <form id="node-form" hidden autocomplete="off">
           <label>Name<input id="node-name"></label>
@@ -118,7 +119,10 @@
             <button type="button" id="delete-node">Delete</button>
           </div>
         </form>
+        </div>
+      </dialog>
 
+      <aside class="designer-panel">
         <details class="panel-group">
           <summary>Section settings</summary>
           <div class="panel-form">
@@ -175,11 +179,7 @@
     </section>
   </main>
 
-<<<<<<< Updated upstream
-  <dialog id="content-dialog" class="designer-modal">
-=======
-  <dialog id="content-dialog" aria-labelledby="content-dialog-title">
->>>>>>> Stashed changes
+  <dialog id="content-dialog" class="designer-modal" aria-labelledby="content-dialog-title">
     <form method="dialog" class="json-dialog-content" id="content-form">
       <header class="modal-header"><h2 id="content-dialog-title">Create</h2><button type="button" class="modal-close" id="content-dialog-close" aria-label="Close">×</button></header>
       <div class="modal-body">
@@ -193,25 +193,15 @@
     </form>
   </dialog>
 
-<<<<<<< Updated upstream
-  <dialog id="json-dialog" class="designer-modal">
+  <dialog id="json-dialog" class="designer-modal" aria-labelledby="json-dialog-title">
     <form method="dialog" class="json-dialog-content">
-      <header class="modal-header"><h2>Current class JSON</h2><button type="button" class="modal-close" id="json-dialog-close" aria-label="Close">×</button></header>
+      <header class="modal-header"><h2 id="json-dialog-title">Current class JSON</h2><button type="button" class="modal-close" id="json-dialog-close" aria-label="Close">×</button></header>
       <div class="modal-body">
-        <textarea id="json-output" spellcheck="false"></textarea>
+        <textarea id="json-output" aria-label="Current class JSON" spellcheck="false"></textarea>
         <div class="modal-footer">
           <button type="button" id="apply-json" class="primary">Apply JSON</button>
           <button type="button" id="copy-json">Copy JSON</button>
         </div>
-=======
-  <dialog id="json-dialog" aria-labelledby="json-dialog-title">
-    <form method="dialog" class="json-dialog-content">
-      <header><h2 id="json-dialog-title">Project JSON</h2><button aria-label="Close">×</button></header>
-      <textarea id="json-output" aria-label="Project JSON" spellcheck="false"></textarea>
-      <div class="designer-actions">
-        <button type="button" id="apply-json">Apply JSON</button>
-        <button type="button" id="copy-json">Copy JSON</button>
->>>>>>> Stashed changes
       </div>
     </form>
   </dialog>

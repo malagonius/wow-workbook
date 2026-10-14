@@ -1,17 +1,13 @@
 import { nodeLabel } from './talent-model.js';
 import { loadTalentProject } from './talent-config.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
+import { initializeClassPicker } from './class-picker.js';
 
-<<<<<<< Updated upstream
 let project=null;
-=======
-const PROJECT_URL='config/talent-project.json';
-const SPELLS_URL='config/spells.json';
-let project=null,spells=null;
 let inspectedNodeId=null;
->>>>>>> Stashed changes
 const ranks=new Map(),choices=new Map();
 const $=id=>document.getElementById(id),classSelect=$('classSelect'),specSelect=$('specSelect'),treeContainer=$('treeContainer');
+const refreshClassPicker=initializeClassPicker(classSelect,specSelect,()=>project?.content||{});
 
 async function loadConfig(){
   try{
@@ -83,22 +79,19 @@ function nodeState(section,node){
   return {rank,selected,available,partial:selected&&rank<node.maxRank,choiceIndex:choices.has(node.id)?choices.get(node.id):-1,title:lines.join('\n'),tooltipFooter};
 }
 function render(){
+  refreshClassPicker();
   const tree=getTree();
   $('className').textContent=classSelect.value;$('specName').textContent=specSelect.value;
   $('specDescription').textContent=tree?.description||'No homebrew talent tree has been defined for this specialization yet.';
   if(!tree){
     $('pointCount').textContent='0 / 0';
+    renderDetails([]);
     renderEmptyState(treeContainer,'✦','No custom tree yet','This specialization has no talent tree yet. Open Talent Designer to create it.');
     return;
   }
   const sections=tree.sections||[];
-<<<<<<< Updated upstream
-  $('pointCount').textContent=sections.reduce((a,s)=>a+sectionPoints(s),0)+' / '+sections.reduce((a,s)=>a+(s.maxPoints||0),0);
-  $('details').innerHTML='<h3>Talent tree</h3><p>Click a talent to spend a point, right-click to refund one. Multi-rank talents fill up one point at a time, and choice talents cycle between their options. Starting nodes are selectable first; every later node requires a selected connected parent.</p>';
-=======
   $('pointCount').textContent=`${sections.reduce((a,s)=>a+sectionPoints(s),0)} / ${sections.reduce((a,s)=>a+(s.maxPoints||0),0)}`;
   renderDetails(sections);
->>>>>>> Stashed changes
   renderSections(treeContainer,sections,{
     mode:'calculator',
     getNodeState:nodeState,
@@ -115,7 +108,6 @@ function render(){
     }
   });
 }
-<<<<<<< Updated upstream
 function openAbilities(){
   const list=[
     ...(project?.abilities?.[classSelect.value]||[]),
@@ -127,12 +119,9 @@ function openAbilities(){
     const details=type==='spell'?'<div class="spell-meta"><span>Range: '+(a.range||'—')+'</span><span>Cost: '+(a.cost||'—')+'</span></div>':'';
     return '<article class="spell"><div class="spell-title"><strong>'+escapeHtml(a.name||'Unnamed ability')+'</strong><span class="badge">'+escapeHtml(type)+'</span></div>'+details+'<p>'+escapeHtml(a.description||'')+'</p></article>';
   }).join(''):'<div class="spell"><p>No abilities are configured for this specialization yet.</p></div>';
-  $('spellModal').classList.add('open');$('spellModal').setAttribute('aria-hidden','false');
+  $('spellModal').classList.add('open');$('spellModal').showModal();
 }
 function escapeHtml(value){return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
-function closeModal(){$('spellModal').classList.remove('open');$('spellModal').setAttribute('aria-hidden','true')}
-$('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('abilitiesBtn').addEventListener('click',openAbilities);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();
-=======
 function renderDetails(sections){
   const host=$('details');
   host.replaceChildren();
@@ -160,11 +149,6 @@ function renderDetails(sections){
   refund.addEventListener('click',()=>act(removeRank,refund.textContent));
   actions.append(add,refund);host.append(actions);
 }
-function openSpells(){
-  const list=spells?.[currentKey()]||[];$('modalTitle').textContent=`${specSelect.value} — Spellbook`;
-  $('spellList').innerHTML=list.length?list.map(s=>`<article class="spell"><div class="spell-title"><strong>${s.name}</strong><span class="badge">${s.school}</span></div><div class="spell-meta"><span>Range: ${s.range}</span><span>Cost: ${s.cost}</span></div><p>${s.effect}</p></article>`).join(''):'<div class="spell"><p>No spell configuration exists for this specialization yet.</p></div>';
-  $('spellModal').classList.add('open');$('spellModal').showModal();$('closeModal').focus();
-}
 function closeModal(){$('spellModal').close();$('spellModal').classList.remove('open')}
 const detailDialog=$('talentDetailsModal');
 $('closeTalentDetails').addEventListener('click',()=>detailDialog.close());
@@ -175,6 +159,5 @@ detailDialog.addEventListener('close',()=>{
 });
 $('spellModal').addEventListener('cancel',event=>{event.preventDefault();closeModal()});
 $('spellModal').addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeModal()}});
-$('spellModal').addEventListener('close',()=>{$('spellModal').classList.remove('open');$('spellsBtn').focus()});
-$('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('spellsBtn').addEventListener('click',openSpells);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();
->>>>>>> Stashed changes
+$('spellModal').addEventListener('close',()=>{$('spellModal').classList.remove('open');$('abilitiesBtn').focus()});
+$('closeModal').addEventListener('click',closeModal);$('spellModal').addEventListener('click',e=>{if(e.target.id==='spellModal')closeModal()});$('abilitiesBtn').addEventListener('click',openAbilities);$('resetBtn').addEventListener('click',()=>{resetPoints();render()});classSelect.addEventListener('change',populateSpecs);specSelect.addEventListener('change',()=>{resetPoints();render()});window.addEventListener('resize',()=>layoutConnections(treeContainer));loadConfig();

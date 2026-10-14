@@ -14,83 +14,36 @@
     "classes": {
       "Priest/class": {
         "id": "class",
-        "title": "Priest — Esoteric Foundations",
+        "title": "Sacerdote",
         "type": "class",
         "maxPoints": 34,
-        "columns": 7,
+        "columns": 9,
         "rowCount": 10,
-        "selectableEmpty": true,
+        "selectableEmpty": false,
+        "source": {
+          "url": "https://www.wowhead.com/it/talent-calc/priest/shadow",
+          "dataUrl": "https://nether.wowhead.com/it/data/talents-dragonflight?dv=41&db=1791788844",
+          "capturedOn": "2026-10-14",
+          "treeId": 5,
+          "referenceSpecId": 258
+        },
+        "checkpoints": [
+          {
+            "row": 4,
+            "points": 8
+          },
+          {
+            "row": 7,
+            "points": 23
+          }
+        ],
         "nodes": [
           {
-            "id": "class-0-1",
-            "name": "Psychic Scream",
-            "description": "Release a psychic cry that causes up to 5 nearby enemies to flee for 8 seconds. Damage may break the effect. Revealing a weakness does not require the enemy to be susceptible to fear.",
-            "icon": "",
+            "id": "priest-class-5",
+            "name": "Cura Rapida Migliorata",
+            "description": " Sacro, Ombra Aumenta le cure fornite da Cura Rapida del 15%. Disciplina e d'Ombra",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_heal.jpg",
             "row": 0,
-            "column": 1,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "8 yards",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 minute"
-          },
-          {
-            "id": "class-0-3",
-            "name": "Power Word: Shield",
-            "description": "Place a protective word upon an ally, absorbing damage for 15 seconds. A familiar Priest rite, not an increase to the ally's offensive stats.",
-            "icon": "",
-            "row": 0,
-            "column": 3,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "40 yards",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "6 seconds"
-          },
-          {
-            "id": "class-0-5",
-            "name": "Purify",
-            "description": "Remove harmful Magic and Disease effects from a friendly target. This support-spec cleanse is a homebrew allocation, not a claim about retail Priest access.",
-            "icon": "",
-            "row": 0,
-            "column": 5,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "40 yards",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "8 seconds"
-          },
-          {
-            "id": "class-1-0",
-            "name": "Ritual Cadence",
-            "description": "Mind Flay's channel time is reduced by 10%, retaining all 3 ticks and their Insight generation. Understanding grows through repetition.",
-            "icon": "",
-            "row": 1,
-            "column": 0,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-1-2",
-            "name": "Lingering Suggestion",
-            "description": "Mind Flay slows its target by 30% during the channel and for 2 seconds afterward. Bosses retain their normal immunity to movement impairment.",
-            "icon": "",
-            "row": 1,
             "column": 2,
             "type": "talent",
             "kind": "passive",
@@ -99,94 +52,121 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 5,
+            "wowheadNodeId": 82717,
+            "spellIds": [
+              393870
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [
+              257,
+              256
+            ]
           },
           {
-            "id": "class-1-3",
-            "name": "Layered Wards",
-            "description": "Power Word: Shield gains a second charge. Its absorb effects do not stack on the same target.",
-            "icon": "",
-            "row": 1,
-            "column": 3,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-1-4",
-            "name": "Benediction of the Inner Light",
-            "description": "Speak a restorative formula that immediately heals a friendly target. The rite mends the vessel without changing its offensive potential.",
-            "icon": "",
-            "row": 1,
+            "id": "priest-class-9",
+            "name": "Piuma Angelica",
+            "description": "Posiziona una piuma sulla posizione bersaglio, aumentando del 40% per 5 s la velocità di movimento primo bersaglio alleato che vi cammina attraverso.  È possibile posizionare solo 3 piume alla volta.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_angelicfeather.jpg",
+            "row": 0,
             "column": 4,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
-            "cost": "Mana",
-            "range": "40 yards",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "20 seconds"
-          },
-          {
-            "id": "class-1-6",
-            "name": "Illuminated Verses",
-            "description": "Increase Smite damage and Flash Heal healing by 5% / 10%.",
-            "icon": "",
-            "row": 1,
-            "column": 6,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 2,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 9,
+            "wowheadNodeId": 82703,
+            "spellIds": [
+              121536
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-2-1",
-            "name": "Silence",
-            "description": "Interrupt the target and prevent spellcasting for 4 seconds. Against silence-immune enemies, interrupt their current cast instead.",
-            "icon": "",
-            "row": 2,
+            "id": "priest-class-13",
+            "name": "Detonazione Mentale",
+            "description": " Sacro Colpisce la mente del bersaglio, infliggendo ([78.336% of Spell Power]) danni da ombra. Disciplina Ha un alto costo in mana. Ombra Genera 6 pazzia.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unholyfrenzy.jpg",
+            "row": 0,
+            "column": 6,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 13,
+            "wowheadNodeId": 82713,
+            "spellIds": [
+              8092
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [
+              256,
+              258
+            ]
+          },
+          {
+            "id": "priest-class-22",
+            "name": "Esplosione Sacra",
+            "description": "Genera un'esplosione di luce sacra tutt'intorno, infliggendo fino a ([40.95% of Spell Power]) danni da sacro ai nemici e curando massimo ([31.5% gli alleati entro 12 m. Questi valori si riducono se ci sono più 5 bersagli. ",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holynova.jpg",
+            "row": 1,
             "column": 1,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
-            "cost": "Mana",
-            "range": "30 yards",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "45 seconds"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 22,
+            "wowheadNodeId": 82718,
+            "spellIds": [
+              132157
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [
+              257
+            ]
           },
           {
-            "id": "class-2-3",
-            "name": "Veiled Steps",
-            "description": "Fade increases your movement speed by 30% for 5 seconds. The world loosens its hold on your passing.",
-            "icon": "",
-            "row": 2,
+            "id": "priest-class-26",
+            "name": "Dissoluzione Magica",
+            "description": "Disperde la magia sul bersaglio nemico, dissolvendo 1  effetto benefico .",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_nullifydisease.jpg",
+            "row": 1,
             "column": 3,
             "type": "talent",
-            "kind": "passive",
+            "kind": "active",
             "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 26,
+            "wowheadNodeId": 109009,
+            "spellIds": [
+              528
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-2-5",
-            "name": "Doctrine of Exchange",
-            "description": "Effective healing you deal accumulates a reserve equal to 10% of that healing, capped at 20% of your maximum health. Your next Mind Blast consumes the reserve as additional personal damage. This reserve cannot record damage or echoes.",
-            "icon": "",
-            "row": 2,
+            "id": "priest-class-30",
+            "name": "Guida Spirituale",
+            "description": "Aumenta l'Intelletto del 3%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_spiritualguidence.jpg",
+            "row": 1,
             "column": 5,
             "type": "talent",
             "kind": "passive",
@@ -195,78 +175,138 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 30,
+            "wowheadNodeId": 82672,
+            "spellIds": [
+              1250818
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-3-0",
-            "name": "Litany of Unmaking",
-            "description": "Recite a disquieting litany in a cone. Up to 5 enemies become susceptible to 20% longer crowd-control effects for 10 seconds. Does not bypass immunities or increase damage taken.",
-            "icon": "",
-            "row": 3,
-            "column": 0,
+            "id": "priest-class-34",
+            "name": "Urlo Psichico",
+            "description": "Un urlo psichico costringe tutti i nemici entro 8 m a fuggire disorientati per s. Eventuali danni inflitti ai bersagli potrebbero interrompere l'effetto. ",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg",
+            "row": 1,
+            "column": 7,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
-            "cost": "Mana",
-            "range": "15-yard cone",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "45 seconds"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 34,
+            "wowheadNodeId": 82701,
+            "spellIds": [
+              8122
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [
+              258
+            ]
           },
           {
-            "id": "class-3-2",
-            "name": "Exorcism of Affliction",
-            "description": "Remove one Curse and one Poison effect from an ally. An esoteric supplement to Purify, not a universal cleanse.",
-            "icon": "",
-            "row": 3,
+            "id": "priest-class-39",
+            "name": "Scarica di Luce",
+            "description": "Aumenta i danni inflitti da Esplosione Sacra del 400%, le cure che fornisce 500% e il suo tempo di recupero 30 s.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_ability_holyfire_nova.jpg",
+            "row": 2,
+            "column": 0,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 39,
+            "wowheadNodeId": 82719,
+            "spellIds": [
+              1246549
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-43",
+            "name": "Balzo della Fede",
+            "description": "Attira lo spirito di un membro del gruppo o dell'incursione, spostandolo istantaneamente fronte a te. ",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/priest_spell_leapoffaith_a.jpg",
+            "row": 2,
             "column": 2,
             "type": "talent",
             "kind": "active",
             "maxRank": 1,
-            "cost": "Mana",
-            "range": "40 yards",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "30 seconds"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 43,
+            "wowheadNodeId": 82715,
+            "spellIds": [
+              73325
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-3-3",
-            "name": "Vessel of the Mystery",
-            "description": "Increase your maximum health by 3% / 6%.",
-            "icon": "",
-            "row": 3,
+            "id": "priest-class-45",
+            "name": "Purificazione Malattia",
+            "description": "Dissolve tutte le malattie da un bersaglio alleato. ",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_nullifydisease.jpg",
+            "row": 2,
             "column": 3,
             "type": "talent",
-            "kind": "passive",
-            "maxRank": 2,
+            "kind": "active",
+            "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 45,
+            "wowheadNodeId": 82704,
+            "spellIds": [
+              213634
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-3-4",
-            "name": "Apotropaic Inscriptions",
-            "description": "Reduce magical damage taken by 2% / 4%. Protective signs turn hostile workings aside.",
-            "icon": "",
-            "row": 3,
+            "id": "priest-class-47",
+            "name": "Infusione di Potere",
+            "description": "Infonde il potere nel bersaglio per 15 s, aumentandone la celerità del 20%.  Utilizzabile solo su personaggi.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerinfusion.jpg",
+            "row": 2,
             "column": 4,
             "type": "talent",
-            "kind": "passive",
-            "maxRank": 2,
+            "kind": "active",
+            "maxRank": 1,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 47,
+            "wowheadNodeId": 82556,
+            "spellIds": [
+              10060
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-3-6",
-            "name": "Shared Benediction",
-            "description": "Benediction of the Inner Light also heals up to 2 injured party allies within 10 yards of its target for 25% of its healing each.",
-            "icon": "",
-            "row": 3,
+            "id": "priest-class-51",
+            "name": "Invocazione Dolorsa",
+            "description": " Sacro (Fuoco Sacro) Aumenta i danni inflitti da Fuoco SacroFuoco e Parola d'Ombra: Dolore del 10%. Disciplina, Ombra",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindsooth.jpg",
+            "row": 2,
             "column": 6,
             "type": "talent",
             "kind": "passive",
@@ -275,13 +315,243 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 51,
+            "wowheadNodeId": 109006,
+            "spellIds": [
+              1251030
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
           },
           {
-            "id": "class-4-1",
-            "name": "Sever the Frenzy",
-            "description": "Litany of Unmaking removes one Enrage effect from each affected enemy. Each successful removal reduces its remaining cooldown by 3 seconds, up to 15 seconds per cast.",
-            "icon": "",
+            "id": "priest-class-55",
+            "name": "Terrore Puro / Urlo Pietrificante",
+            "description": "Aumenta la quantità di danni richiesti per dissolvere l'effetto Urlo Psichico del 25%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nzinsanity_fearofdeath.jpg",
+            "row": 2,
+            "column": 8,
+            "type": "talent",
+            "kind": "choice",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 55,
+            "wowheadNodeId": 82695,
+            "spellIds": [
+              390919,
+              55676
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [],
+            "choices": [
+              {
+                "name": "Terrore Puro",
+                "description": "Aumenta la quantità di danni richiesti per dissolvere l'effetto Urlo Psichico del 25%.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nzinsanity_fearofdeath.jpg"
+              },
+              {
+                "name": "Urlo Pietrificante",
+                "description": "Urlo Psichico fa tremare i nemici sul posto invece di fuggire in preda al terrore.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychichorrors.jpg"
+              }
+            ]
+          },
+          {
+            "id": "priest-class-60",
+            "name": "Eruzione di Luce",
+            "description": "Gli incantesimi di cura e Punizione hanno una probabilità del 8% rendere il successivo lancio Cura Rapida  istantaneo con un costo in mana ridotto [ Sacro : 50 / ]%. Si accumula fino a 2 volte.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_surgeoflight.jpg",
+            "row": 3,
+            "column": 1,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 60,
+            "wowheadNodeId": 82716,
+            "spellIds": [
+              109186
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-62",
+            "name": "Anima e Corpo",
+            "description": " Disciplina, Ombra Parola del Potere: Scudo e Balzo della Fede aumentano la velocità di movimento bersaglio 40% per 3 s. Sacro Preghiera Guarigione",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_symbolofhope.jpg",
+            "row": 3,
+            "column": 2,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 62,
+            "wowheadNodeId": 109917,
+            "spellIds": [
+              64129
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-64",
+            "name": "Dissoluzione di Massa",
+            "description": "Disperde la magia in un raggio di 15 m, dissolvendo tutti gli effetti dannosi da 5 bersagli alleati e 1  effetto benefico nemici. Questo incantesimo è così potente dissolvere magici che normalmente non si possono dissolvere.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_massdispel.jpg",
+            "row": 3,
+            "column": 3,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 64,
+            "wowheadNodeId": 109890,
+            "spellIds": [
+              32375
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-66",
+            "name": "Gemelli delle Sacerdotesse del Sole",
+            "description": "Quando viene lanciata su un alleato, Infusione di Potere ti fornisce il suo effetto al 100% dell'efficacia.  Se non è stato selezionato alleato come bersaglio, l'effetto fornito a vicino, con priorità agli assaltatori,",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_felflamering_red.jpg",
+            "row": 3,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 66,
+            "wowheadNodeId": 108731,
+            "spellIds": [
+              373466
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-68",
+            "name": "Forza della Risolutezza",
+            "description": "Aumenta la Tempra del 6%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_ashestoashes.jpg",
+            "row": 3,
+            "column": 5,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 68,
+            "wowheadNodeId": 82687,
+            "spellIds": [
+              1250820
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-72",
+            "name": "Controllo Mentale / Dominio Mentale",
+            "description": "Controlla la mente di un nemico (di massimo 1 livello superiore) per 30 s. Inefficace su demoni , non morti  o unità meccaniche. Condivide diminuzione dell'effetto con altri effetti disorientamento.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg",
+            "row": 3,
+            "column": 7,
+            "type": "talent",
+            "kind": "choice",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 72,
+            "wowheadNodeId": 82710,
+            "spellIds": [
+              605,
+              205364
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [],
+            "choices": [
+              {
+                "name": "Controllo Mentale",
+                "description": "Controlla la mente di un nemico (di massimo 1 livello superiore) per 30 s. Inefficace su demoni , non morti  o unità meccaniche. Condivide diminuzione dell'effetto con altri effetti disorientamento.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg"
+              },
+              {
+                "name": "Dominio Mentale",
+                "description": "Controlla la mente di un nemico (di massimo 1 livello superiore) per 30 s, pur restando in controllo della propria. Inefficace su unità meccaniche, demoni o non morti , altri giocatori PvP . Condivide diminuzione dell'effetto con effetti disorientamento.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_priest_void-flay.jpg"
+              }
+            ]
+          },
+          {
+            "id": "priest-class-74",
+            "name": "Voce Psichica / Tentacoli del Vuoto",
+            "description": "Riduce il tempo di recupero Urlo Psichico 10 s.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg",
+            "row": 3,
+            "column": 8,
+            "type": "talent",
+            "kind": "choice",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 74,
+            "wowheadNodeId": 82708,
+            "spellIds": [
+              196704,
+              1250691
+            ],
+            "requiredPoints": 0,
+            "defaultSpecs": [],
+            "choices": [
+              {
+                "name": "Voce Psichica",
+                "description": "Riduce il tempo di recupero Urlo Psichico 10 s.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg"
+              },
+              {
+                "name": "Tentacoli del Vuoto",
+                "description": "Richiama dei tentacoli d'ombra che afferrano i nemici al termine di Urlo Psichico, immobilizzandoli sul posto per 4 s.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_priest_voidtendrils.jpg"
+              }
+            ]
+          },
+          {
+            "id": "priest-class-79",
+            "name": "Luce Perpetua",
+            "description": "Eruzione di Luce si attiva fino al 50% più spesso, in base mana mancante.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_greaterheal.jpg",
             "row": 4,
             "column": 1,
             "type": "talent",
@@ -291,190 +561,21 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 79,
+            "wowheadNodeId": 82702,
+            "spellIds": [
+              1249233
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
           },
           {
-            "id": "class-4-3",
-            "name": "Rite of Reconstitution",
-            "description": "For 8 seconds, record 30% of damage you actually take, up to 30% of your maximum health. Restore that amount over the following 6 seconds. The rite cannot prevent a fatal blow.",
-            "icon": "",
+            "id": "priest-class-81",
+            "name": "Movimento Aggraziato",
+            "description": "Riduce il tempo di recupero Balzo della Fede 30 s.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_savinggrace.jpg",
             "row": 4,
-            "column": 3,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "Self",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "90 seconds"
-          },
-          {
-            "id": "class-4-5",
-            "name": "Leap of Faith",
-            "description": "Pull a friendly party or raid member to your location. The familiar Priest rescue replaces the Evoker's flight-based rescue.",
-            "icon": "",
-            "row": 4,
-            "column": 5,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "40 yards",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "90 seconds"
-          },
-          {
-            "id": "class-5-0",
-            "name": "Dreadful Revelation",
-            "description": "Litany of Unmaking briefly disorients affected non-boss enemies for 2 seconds. Damage breaks this disorient.",
-            "icon": "",
-            "row": 5,
-            "column": 0,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-5-2",
-            "name": "Unbroken Procession",
-            "description": "Increase the duration of Veiled Steps by 1 / 2 seconds.",
-            "icon": "",
-            "row": 5,
-            "column": 2,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 2,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-5-3",
-            "name": "Immediate Recollection",
-            "description": "Rite of Reconstitution restores its recorded damage continuously during its active window instead of waiting for that window to end. Its total healing limit remains unchanged.",
-            "icon": "",
-            "row": 5,
-            "column": 3,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-5-4",
-            "name": "Twin Seals",
-            "description": "Leap of Faith grants you and its target an absorb equal to 10% of your respective maximum health for 6 seconds.",
-            "icon": "",
-            "row": 5,
-            "column": 4,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-5-6",
-            "name": "Physician of the Soul",
-            "description": "Healing another target with Benediction of the Inner Light also heals you for 30% of its effective primary healing. This self-healing cannot trigger another Benediction.",
-            "icon": "",
-            "row": 5,
-            "column": 6,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-6-1",
-            "name": "Contagious Revelation",
-            "description": "After a completed Mind Flay channel, your next Smite also strikes up to 2 nearby enemies for 40% damage each. This bonus is consumed by one cast and does not stack.",
-            "icon": "",
-            "row": 6,
-            "column": 1,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-6-3",
-            "name": "Passage Beyond Notice",
-            "description": "Fade gains a second charge. Movement and defensive effects of consecutive Fades refresh rather than stack.",
-            "icon": "",
-            "row": 6,
-            "column": 3,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-6-5",
-            "name": "Compassionate Clarity",
-            "description": "Flash Heal and Benediction of the Inner Light make your next Smite or Mind Blast cast 25% faster. Lasts 10 seconds and does not stack.",
-            "icon": "",
-            "row": 6,
-            "column": 5,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 1,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-7-0",
-            "name": "Enduring Inscription",
-            "description": "Increase Shadow Word: Pain's duration by 3 / 6 seconds without increasing its tick rate.",
-            "icon": "",
-            "row": 7,
-            "column": 0,
-            "type": "talent",
-            "kind": "passive",
-            "maxRank": 2,
-            "cost": "",
-            "range": "",
-            "charges": "",
-            "castTime": "",
-            "cooldown": ""
-          },
-          {
-            "id": "class-7-2",
-            "name": "Serene Bearing",
-            "description": "While above 80% health, your movement speed is increased by 10%.",
-            "icon": "",
-            "row": 7,
             "column": 2,
             "type": "talent",
             "kind": "passive",
@@ -483,94 +584,435 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 81,
+            "wowheadNodeId": 82699,
+            "spellIds": [
+              390620
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
           },
           {
-            "id": "class-7-4",
-            "name": "Dispel Magic",
-            "description": "Remove one beneficial Magic effect from an enemy. Stripping a protection reveals what lies beneath it.",
-            "icon": "",
-            "row": 7,
+            "id": "priest-class-83",
+            "name": "Agilità Mentale",
+            "description": " Disciplina, Sacro Riduce il costo in mana di Depurazione e Dissoluzione Massa del 50% Magica 10%. Ombra Purificazione Malattia",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg",
+            "row": 4,
+            "column": 3,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 83,
+            "wowheadNodeId": 109019,
+            "spellIds": [
+              341167
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-85",
+            "name": "Discipline Gemelle",
+            "description": "Aumenta i danni inflitti e le cure fornite dagli incantesimi sacri d'ombra del 2%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_innerlightandshadow.jpg",
+            "row": 4,
             "column": 4,
             "type": "talent",
-            "kind": "active",
+            "kind": "passive",
             "maxRank": 1,
-            "cost": "Mana",
-            "range": "30 yards",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "None"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 85,
+            "wowheadNodeId": 82690,
+            "spellIds": [
+              1251077
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
           },
           {
-            "id": "class-7-6",
-            "name": "Procession of the Unseen",
-            "description": "For 8 seconds, party allies within 30 yards ignore movement slows and may move through hostile units. Does not grant immunity to roots, stuns or other loss of control, and does not increase stats.",
-            "icon": "",
+            "id": "priest-class-89",
+            "name": "Illuminazione Oscura",
+            "description": "Aumenta la celerità del 3%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_darkness.jpg",
+            "row": 4,
+            "column": 6,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 89,
+            "wowheadNodeId": 109020,
+            "spellIds": [
+              1250835
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-91",
+            "name": "Autonomia Falsata",
+            "description": "Aumenta la durata di Controllo Mentale e Dominio sulle creature nemiche 15 s.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_mindmastery.jpg",
+            "row": 4,
+            "column": 7,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 91,
+            "wowheadNodeId": 109005,
+            "spellIds": [
+              1250806
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-93",
+            "name": "Incatena Orrore",
+            "description": "Incatena un nemico Aberrazione o Non Morto per 50 s, impedendogli ogni azione movimento. Eventuali danni annullano l'effetto. L'effetto può essere attivo su solo bersaglio alla volta.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_slow.jpg",
+            "row": 4,
+            "column": 8,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 93,
+            "wowheadNodeId": 82693,
+            "spellIds": [
+              9484
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-98",
+            "name": "Ispirazione",
+            "description": " Sacro Fornire una cura critica con Cura Rapida o Parola Sacra: Serenità riduce i danni fisici subiti dal bersaglio del 5% per 15 s. Ombra Disciplina Rapida, d'Ombra Contrizione",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_layonhands.jpg",
+            "row": 5,
+            "column": 1,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 98,
+            "wowheadNodeId": 82696,
+            "spellIds": [
+              390676
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-102",
+            "name": "Cure Combinate",
+            "description": "Il 20% delle cure fornite da Cura Rapida agli altri bersagli cura anche te.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blindingheal.jpg",
+            "row": 5,
+            "column": 3,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 102,
+            "wowheadNodeId": 82678,
+            "spellIds": [
+              368275
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-106",
+            "name": "Parola d'Ombra: Morte",
+            "description": " Disciplina, Sacro Una parola di oscura potenza che infligge ([85% of Spell Power]) danni da ombra al bersaglio. Se il bersaglio non viene ucciso Parola d'Ombra: Morte, si subiscono pari 5% della salute massima. Danni inflitti aumentati del 150% ai bersagli con meno 20% Ombra Genera 1 pazzia.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonicfortitude.jpg",
+            "row": 5,
+            "column": 5,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 106,
+            "wowheadNodeId": 82712,
+            "spellIds": [
+              32379
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-110",
+            "name": "Insegnamenti Sanguigni",
+            "description": "Aumenta l'indice di Ritorno Vitale del 2%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_archaeology_80_zandalari_sanguinetotem.jpg",
+            "row": 5,
+            "column": 7,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 110,
+            "wowheadNodeId": 109021,
+            "spellIds": [
+              373218
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-119",
+            "name": "Preghiera Disperata",
+            "description": "Aumenta la salute massima del [ Ispirazione della Luce :  35 / 25]% per 10 s e rigenera istantaneamente pari salute.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_testoffaith.jpg",
+            "row": 6,
+            "column": 2,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 119,
+            "wowheadNodeId": 109012,
+            "spellIds": [
+              19236
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-123",
+            "name": "Distorsione del Fato",
+            "description": "Dopo aver danneggiato o curato un bersaglio con meno del 35% della salute massima, i danni inflitti e le cure fornite aumentano 5% per 8 s. 10%",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg",
+            "row": 6,
+            "column": 4,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 123,
+            "wowheadNodeId": 82684,
+            "spellIds": [
+              390972
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-125",
+            "name": "Elusione del Tributo",
+            "description": "Riduce i danni a te inflitti da Parola d'Ombra: Morte del 50%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nzinsanity_bloodthirst.jpg",
+            "row": 6,
+            "column": 5,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 125,
+            "wowheadNodeId": 82711,
+            "spellIds": [
+              373223
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-127",
+            "name": "Trasparenza",
+            "description": "Ti rende trasparente, azzerando tutta la minaccia generata e riducendo portata d'individuazione dei nemici per 10 s. ",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_magic_lesserinvisibilty.jpg",
+            "row": 6,
+            "column": 6,
+            "type": "talent",
+            "kind": "active",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 127,
+            "wowheadNodeId": 109015,
+            "spellIds": [
+              586
+            ],
+            "requiredPoints": 8,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-136",
+            "name": "Pietà dell'Angelo",
+            "description": "Riduce il tempo di recupero Preghiera Disperata 20 s.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_testoffaith.jpg",
+            "row": 7,
+            "column": 1,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 136,
+            "wowheadNodeId": 82680,
+            "spellIds": [
+              238100
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-140",
+            "name": "Luce Protettiva",
+            "description": " Disciplina Lanciare Cura Rapida o d'Ombra su di sé riduce tutti i danni subiti del 10% per 10 s. Sacro, Ombra",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holyprotection.jpg",
+            "row": 7,
+            "column": 3,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 140,
+            "wowheadNodeId": 82677,
+            "spellIds": [
+              193063
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-144",
+            "name": "Straziamente",
+            "description": " Ombra Aumenta i danni inflitti da Flagello Mentale del 15%. Disciplina, Sacro Punizione",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindshear.jpg",
+            "row": 7,
+            "column": 5,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 144,
+            "wowheadNodeId": 109011,
+            "spellIds": [
+              1251029
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-146",
+            "name": "Illusione Spettrale",
+            "description": "Trasparenza crea un'illusione di se stessi per 4 s, ingannando i nemici e inducendoli ad attaccarla.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_priest_spectralguise.jpg",
             "row": 7,
             "column": 6,
             "type": "talent",
-            "kind": "active",
+            "kind": "passive",
             "maxRank": 1,
-            "cost": "Mana",
-            "range": "30 yards",
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "2 minutes"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 146,
+            "wowheadNodeId": 109014,
+            "spellIds": [
+              1250378
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
           },
           {
-            "id": "class-8-1",
-            "name": "Hermetic Focus",
-            "description": "Your next Mind Blast within 10 seconds is instant, costs no Insight and consumes no charge. It still pays its Mana cost and still extends an active Unveil Weakness normally.",
-            "icon": "",
-            "row": 8,
-            "column": 1,
+            "id": "priest-class-148",
+            "name": "Trasparenza Migliorata",
+            "description": "Riduce il tempo di recupero Trasparenza (5)) s. (10))",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_magic_lesserinvisibilty.jpg",
+            "row": 7,
+            "column": 7,
             "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "None",
-            "range": "Self",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 minutes"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 148,
+            "wowheadNodeId": 82686,
+            "spellIds": [
+              390670
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
           },
           {
-            "id": "class-8-3",
-            "name": "Circle of Abjuration",
-            "description": "Create a ward at your location for 8 seconds. Party allies within 10 yards take 15% less area damage. Only the strongest Circle of Abjuration affects an ally.",
-            "icon": "",
+            "id": "priest-class-155",
+            "name": "Ispirazione della Luce",
+            "description": "Aumenta la salute massima ottenuta da Preghiera Disperata del 10%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_restoration.jpg",
             "row": 8,
-            "column": 3,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "Self; 10-yard radius",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "2 minutes"
-          },
-          {
-            "id": "class-8-5",
-            "name": "Walking Meditation",
-            "description": "For 8 seconds, you can channel Mind Flay and cast Mind Blast while moving. Does not grant casting movement to other players or change spell range.",
-            "icon": "",
-            "row": 8,
-            "column": 5,
-            "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "None",
-            "range": "Self",
-            "charges": "",
-            "castTime": "Instant",
-            "cooldown": "1 minute"
-          },
-          {
-            "id": "class-9-1",
-            "name": "Many-Fold Scripture",
-            "description": "Contagious Revelation's Smite cleave affects 1 additional enemy. Secondary hits cannot produce further cleaves.",
-            "icon": "",
-            "row": 9,
             "column": 1,
             "type": "talent",
             "kind": "passive",
@@ -579,46 +1021,67 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 155,
+            "wowheadNodeId": 82679,
+            "spellIds": [
+              373450
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
           },
           {
-            "id": "class-9-3",
-            "name": "Unfailing Thread",
-            "description": "Reduce Leap of Faith's cooldown by 30 seconds.",
-            "icon": "",
-            "row": 9,
-            "column": 3,
+            "id": "priest-class-157",
+            "name": "Volontà Incrollabile",
+            "description": "Quando si ha almeno il 75% della salute massima, tempo di lancio [  Disciplina : Cura Rapida, d'Ombra e Punizione ] Sacro Preghiera / Ombra Rapida riduce del 5%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_unrelentingassault.jpg",
+            "row": 8,
+            "column": 2,
             "type": "talent",
             "kind": "passive",
-            "maxRank": 1,
+            "maxRank": 2,
             "cost": "",
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 157,
+            "wowheadNodeId": 82697,
+            "spellIds": [
+              373456
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
           },
           {
-            "id": "class-9-5",
-            "name": "Mass Dispel",
-            "description": "Dispel one harmful Magic effect from up to 5 allies and one beneficial Magic effect from up to 5 enemies in the targeted area. This draft retains the recognizable Priest utility.",
-            "icon": "",
-            "row": 9,
-            "column": 5,
+            "id": "priest-class-161",
+            "name": "Protezione Magica",
+            "description": "Riduce tutti i danni magici subiti del 3%. 6%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_spellwarding.jpg",
+            "row": 8,
+            "column": 4,
             "type": "talent",
-            "kind": "active",
-            "maxRank": 1,
-            "cost": "Mana",
-            "range": "30 yards; 15-yard radius",
+            "kind": "passive",
+            "maxRank": 2,
+            "cost": "",
+            "range": "",
             "charges": "",
-            "castTime": "1.5 seconds",
-            "cooldown": "2 minutes"
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 161,
+            "wowheadNodeId": 109010,
+            "spellIds": [
+              390667
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
           },
           {
-            "id": "class-9-6",
-            "name": "Purity of Intention",
-            "description": "Reduce Mass Dispel's Mana cost by 25% and its cast time by 0.5 seconds. This node also grants Mass Dispel if its own node is not selected; selecting both grants no additional copy or bonus.",
-            "icon": "",
-            "row": 9,
+            "id": "priest-class-165",
+            "name": "Fantasma",
+            "description": "Attivare Trasparenza dissolve tutti gli effetti di rallentamento.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_phantasm.jpg",
+            "row": 8,
             "column": 6,
             "type": "talent",
             "kind": "passive",
@@ -627,177 +1090,433 @@
             "range": "",
             "charges": "",
             "castTime": "",
-            "cooldown": ""
+            "cooldown": "",
+            "wowheadCell": 165,
+            "wowheadNodeId": 82674,
+            "spellIds": [
+              108942
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-174",
+            "name": "Baluardo Angelico",
+            "description": "Quando si ha meno del 30% della salute massima, ottiene uno scudo che assorbe danni pari al 25% massima per 20 s. L'effetto può verificarsi solo una volta ogni 90",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_angelicbulwark.jpg",
+            "row": 9,
+            "column": 1,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 174,
+            "wowheadNodeId": 82675,
+            "spellIds": [
+              108945
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-178",
+            "name": "Benevolenza / Potenza Concentrata",
+            "description": "Aumenta le cure fornite dagli incantesimi del 3%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_spiritoftheredeemer.jpg",
+            "row": 9,
+            "column": 3,
+            "type": "talent",
+            "kind": "choice",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 178,
+            "wowheadNodeId": 82676,
+            "spellIds": [
+              415416,
+              1249230
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": [],
+            "choices": [
+              {
+                "name": "Benevolenza",
+                "description": "Aumenta le cure fornite dagli incantesimi del 3%.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_spiritoftheredeemer.jpg"
+              },
+              {
+                "name": "Potenza Concentrata",
+                "description": "Aumenta i danni inflitti dagli incantesimi del 3%.",
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_priest_focusedwill.jpg"
+              }
+            ]
+          },
+          {
+            "id": "priest-class-182",
+            "name": "Presa Fantasma",
+            "description": "Aumenta la portata della maggior parte degli incantesimi del 15%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_chilltouch.jpg",
+            "row": 9,
+            "column": 5,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 182,
+            "wowheadNodeId": 82673,
+            "spellIds": [
+              459559
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
+          },
+          {
+            "id": "priest-class-186",
+            "name": "Immagine Trasparente",
+            "description": "Trasparenza riduce i danni subiti del 10%.",
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twistedfaith.jpg",
+            "row": 9,
+            "column": 7,
+            "type": "talent",
+            "kind": "passive",
+            "maxRank": 1,
+            "cost": "",
+            "range": "",
+            "charges": "",
+            "castTime": "",
+            "cooldown": "",
+            "wowheadCell": 186,
+            "wowheadNodeId": 82685,
+            "spellIds": [
+              373446
+            ],
+            "requiredPoints": 23,
+            "defaultSpecs": []
           }
         ],
         "connections": [
           {
-            "from": "class-0-1",
-            "to": "class-1-0"
+            "from": "priest-class-5",
+            "to": "priest-class-22"
           },
           {
-            "from": "class-0-1",
-            "to": "class-1-2"
+            "from": "priest-class-5",
+            "to": "priest-class-26"
           },
           {
-            "from": "class-0-3",
-            "to": "class-1-3"
+            "from": "priest-class-9",
+            "to": "priest-class-26"
           },
           {
-            "from": "class-0-5",
-            "to": "class-1-4"
+            "from": "priest-class-9",
+            "to": "priest-class-30"
           },
           {
-            "from": "class-0-5",
-            "to": "class-1-6"
+            "from": "priest-class-13",
+            "to": "priest-class-30"
           },
           {
-            "from": "class-1-0",
-            "to": "class-2-1"
+            "from": "priest-class-13",
+            "to": "priest-class-34"
           },
           {
-            "from": "class-1-2",
-            "to": "class-2-1"
+            "from": "priest-class-22",
+            "to": "priest-class-39"
           },
           {
-            "from": "class-1-3",
-            "to": "class-2-3"
+            "from": "priest-class-26",
+            "to": "priest-class-43"
           },
           {
-            "from": "class-1-4",
-            "to": "class-2-5"
+            "from": "priest-class-22",
+            "to": "priest-class-43"
           },
           {
-            "from": "class-1-6",
-            "to": "class-2-5"
+            "from": "priest-class-26",
+            "to": "priest-class-45"
           },
           {
-            "from": "class-2-1",
-            "to": "class-3-0"
+            "from": "priest-class-26",
+            "to": "priest-class-47"
           },
           {
-            "from": "class-2-1",
-            "to": "class-3-2"
+            "from": "priest-class-30",
+            "to": "priest-class-47"
           },
           {
-            "from": "class-2-3",
-            "to": "class-3-3"
+            "from": "priest-class-30",
+            "to": "priest-class-51"
           },
           {
-            "from": "class-2-3",
-            "to": "class-3-4"
+            "from": "priest-class-34",
+            "to": "priest-class-51"
           },
           {
-            "from": "class-2-5",
-            "to": "class-3-6"
+            "from": "priest-class-34",
+            "to": "priest-class-55"
           },
           {
-            "from": "class-3-0",
-            "to": "class-4-1"
+            "from": "priest-class-43",
+            "to": "priest-class-60"
           },
           {
-            "from": "class-3-2",
-            "to": "class-4-1"
+            "from": "priest-class-22",
+            "to": "priest-class-60"
           },
           {
-            "from": "class-3-3",
-            "to": "class-4-3"
+            "from": "priest-class-43",
+            "to": "priest-class-62"
           },
           {
-            "from": "class-3-4",
-            "to": "class-4-5"
+            "from": "priest-class-47",
+            "to": "priest-class-64"
           },
           {
-            "from": "class-3-6",
-            "to": "class-4-5"
+            "from": "priest-class-43",
+            "to": "priest-class-64"
           },
           {
-            "from": "class-4-1",
-            "to": "class-5-0"
+            "from": "priest-class-45",
+            "to": "priest-class-64"
           },
           {
-            "from": "class-4-1",
-            "to": "class-5-2"
+            "from": "priest-class-47",
+            "to": "priest-class-66"
           },
           {
-            "from": "class-4-3",
-            "to": "class-5-3"
+            "from": "priest-class-51",
+            "to": "priest-class-68"
           },
           {
-            "from": "class-4-5",
-            "to": "class-5-4"
+            "from": "priest-class-47",
+            "to": "priest-class-68"
           },
           {
-            "from": "class-4-5",
-            "to": "class-5-6"
+            "from": "priest-class-51",
+            "to": "priest-class-72"
           },
           {
-            "from": "class-5-0",
-            "to": "class-6-1"
+            "from": "priest-class-34",
+            "to": "priest-class-72"
           },
           {
-            "from": "class-5-2",
-            "to": "class-6-3"
+            "from": "priest-class-55",
+            "to": "priest-class-74"
           },
           {
-            "from": "class-5-3",
-            "to": "class-6-3"
+            "from": "priest-class-60",
+            "to": "priest-class-79"
           },
           {
-            "from": "class-5-4",
-            "to": "class-6-5"
+            "from": "priest-class-62",
+            "to": "priest-class-81"
           },
           {
-            "from": "class-5-6",
-            "to": "class-6-5"
+            "from": "priest-class-64",
+            "to": "priest-class-83"
           },
           {
-            "from": "class-6-1",
-            "to": "class-7-0"
+            "from": "priest-class-68",
+            "to": "priest-class-85"
           },
           {
-            "from": "class-6-1",
-            "to": "class-7-2"
+            "from": "priest-class-66",
+            "to": "priest-class-85"
           },
           {
-            "from": "class-6-3",
-            "to": "class-7-4"
+            "from": "priest-class-64",
+            "to": "priest-class-85"
           },
           {
-            "from": "class-6-5",
-            "to": "class-7-6"
+            "from": "priest-class-68",
+            "to": "priest-class-89"
           },
           {
-            "from": "class-7-0",
-            "to": "class-8-1"
+            "from": "priest-class-72",
+            "to": "priest-class-89"
           },
           {
-            "from": "class-7-2",
-            "to": "class-8-3"
+            "from": "priest-class-72",
+            "to": "priest-class-91"
           },
           {
-            "from": "class-7-4",
-            "to": "class-8-3"
+            "from": "priest-class-74",
+            "to": "priest-class-93"
           },
           {
-            "from": "class-7-6",
-            "to": "class-8-5"
+            "from": "priest-class-72",
+            "to": "priest-class-93"
           },
           {
-            "from": "class-8-1",
-            "to": "class-9-1"
+            "from": "priest-class-79",
+            "to": "priest-class-98"
           },
           {
-            "from": "class-8-3",
-            "to": "class-9-3"
+            "from": "priest-class-81",
+            "to": "priest-class-98"
           },
           {
-            "from": "class-8-5",
-            "to": "class-9-5"
+            "from": "priest-class-83",
+            "to": "priest-class-102"
           },
           {
-            "from": "class-8-5",
-            "to": "class-9-6"
+            "from": "priest-class-85",
+            "to": "priest-class-102"
+          },
+          {
+            "from": "priest-class-81",
+            "to": "priest-class-102"
+          },
+          {
+            "from": "priest-class-85",
+            "to": "priest-class-106"
+          },
+          {
+            "from": "priest-class-89",
+            "to": "priest-class-106"
+          },
+          {
+            "from": "priest-class-89",
+            "to": "priest-class-110"
+          },
+          {
+            "from": "priest-class-91",
+            "to": "priest-class-110"
+          },
+          {
+            "from": "priest-class-93",
+            "to": "priest-class-110"
+          },
+          {
+            "from": "priest-class-98",
+            "to": "priest-class-119"
+          },
+          {
+            "from": "priest-class-102",
+            "to": "priest-class-119"
+          },
+          {
+            "from": "priest-class-102",
+            "to": "priest-class-123"
+          },
+          {
+            "from": "priest-class-106",
+            "to": "priest-class-123"
+          },
+          {
+            "from": "priest-class-106",
+            "to": "priest-class-125"
+          },
+          {
+            "from": "priest-class-106",
+            "to": "priest-class-127"
+          },
+          {
+            "from": "priest-class-110",
+            "to": "priest-class-127"
+          },
+          {
+            "from": "priest-class-119",
+            "to": "priest-class-136"
+          },
+          {
+            "from": "priest-class-123",
+            "to": "priest-class-140"
+          },
+          {
+            "from": "priest-class-119",
+            "to": "priest-class-140"
+          },
+          {
+            "from": "priest-class-123",
+            "to": "priest-class-144"
+          },
+          {
+            "from": "priest-class-127",
+            "to": "priest-class-144"
+          },
+          {
+            "from": "priest-class-125",
+            "to": "priest-class-144"
+          },
+          {
+            "from": "priest-class-127",
+            "to": "priest-class-146"
+          },
+          {
+            "from": "priest-class-127",
+            "to": "priest-class-148"
+          },
+          {
+            "from": "priest-class-136",
+            "to": "priest-class-155"
+          },
+          {
+            "from": "priest-class-136",
+            "to": "priest-class-157"
+          },
+          {
+            "from": "priest-class-140",
+            "to": "priest-class-157"
+          },
+          {
+            "from": "priest-class-140",
+            "to": "priest-class-161"
+          },
+          {
+            "from": "priest-class-144",
+            "to": "priest-class-161"
+          },
+          {
+            "from": "priest-class-148",
+            "to": "priest-class-165"
+          },
+          {
+            "from": "priest-class-146",
+            "to": "priest-class-165"
+          },
+          {
+            "from": "priest-class-155",
+            "to": "priest-class-174"
+          },
+          {
+            "from": "priest-class-157",
+            "to": "priest-class-174"
+          },
+          {
+            "from": "priest-class-161",
+            "to": "priest-class-178"
+          },
+          {
+            "from": "priest-class-157",
+            "to": "priest-class-178"
+          },
+          {
+            "from": "priest-class-161",
+            "to": "priest-class-182"
+          },
+          {
+            "from": "priest-class-165",
+            "to": "priest-class-182"
+          },
+          {
+            "from": "priest-class-165",
+            "to": "priest-class-186"
+          },
+          {
+            "from": "priest-class-148",
+            "to": "priest-class-186"
           }
         ]
       }

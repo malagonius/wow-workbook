@@ -17,6 +17,20 @@ Then open <http://localhost:8000/> (calculator) or <http://localhost:8000/design
 
 There is no build, no bundler and no dependency install. Node 22+ runs the built-in tests with `npm test`; `npm run check:talents` verifies configuration loading.
 
+The shared Priest baseline follows the Italian Wowhead Priest/Shadow class tree,
+captured on 2026-10-14 (48 nodes, 78 directed connections). Specialization and hero
+talents are not part of that import. Run `node scripts/sync-priest-class.mjs` to
+check against the pinned source, or add `--write` to regenerate only `Priest/class`
+and its reference fixture. Review source changes before updating the pinned URL.
+Source checkpoint and default-grant metadata are retained; the calculator's
+allocation rules are unchanged by this data import.
+
+Playwright compared the rendered class nodes and all connection endpoints against
+the live Wowhead DOM, with no missing, extra or broken connections. The checked-in
+reference fixture also guards the graph in the Node test suite. Existing local
+designer drafts remain untouched; reset or import the Priest class to adopt the
+new baseline in a draft created before this change.
+
 ## Where to make a change
 
 | I want to… | Edit |

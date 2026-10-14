@@ -6,6 +6,41 @@ import { fileURLToPath } from 'node:url';
 import { createTree, normalizeProject } from '../js/talent-model.js';
 import { classFileName, compactProject, fileSlug, loadTalentProject, mergeLegacyAbilities, mergeProject, splitProject } from '../js/talent-config.js';
 
+test('Priest baseline matches the captured Wowhead nodes, positions, choices and directed connections', async () => {
+  const project = JSON.parse(await readFile(new URL('../config/class/priest.json', import.meta.url), 'utf8'));
+  const reference = JSON.parse(await readFile(new URL('./fixtures/priest-class-wowhead.json', import.meta.url), 'utf8'));
+  const section = project.shared.classes['Priest/class'];
+  assert.equal(section.nodes.length, 48);
+  assert.equal(section.connections.length, 78);
+  assert.equal(section.columns, 9);
+  assert.equal(section.rowCount, 10);
+  assert.equal(section.maxPoints, 34);
+  assert.equal(section.source.url, reference.url);
+  assert.deepEqual(section.checkpoints, reference.checkpoints.map(checkpoint => ({ row: checkpoint.row - 1, points: checkpoint.points })));
+  assert.equal(new Set(section.nodes.map(node => `${node.row}:${node.column}`)).size, section.nodes.length);
+  for (const expected of reference.nodes) {
+    const node = section.nodes.find(candidate => candidate.wowheadCell === expected.cell);
+    assert.ok(node, `Missing Wowhead cell ${expected.cell}`);
+    assert.equal(node.wowheadNodeId, expected.nodeId);
+    assert.equal(node.row, expected.row - 1);
+    assert.equal(node.column, (expected.column - 2) / 2);
+    assert.equal(node.name, expected.names.join(' / '));
+    assert.equal(node.kind, { 1: 'active', 2: 'passive', 3: 'choice' }[expected.type]);
+    assert.equal(node.maxRank, expected.maxRank);
+    assert.deepEqual(node.spellIds, expected.spellIds);
+    assert.deepEqual(node.defaultSpecs, expected.defaultSpecs);
+    if (node.kind === 'choice') assert.deepEqual(node.choices.map(choice => choice.name), expected.names);
+  }
+  const cells = new Map(section.nodes.map(node => [node.id, node.wowheadCell]));
+  const edges = section.connections.map(connection => {
+    assert.ok(cells.has(connection.from), `Missing source ${connection.from}`);
+    assert.ok(cells.has(connection.to), `Missing target ${connection.to}`);
+    return `${cells.get(connection.from)}>${cells.get(connection.to)}`;
+  });
+  assert.equal(new Set(edges).size, edges.length);
+  assert.deepEqual(edges.sort(), reference.edges.map(([from, to]) => `${from}>${to}`).sort());
+});
+
 function fixture() {
   const blood = createTree({ className: 'Death Knight', specName: 'Blood' });
   const frost = structuredClone(blood);

@@ -1,0 +1,1070 @@
+{
+  "url": "https://www.wowhead.com/it/talent-calc/priest/shadow",
+  "dataUrl": "https://nether.wowhead.com/it/data/talents-dragonflight?dv=41&db=1791788844",
+  "capturedOn": "2026-10-14",
+  "treeId": 5,
+  "checkpoints": [
+    {
+      "row": 5,
+      "points": 8
+    },
+    {
+      "row": 8,
+      "points": 23
+    }
+  ],
+  "nodes": [
+    {
+      "cell": 5,
+      "nodeId": 82717,
+      "row": 1,
+      "column": 6,
+      "type": 2,
+      "spellIds": [
+        393870
+      ],
+      "names": [
+        "Cura Rapida Migliorata"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": [
+        257,
+        256
+      ]
+    },
+    {
+      "cell": 9,
+      "nodeId": 82703,
+      "row": 1,
+      "column": 10,
+      "type": 1,
+      "spellIds": [
+        121536
+      ],
+      "names": [
+        "Piuma Angelica"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 13,
+      "nodeId": 82713,
+      "row": 1,
+      "column": 14,
+      "type": 1,
+      "spellIds": [
+        8092
+      ],
+      "names": [
+        "Detonazione Mentale"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": [
+        256,
+        258
+      ]
+    },
+    {
+      "cell": 22,
+      "nodeId": 82718,
+      "row": 2,
+      "column": 4,
+      "type": 1,
+      "spellIds": [
+        132157
+      ],
+      "names": [
+        "Esplosione Sacra"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": [
+        257
+      ]
+    },
+    {
+      "cell": 26,
+      "nodeId": 109009,
+      "row": 2,
+      "column": 8,
+      "type": 1,
+      "spellIds": [
+        528
+      ],
+      "names": [
+        "Dissoluzione Magica"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 30,
+      "nodeId": 82672,
+      "row": 2,
+      "column": 12,
+      "type": 2,
+      "spellIds": [
+        1250818
+      ],
+      "names": [
+        "Guida Spirituale"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 34,
+      "nodeId": 82701,
+      "row": 2,
+      "column": 16,
+      "type": 1,
+      "spellIds": [
+        8122
+      ],
+      "names": [
+        "Urlo Psichico"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": [
+        258
+      ]
+    },
+    {
+      "cell": 39,
+      "nodeId": 82719,
+      "row": 3,
+      "column": 2,
+      "type": 2,
+      "spellIds": [
+        1246549
+      ],
+      "names": [
+        "Scarica di Luce"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 43,
+      "nodeId": 82715,
+      "row": 3,
+      "column": 6,
+      "type": 1,
+      "spellIds": [
+        73325
+      ],
+      "names": [
+        "Balzo della Fede"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 45,
+      "nodeId": 82704,
+      "row": 3,
+      "column": 8,
+      "type": 1,
+      "spellIds": [
+        213634
+      ],
+      "names": [
+        "Purificazione Malattia"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 47,
+      "nodeId": 82556,
+      "row": 3,
+      "column": 10,
+      "type": 1,
+      "spellIds": [
+        10060
+      ],
+      "names": [
+        "Infusione di Potere"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 51,
+      "nodeId": 109006,
+      "row": 3,
+      "column": 14,
+      "type": 2,
+      "spellIds": [
+        1251030
+      ],
+      "names": [
+        "Invocazione Dolorsa"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 55,
+      "nodeId": 82695,
+      "row": 3,
+      "column": 18,
+      "type": 3,
+      "spellIds": [
+        390919,
+        55676
+      ],
+      "names": [
+        "Terrore Puro",
+        "Urlo Pietrificante"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 60,
+      "nodeId": 82716,
+      "row": 4,
+      "column": 4,
+      "type": 2,
+      "spellIds": [
+        109186
+      ],
+      "names": [
+        "Eruzione di Luce"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 62,
+      "nodeId": 109917,
+      "row": 4,
+      "column": 6,
+      "type": 2,
+      "spellIds": [
+        64129
+      ],
+      "names": [
+        "Anima e Corpo"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 64,
+      "nodeId": 109890,
+      "row": 4,
+      "column": 8,
+      "type": 1,
+      "spellIds": [
+        32375
+      ],
+      "names": [
+        "Dissoluzione di Massa"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 66,
+      "nodeId": 108731,
+      "row": 4,
+      "column": 10,
+      "type": 2,
+      "spellIds": [
+        373466
+      ],
+      "names": [
+        "Gemelli delle Sacerdotesse del Sole"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 68,
+      "nodeId": 82687,
+      "row": 4,
+      "column": 12,
+      "type": 2,
+      "spellIds": [
+        1250820
+      ],
+      "names": [
+        "Forza della Risolutezza"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 72,
+      "nodeId": 82710,
+      "row": 4,
+      "column": 16,
+      "type": 3,
+      "spellIds": [
+        605,
+        205364
+      ],
+      "names": [
+        "Controllo Mentale",
+        "Dominio Mentale"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 74,
+      "nodeId": 82708,
+      "row": 4,
+      "column": 18,
+      "type": 3,
+      "spellIds": [
+        196704,
+        1250691
+      ],
+      "names": [
+        "Voce Psichica",
+        "Tentacoli del Vuoto"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 79,
+      "nodeId": 82702,
+      "row": 5,
+      "column": 4,
+      "type": 2,
+      "spellIds": [
+        1249233
+      ],
+      "names": [
+        "Luce Perpetua"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 81,
+      "nodeId": 82699,
+      "row": 5,
+      "column": 6,
+      "type": 2,
+      "spellIds": [
+        390620
+      ],
+      "names": [
+        "Movimento Aggraziato"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 83,
+      "nodeId": 109019,
+      "row": 5,
+      "column": 8,
+      "type": 2,
+      "spellIds": [
+        341167
+      ],
+      "names": [
+        "Agilità Mentale"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 85,
+      "nodeId": 82690,
+      "row": 5,
+      "column": 10,
+      "type": 2,
+      "spellIds": [
+        1251077
+      ],
+      "names": [
+        "Discipline Gemelle"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 89,
+      "nodeId": 109020,
+      "row": 5,
+      "column": 14,
+      "type": 2,
+      "spellIds": [
+        1250835
+      ],
+      "names": [
+        "Illuminazione Oscura"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 91,
+      "nodeId": 109005,
+      "row": 5,
+      "column": 16,
+      "type": 2,
+      "spellIds": [
+        1250806
+      ],
+      "names": [
+        "Autonomia Falsata"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 93,
+      "nodeId": 82693,
+      "row": 5,
+      "column": 18,
+      "type": 1,
+      "spellIds": [
+        9484
+      ],
+      "names": [
+        "Incatena Orrore"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 98,
+      "nodeId": 82696,
+      "row": 6,
+      "column": 4,
+      "type": 2,
+      "spellIds": [
+        390676
+      ],
+      "names": [
+        "Ispirazione"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 102,
+      "nodeId": 82678,
+      "row": 6,
+      "column": 8,
+      "type": 2,
+      "spellIds": [
+        368275
+      ],
+      "names": [
+        "Cure Combinate"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 106,
+      "nodeId": 82712,
+      "row": 6,
+      "column": 12,
+      "type": 1,
+      "spellIds": [
+        32379
+      ],
+      "names": [
+        "Parola d'Ombra: Morte"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 110,
+      "nodeId": 109021,
+      "row": 6,
+      "column": 16,
+      "type": 2,
+      "spellIds": [
+        373218
+      ],
+      "names": [
+        "Insegnamenti Sanguigni"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 119,
+      "nodeId": 109012,
+      "row": 7,
+      "column": 6,
+      "type": 1,
+      "spellIds": [
+        19236
+      ],
+      "names": [
+        "Preghiera Disperata"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 123,
+      "nodeId": 82684,
+      "row": 7,
+      "column": 10,
+      "type": 2,
+      "spellIds": [
+        390972
+      ],
+      "names": [
+        "Distorsione del Fato"
+      ],
+      "maxRank": 2,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 125,
+      "nodeId": 82711,
+      "row": 7,
+      "column": 12,
+      "type": 2,
+      "spellIds": [
+        373223
+      ],
+      "names": [
+        "Elusione del Tributo"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 127,
+      "nodeId": 109015,
+      "row": 7,
+      "column": 14,
+      "type": 1,
+      "spellIds": [
+        586
+      ],
+      "names": [
+        "Trasparenza"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 136,
+      "nodeId": 82680,
+      "row": 8,
+      "column": 4,
+      "type": 2,
+      "spellIds": [
+        238100
+      ],
+      "names": [
+        "Pietà dell'Angelo"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 140,
+      "nodeId": 82677,
+      "row": 8,
+      "column": 8,
+      "type": 2,
+      "spellIds": [
+        193063
+      ],
+      "names": [
+        "Luce Protettiva"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 144,
+      "nodeId": 109011,
+      "row": 8,
+      "column": 12,
+      "type": 2,
+      "spellIds": [
+        1251029
+      ],
+      "names": [
+        "Straziamente"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 146,
+      "nodeId": 109014,
+      "row": 8,
+      "column": 14,
+      "type": 2,
+      "spellIds": [
+        1250378
+      ],
+      "names": [
+        "Illusione Spettrale"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 148,
+      "nodeId": 82686,
+      "row": 8,
+      "column": 16,
+      "type": 2,
+      "spellIds": [
+        390670
+      ],
+      "names": [
+        "Trasparenza Migliorata"
+      ],
+      "maxRank": 2,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 155,
+      "nodeId": 82679,
+      "row": 9,
+      "column": 4,
+      "type": 2,
+      "spellIds": [
+        373450
+      ],
+      "names": [
+        "Ispirazione della Luce"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 157,
+      "nodeId": 82697,
+      "row": 9,
+      "column": 6,
+      "type": 2,
+      "spellIds": [
+        373456
+      ],
+      "names": [
+        "Volontà Incrollabile"
+      ],
+      "maxRank": 2,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 161,
+      "nodeId": 109010,
+      "row": 9,
+      "column": 10,
+      "type": 2,
+      "spellIds": [
+        390667
+      ],
+      "names": [
+        "Protezione Magica"
+      ],
+      "maxRank": 2,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 165,
+      "nodeId": 82674,
+      "row": 9,
+      "column": 14,
+      "type": 2,
+      "spellIds": [
+        108942
+      ],
+      "names": [
+        "Fantasma"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 174,
+      "nodeId": 82675,
+      "row": 10,
+      "column": 4,
+      "type": 2,
+      "spellIds": [
+        108945
+      ],
+      "names": [
+        "Baluardo Angelico"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 178,
+      "nodeId": 82676,
+      "row": 10,
+      "column": 8,
+      "type": 3,
+      "spellIds": [
+        415416,
+        1249230
+      ],
+      "names": [
+        "Benevolenza",
+        "Potenza Concentrata"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 182,
+      "nodeId": 82673,
+      "row": 10,
+      "column": 12,
+      "type": 2,
+      "spellIds": [
+        459559
+      ],
+      "names": [
+        "Presa Fantasma"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    },
+    {
+      "cell": 186,
+      "nodeId": 82685,
+      "row": 10,
+      "column": 16,
+      "type": 2,
+      "spellIds": [
+        373446
+      ],
+      "names": [
+        "Immagine Trasparente"
+      ],
+      "maxRank": 1,
+      "defaultSpecs": []
+    }
+  ],
+  "edges": [
+    [
+      5,
+      22
+    ],
+    [
+      5,
+      26
+    ],
+    [
+      9,
+      26
+    ],
+    [
+      9,
+      30
+    ],
+    [
+      13,
+      30
+    ],
+    [
+      13,
+      34
+    ],
+    [
+      22,
+      39
+    ],
+    [
+      26,
+      43
+    ],
+    [
+      22,
+      43
+    ],
+    [
+      26,
+      45
+    ],
+    [
+      26,
+      47
+    ],
+    [
+      30,
+      47
+    ],
+    [
+      30,
+      51
+    ],
+    [
+      34,
+      51
+    ],
+    [
+      34,
+      55
+    ],
+    [
+      43,
+      60
+    ],
+    [
+      22,
+      60
+    ],
+    [
+      43,
+      62
+    ],
+    [
+      47,
+      64
+    ],
+    [
+      43,
+      64
+    ],
+    [
+      45,
+      64
+    ],
+    [
+      47,
+      66
+    ],
+    [
+      51,
+      68
+    ],
+    [
+      47,
+      68
+    ],
+    [
+      51,
+      72
+    ],
+    [
+      34,
+      72
+    ],
+    [
+      55,
+      74
+    ],
+    [
+      60,
+      79
+    ],
+    [
+      62,
+      81
+    ],
+    [
+      64,
+      83
+    ],
+    [
+      68,
+      85
+    ],
+    [
+      66,
+      85
+    ],
+    [
+      64,
+      85
+    ],
+    [
+      68,
+      89
+    ],
+    [
+      72,
+      89
+    ],
+    [
+      72,
+      91
+    ],
+    [
+      74,
+      93
+    ],
+    [
+      72,
+      93
+    ],
+    [
+      79,
+      98
+    ],
+    [
+      81,
+      98
+    ],
+    [
+      83,
+      102
+    ],
+    [
+      85,
+      102
+    ],
+    [
+      81,
+      102
+    ],
+    [
+      85,
+      106
+    ],
+    [
+      89,
+      106
+    ],
+    [
+      89,
+      110
+    ],
+    [
+      91,
+      110
+    ],
+    [
+      93,
+      110
+    ],
+    [
+      98,
+      119
+    ],
+    [
+      102,
+      119
+    ],
+    [
+      102,
+      123
+    ],
+    [
+      106,
+      123
+    ],
+    [
+      106,
+      125
+    ],
+    [
+      106,
+      127
+    ],
+    [
+      110,
+      127
+    ],
+    [
+      119,
+      136
+    ],
+    [
+      123,
+      140
+    ],
+    [
+      119,
+      140
+    ],
+    [
+      123,
+      144
+    ],
+    [
+      127,
+      144
+    ],
+    [
+      125,
+      144
+    ],
+    [
+      127,
+      146
+    ],
+    [
+      127,
+      148
+    ],
+    [
+      136,
+      155
+    ],
+    [
+      136,
+      157
+    ],
+    [
+      140,
+      157
+    ],
+    [
+      140,
+      161
+    ],
+    [
+      144,
+      161
+    ],
+    [
+      148,
+      165
+    ],
+    [
+      146,
+      165
+    ],
+    [
+      155,
+      174
+    ],
+    [
+      157,
+      174
+    ],
+    [
+      161,
+      178
+    ],
+    [
+      157,
+      178
+    ],
+    [
+      161,
+      182
+    ],
+    [
+      165,
+      182
+    ],
+    [
+      165,
+      186
+    ],
+    [
+      148,
+      186
+    ]
+  ]
+}

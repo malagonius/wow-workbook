@@ -1069,6 +1069,7 @@ async function init() {
 }
 
 init().catch(error => {
+  $('account-status').textContent = `Unable to restore the designer: ${error.message} Reload to retry.`;
   renderEmptyState(treeEl, '⚠', 'Unable to load designer data', error.message);
   setStatus(error.message, 'error');
 });

@@ -15,7 +15,12 @@ Then open <http://localhost:8000/> (calculator) or <http://localhost:8000/design
 
 > **Gotcha:** browsers cache ES modules aggressively. If a change does not appear, hard-reload (`Ctrl+Shift+R`) or restart the server on a different port. This costs more debugging time than any actual bug in this codebase.
 
-There is no build, no bundler and no dependency install. Node 22+ runs the built-in tests with `npm test`; `npm run check:talents` verifies configuration loading.
+There is no build, bundler or browser dependency. Follow the
+[Supabase setup](../README.md#supabase-setup-required-once) before using the app.
+Node 20+ runs the tests: `npm ci`, then `npm test`. The development-only PGlite
+dependency runs the real migration against embedded PostgreSQL, including
+public reads, owner-only writes, cross-class validation, revision conflicts and
+transaction rollback. `npm run check:talents` verifies bundled import sources.
 
 The shared Priest baseline follows the Italian Wowhead Priest/Shadow class tree,
 captured on 2026-10-14 (48 nodes, 78 directed connections). Specialization and hero
@@ -28,8 +33,8 @@ allocation rules are unchanged by this data import.
 Playwright compared the rendered class nodes and all connection endpoints against
 the live Wowhead DOM, with no missing, extra or broken connections. The checked-in
 reference fixture also guards the graph in the Node test suite. Existing local
-designer drafts remain untouched; reset or import the Priest class to adopt the
-new baseline in a draft created before this change.
+designer drafts remain untouched. Import them explicitly through the migration
+action; bundled source updates do not replace already saved database classes.
 
 ## Where to make a change
 
@@ -41,6 +46,7 @@ new baseline in a draft created before this change.
 | Change talent-spending rules | `talent-calculator.js` only |
 | Add an editing gesture | `talent-tree-renderer.js` (emit a handler) + `talent-designer.js` (implement it) |
 | Add a validation rule | `validateSection` in `talent-model.js` — both apps pick it up automatically |
+| Change cloud persistence/auth | `js/supabase-storage.js`, `js/talent-designer.js`, and an appropriate SQL migration under `supabase/migrations/`; extend `tests/supabase-storage.test.mjs` |
 
 ## Conventions
 
@@ -67,7 +73,7 @@ A worked example — adding `cooldown`:
 
 Run `npm test` and `npm run check:talents`, then use this checklist for browser interactions.
 
-If the shell does not expand the test wildcard, run `node --test tests/talent-config.test.mjs` directly.
+The test command uses Node's built-in test discovery and does not require shell wildcard expansion.
 
 **Calculator**
 
@@ -91,9 +97,11 @@ If the shell does not expand the test wildcard, run `node --test tests/talent-co
 - [ ] Export class → Import classes round-trips the selected class without removing any other class.
 - [ ] Class edits appear when switching specs and survive undo/redo and a page reload.
 - [ ] Shared hero edits appear in the other specs using that hero tree, while different heroes and other classes stay unchanged.
-- [ ] Reset draft restores the repository baseline and shared edit identity.
+- [ ] Reload database restores the latest saved classes and shared edit identity; unsaved changes require confirmation.
 - [ ] Ability additions, edits and removals survive autosave, undo/redo, reload and class export/import.
-- [ ] Replacing only a class JSON updates its specs, talents and abilities in the Calculator.
+- [ ] After an owned class saves, reloading the Calculator shows its specs, talents and abilities from Supabase.
+- [ ] Anonymous users and other owners cannot edit a class; duplicating it creates an editable, owned copy.
+- [ ] A stale save fails without losing unsaved work or partially applying an import.
 
 ## Mobile accessibility verification
 
@@ -174,11 +182,13 @@ All 22 configuration tests and `check:talents` passed. This follow-up does not
 repeat the earlier axe audit; compact phone talent targets can be narrower than
 44px, and real-device touch/virtual-keyboard checks remain manual.
 
-## Publishing changes to the repository data
+## Updating optional bundled import sources
 
-The designer saves drafts to IndexedDB in the browser, not to disk. To make a tree part of the repository:
+Normal publishing is now automatic: the Designer saves to Supabase and the
+Calculator reads it on reload. These steps are only for maintaining the
+repository's optional bundled import sources:
 
-1. Select the class and click **Export class** in the designer.
+1. Select the class and click **Export class backup** in the designer.
 2. Replace the matching `config/class/<class>.json` with the downloaded file. Its filename and format already match the repository.
 3. Run `npm test` and `npm run check:talents`.
 4. Commit the changed files under `config/`. Other classes are preserved.
@@ -187,7 +197,12 @@ The manifest's `classFiles` registry lists class filenames only; never replace i
 
 For a new class, add its export to `config/class/` and its name/path to `classFiles`. Alternatively, run `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json`; it merges the export and updates the index automatically. `npm run migrate:talents` also consolidates legacy split/whole-project configuration. It removes only obsolete known data files after writing the new index. Review and commit the generated files yourself; migration does not create Git commits.
 
-Autosave covers the full project (including abilities) in IndexedDB. If testing published repository changes with an old browser draft, export any unsaved work first, then use **Reset draft**. Legacy ability drafts are migrated into project autosave and removed from the separate localStorage key only after a successful save.
+Autosave sends changed owned classes (including abilities) to Supabase.
+**Reload database** discards unsaved tab changes only after confirmation.
+**Import old browser draft** explicitly migrates IndexedDB and legacy
+localStorage abilities into new owned classes; it keeps the original browser
+backup and renames collisions. Bundled-source maintenance never writes to the
+database automatically.
 
 ## Roadmap
 

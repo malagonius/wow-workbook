@@ -7,24 +7,75 @@ Two pages, one shared talent model:
 - **Talent Calculator** (`index.html`) — spend points in a tree: ranks, unlock rules, connection lines.
 - **Talent Designer** (`designer.html`) — build that tree visually: drag & drop talents, connect them, edit names, descriptions, icons, ranks, node kinds and active-spell details, and create whole new classes and specs.
 
-Both pages load the same small [configuration manifest](config/talent-project.json), which references:
+Both pages read the same **Supabase database**. Each class is one self-contained
+JSONB document containing its specs, shared class/hero talents, Apex sections,
+and class/spec abilities. Saves publish immediately; no file uploads or repository
+changes are needed.
 
-- **One self-contained JSON file per class** under `config/class/`, such as `death-knight.json` or `thinker.json`.
-- Each file contains the class's spec registry, class talents, every configured specialization, hero talents, Apex sections, and class/spec abilities.
-- Shared class and hero talents are stored once **inside that class file**, never in a separate global file.
+Everyone can view saved classes. Sign in to create a class or duplicate someone
+else's class. Only its creator can edit or delete it; Supabase row-level security
+enforces this independently of the browser UI.
 
-Unfinished specializations remain listed in the class file's `content` registry without invented talent trees. The manifest indexes class filenames only: changing a class's specs does not require changing the manifest.
+The existing [configuration manifest](config/talent-project.json) and per-class
+JSON files remain as one-time import sources and optional backup formats, not
+the live source of truth.
 
 ## Run it
 
-No build step, no dependencies. It does need a web server, because ES modules and `fetch()` do not work from `file://`:
+No build step or browser dependencies. It does need a web server, because ES
+modules and `fetch()` do not work from `file://`:
 
 ```powershell
 cd wow-workbook
 python -m http.server 8000
 ```
 
-Open <http://localhost:8000/>. Alternatively, Node 22+ users can run `npm start` and open <http://127.0.0.1:8123/>.
+Open <http://localhost:8000/>. Alternatively, Node 20+ users can run `npm start` and open <http://127.0.0.1:8123/>.
+
+## Supabase setup (required once)
+
+1. Open the project's [SQL Editor](https://supabase.com/dashboard/project/gsyfvjzuxsntvnpewakl/sql/new).
+   Run the entire [database migration](supabase/migrations/202610150001_workbook.sql)
+   once. It creates the class table, public-read/owner-write policies, validation
+   triggers, and transactional save function. Alternatively apply it through your
+   usual Supabase migration workflow. Do not rerun the initial migration on an
+   already initialized database.
+2. The project's API URL and public publishable key are configured in
+   [config/supabase.json](config/supabase.json). That key is intended for browsers;
+   never put a secret/service-role key here. The public key alone cannot create
+   tables or bypass ownership policies.
+3. In Supabase **Authentication > Sign In / Providers**, enable email/password
+   sign-in and new-user signups. Keep email confirmation enabled for production.
+   Set **Authentication > URL Configuration > Site URL** to the deployed app URL
+   (or the local server URL for development). After following the confirmation
+   email, return to the Designer and sign in.
+4. Open the Designer, create an account and sign in. Under **Tools**, choose:
+   - **Import old browser draft** to migrate your existing edits from the same
+     browser and origin where you made them. Name collisions become new
+     `migrated` classes; other people's classes are never overwritten. The old
+     browser data is retained as a backup.
+   - **Import bundled classes** to import any missing classes from the existing
+     repository. Imported classes belong to the importing account. To preserve
+     existing browser edits under the original names, import the browser draft
+     **first**, then the bundled classes.
+5. Wait for **Saved to Supabase**, then reload the Calculator to verify the data.
+   Further edits autosave directly to Supabase after a short debounce.
+
+Authentication tokens are kept **in memory only** and refreshed while the tab
+is open. Sign in again after a page reload; the workbook itself remains in the
+database across reloads, browsers and devices. No new drafts are written to
+IndexedDB or localStorage.
+
+Database errors do not fall back silently to local data. Unsaved work stays in
+the current tab, the status displays the error, and leaving the page prompts a
+warning. Retry **Save to database**, or export the affected class as a backup.
+Concurrent edits to the same class reject stale saves instead of overwriting
+another tab's work; export unsaved changes, then use **Reload database** to
+retrieve the latest version. Multi-class imports, renames and deletions save
+atomically. Class names must be globally unique, 1-120 characters, with no `/`.
+
+This is public publishing, not private storage: names, talents, abilities and
+descriptions saved here can be viewed by anyone.
 
 ## Mobile use
 
@@ -44,7 +95,7 @@ to move it without dragging.
 To link talents, choose **Connect** above the canvas, tap the source, then tap
 the target. The source is highlighted and the completed connection appears in
 the list. Choose **Select** or press Escape to leave connection mode.
-**Back to tree** returns from the editor to the canvas. Changes autosave locally.
+**Back to tree** returns from the editor to the canvas. Your classes autosave to Supabase.
 
 See [mobile accessibility verification](docs/DEVELOPMENT.md#mobile-accessibility-verification)
 for the Playwright and axe results, coverage, and remaining manual checks.
@@ -52,31 +103,33 @@ for the Playwright and axe results, coverage, and remaining manual checks.
 ## Designing a tree
 
 1. Open the **Talent Designer**.
-2. Pick a class and spec, or create your own with **＋ Class** / **＋ Spec**.
-<<<<<<< Updated upstream
-3. Click an empty socket to create a talent, then edit it in the right-hand panel.
-4. Drag talents to rearrange them; drag the gold dot from one talent onto another to connect them.
-5. Talent and ability changes autosave together to your browser. **Export class** downloads all data for the selected class. Importing replaces only the classes in that file; other classes are preserved.
-6. **Replace the matching file in `config/class/` with the download**, then commit that file. For example, replace `config/class/thinker.json` with the exported `thinker.json`. No splitting or migration is needed. Do not replace the manifest with a class export.
-7. For a brand-new class, place its export in `config/class/` and add its name/path to the manifest's `classFiles` registry. Alternatively, the import maintenance command below does this automatically.
-
-Browser autosave is a local draft, not a write to repository files. If a previously saved draft is showing old data after replacing a class file, use **Reset draft** to reload the repository baseline (this discards local edits).
+2. Sign in. Pick one of your classes, use **Duplicate class** to copy any public
+   class, or create your own with **＋ Class** / **＋ Spec**.
+3. Click or tap an empty socket to create a talent, then edit it in the panel.
+4. Drag talents to rearrange them, or edit Row and Column. Choose **Connect**,
+   select a source, then a target; desktop also supports dragging the gold dot.
+5. Talent and ability changes autosave together to Supabase. **Save to database**
+   flushes/retries pending changes. Check for the saved status before closing.
+6. **Export class backup** downloads optional JSON. **Import classes** updates only
+   included classes; attempting to overwrite someone else's class rejects the
+   entire import. Use a new class name or duplicate it instead.
 
 ## Configuration maintenance
 
-Node 22+ is needed only for developer validation/migration, not to run the static site. No npm dependencies are needed.
+Node 20+ is needed for developer validation/migration, not to run the static site.
+Run `npm ci` to install the development-only PostgreSQL test engine.
 
-- `npm test` — regression tests for loading, sharing, migration and class exports.
+- `npm test` — regression tests for loading, sharing, class exports, Supabase requests,
+  ownership, revision conflicts, and the actual SQL migration against embedded
+  PostgreSQL (including RLS and atomic rollback).
 - `npm run check:talents` — validate that every referenced file and shared section resolves.
 - `npm run migrate:talents` — consolidate legacy split/whole-project data into one file per class, or rewrite the current layout deterministically.
 - `node scripts/migrate-talent-config.mjs --import /path/to/class-talents.json` — optional automated publishing; merge an export and update the class index, including new classes.
 
-Migration and validation run locally; commit the resulting files when ready. Migration removes obsolete legacy class/spec/hero/ability JSON only after writing the new files and manifest. Old whole-project files, split manifests and browser drafts remain supported; old separate browser ability edits are migrated into the project draft.
-=======
-3. Click or tap an empty socket to create a talent, then edit it in the panel beside or below the tree.
-4. Drag talents to rearrange them, or edit Row and Column. Choose Connect, select a source, then a target; desktop also supports dragging the gold dot between talents.
-5. Changes autosave to your browser. Use **Export** to download the project, then replace `config/talent-project.json` and commit it to publish.
->>>>>>> Stashed changes
+These maintenance commands change only bundled JSON sources, not Supabase.
+Migration removes obsolete legacy JSON only after writing the new files and
+manifest. Old whole-project files, split manifests and browser drafts remain
+supported for explicit import.
 
 ## Documentation
 

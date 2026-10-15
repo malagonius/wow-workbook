@@ -4,8 +4,9 @@ import {
   NODE_KINDS, SECTION_TYPES
 } from './talent-model.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
-import { loadDraft, saveDraft, clearDraft, downloadProject, saveProjectFile, readProjectFile } from './talent-designer-storage.js';
+import { loadDraft, downloadProject, readProjectFile } from './talent-designer-storage.js';
 import { classFileName, compactProject, loadTalentProject, mergeLegacyAbilities, mergeProject } from './talent-config.js';
+import { connectSupabase, copyClass } from './supabase-storage.js';
 import { initializeAbilityDesigner, renderAbilities } from './ability-designer.js';
 import { initializeClassPicker } from './class-picker.js';
 
@@ -13,7 +14,10 @@ const HISTORY_LIMIT = 60;
 const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
 
 let project;
-let baselineProject;
+let storage;
+let dirty = false;
+let saving = Promise.resolve();
+let changeVersion = 0;
 let selectedNodeId = null;
 let connectSourceId = null;
 let connectMode = false;
@@ -52,16 +56,57 @@ function setStatus(text, state = '') {
 }
 
 function scheduleSave() {
+  dirty = true;
+  changeVersion++;
   setStatus('Unsaved changes…', 'dirty');
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(async () => {
-    try {
-      await saveDraft(projectPayload());
-      setStatus(`Saved locally · ${new Date().toLocaleTimeString()}`, 'saved');
-    } catch (error) {
-      setStatus(`Local save failed: ${error.message}`, 'error');
+  saveTimer = setTimeout(() => { void saveToDatabase(); }, 500);
+}
+
+async function saveToDatabase() {
+  clearTimeout(saveTimer);
+  const version = changeVersion;
+  const payload = projectPayload();
+  const attempt = saving.then(async () => {
+    setStatus('Saving to Supabase…', 'dirty');
+    await storage.save(payload);
+    if (version === changeVersion) {
+      dirty = false;
+      setStatus(`Saved to Supabase · ${new Date().toLocaleTimeString()}`, 'saved');
     }
-  }, 250);
+    updateOwnership();
+  });
+  saving = attempt.catch(error => {
+    dirty = true;
+    setStatus(`Database save failed: ${error.message} Your changes remain in this tab; retry Save to database or export a backup.`, 'error');
+  });
+  await saving;
+  return !dirty;
+}
+
+function editable() { return storage?.canEdit(classSelect.value) || false; }
+
+function updateOwnership() {
+  const allowed = editable();
+  $('ownership-status').textContent = !classSelect.value ? 'Create a class to get started.'
+    : allowed ? 'Your class - edits autosave to Supabase.'
+      : 'Read-only class - sign in and duplicate it to create your own editable copy.';
+  for (const id of ['add-class', 'import-project', 'migrate-draft', 'import-bundled']) $(id).disabled = !storage.user;
+  $('duplicate-class').disabled = !storage.user || !classSelect.value;
+  $('save-project').disabled = !storage.user;
+  for (const id of ['add-spec', 'rename-class', 'delete-class', 'add-ability', 'mode-connect', 'apply-json']) {
+    if (!allowed) $(id).disabled = true;
+    else $(id).disabled = !classSelect.value;
+  }
+  document.querySelectorAll('.designer-workspace input, .designer-workspace textarea, .designer-workspace select, .designer-workspace button, #ability-dialog input, #ability-dialog textarea, #ability-dialog select, #save-ability')
+    .forEach(control => {
+      if (!allowed && !control.disabled && !['view-list', 'view-tree', 'node-dialog-close'].includes(control.id)) {
+        control.dataset.ownershipDisabled = 'true';
+        control.disabled = true;
+      }
+    });
+  $('undo').disabled ||= !storage.user;
+  $('redo').disabled ||= !storage.user;
 }
 
 function snapshot() { return JSON.stringify(projectPayload()); }
@@ -72,12 +117,23 @@ function pushHistory(entry) {
   redoStack.length = 0;
 }
 
-function mutate(mutation) {
+function mutate(mutation, { creating = false } = {}) {
+  if (!storage.user || (!creating && !editable())) {
+    setStatus('This class is read-only. Sign in and duplicate it to edit your own copy.', 'error');
+    return false;
+  }
   const before = snapshot();
-  mutation();
+  try { mutation(); storage.changes(project); }
+  catch (error) {
+    project = normalizeProject(JSON.parse(before));
+    setStatus(error.message, 'error');
+    render();
+    return false;
+  }
   pushHistory(before);
   scheduleSave();
   render();
+  return true;
 }
 
 function beginEdit() { if (pendingSnapshot === null) pendingSnapshot = snapshot(); }
@@ -88,7 +144,10 @@ function commitEdit() {
 }
 
 function travelHistory(from, to) {
-  if (!from.length) return;
+  if (!storage.user || !from.length) return;
+  const candidate = normalizeProject(JSON.parse(from.at(-1)));
+  try { storage.changes(candidate); }
+  catch (error) { setStatus(error.message, 'error'); return; }
   to.push(snapshot());
   project = normalizeProject(JSON.parse(from.pop()));
   scheduleSave();
@@ -136,12 +195,16 @@ function nodeTooltip(node) {
 }
 
 function render() {
+  document.querySelectorAll('[data-ownership-disabled]').forEach(control => {
+    control.disabled = false;
+    delete control.dataset.ownershipDisabled;
+  });
   refreshClassPicker();
   refreshSectionOptions();
   const section = currentSection();
 
   if (!section) {
-    renderEmptyState(treeEl, '＋', 'No specialization tree yet', 'Create a class and a specialization to start designing its talent tree.');
+    renderEmptyState(treeEl, '＋', 'No specialization tree yet', 'Sign in to create a class, or use Tools > Import bundled classes to migrate the existing workbook.');
   } else {
     renderSections(treeEl, [section], {
       mode: 'designer',
@@ -149,7 +212,7 @@ function render() {
       connectSourceId,
       getSectionSummary: current => `${current.nodes.length} talents · ${current.maxPoints || 0} points`,
       getNodeState: (current, node) => ({ available: true, selected: node.id === selectedNodeId, title: nodeTooltip(node) }),
-      handlers: { onNodeClick, onSocketClick, onNodeMove, onNodeSwap, onConnect, onConnectToSocket, onEdgeClick, onHandleClick }
+      handlers: editable() ? { onNodeClick, onSocketClick, onNodeMove, onNodeSwap, onConnect, onConnectToSocket, onEdgeClick, onHandleClick } : {}
     });
   }
 
@@ -170,6 +233,7 @@ function render() {
   validate();
   updateHistoryButtons();
   renderAbilities();
+  updateOwnership();
 }
 
 function onNodeClick(node, section, event) {
@@ -343,6 +407,7 @@ $('node-dialog').addEventListener('click', event => {
 });
 
 function applyNodeForm() {
+  if (!editable()) return;
   const section = currentSection();
   const node = selectedNode();
   if (!section || !node) return;
@@ -575,6 +640,7 @@ function updateTreeForm() {
 }
 
 function applyTreeForm() {
+  if (!editable()) return;
   const tree = currentTree();
   if (!tree) return;
   tree.description = $('tree-description').value;
@@ -640,15 +706,9 @@ function renameClass() {
   if (project.content[name]) return alert(`Class "${name}" already exists.`);
 
   mutate(() => {
-    project.content[name] = project.content[previous];
-    delete project.content[previous];
-    for (const specName of project.content[name]) {
-      const tree = project.trees[`${previous}/${specName}`];
-      if (!tree) continue;
-      tree.class = name;
-      project.trees[`${name}/${specName}`] = tree;
-      delete project.trees[`${previous}/${specName}`];
-    }
+    const renamed = copyClass(project, previous, name);
+    removeClassData(previous);
+    project = mergeProject(project, renamed);
   });
   populateSelectors(name, specSelect.value, sectionSelect.value);
 }
@@ -659,20 +719,40 @@ function deleteClass() {
   if (!confirm(`Delete class "${className}" and every specialization tree it contains?`)) return;
 
   mutate(() => {
-    for (const specName of project.content[className] || []) delete project.trees[`${className}/${specName}`];
-    delete project.content[className];
+    removeClassData(className);
     selectedNodeId = null;
   });
   populateSelectors();
+}
+
+function removeClassData(className) {
+  for (const [key, tree] of Object.entries(project.trees)) {
+    if (tree.class === className) delete project.trees[key];
+  }
+  for (const key of Object.keys(project.abilities)) {
+    if (key === className || key.startsWith(`${className}/`)) delete project.abilities[key];
+  }
+  delete project.content[className];
+}
+
+function duplicateClass(name) {
+  if (!storage.user || !classSelect.value) return;
+  name = name.trim();
+  if (!name) return;
+  if (Object.hasOwn(project.content, name)) return alert(`Class "${name}" already exists. Choose a unique name.`);
+  const previous = classSelect.value;
+  try {
+    const copy = copyClass(project, previous, name);
+    if (mutate(() => { project = mergeProject(project, copy); }, { creating: true })) populateSelectors(name);
+  } catch (error) { setStatus(error.message, 'error'); }
 }
 
 function createClass(name) {
   const cleanName = name.trim();
   if (!cleanName) return;
   if (project.content[cleanName]) return alert(`Class "${cleanName}" already exists.`);
-  mutate(() => { project.content[cleanName] = []; });
+  if (!mutate(() => { project.content[cleanName] = []; }, { creating: true })) return;
   populateSelectors(cleanName, '');
-  setStatus(`Created class "${cleanName}". Add a specialization to start its tree.`, 'saved');
 }
 
 function createSpec(className, specName, description = '') {
@@ -695,18 +775,20 @@ function createSpec(className, specName, description = '') {
     project.trees[`${cleanClass}/${cleanSpec}`] = tree;
   });
   populateSelectors(cleanClass, cleanSpec, 'spec');
-  setStatus(`Created ${cleanClass} / ${cleanSpec}.`, 'saved');
 }
 
 function openContentDialog(mode) {
   contentCreationMode = mode;
-  const isClass = mode === 'class';
-  $('content-dialog-title').textContent = isClass ? 'Create class' : 'Create specialization';
-  $('content-dialog-help').textContent = isClass
+  const isClass = mode !== 'spec';
+  const duplicate = mode === 'duplicate';
+  $('content-dialog-title').textContent = duplicate ? 'Duplicate class' : isClass ? 'Create class' : 'Create specialization';
+  $('content-dialog-help').textContent = duplicate
+    ? 'Copy every specialization, talent and ability into your own uniquely named class.'
+    : isClass
     ? 'Create a new class. You can add its first specialization immediately afterwards.'
     : `Create a new specialization for ${classSelect.value || 'the selected class'}. An empty class, spec, Apex and Hero tree will be created for you.`;
   $('content-description-label').hidden = isClass;
-  $('content-name').value = '';
+  $('content-name').value = duplicate ? `${classSelect.value} copy` : '';
   $('content-description').value = '';
   $('content-dialog').showModal();
   $('content-name').focus();
@@ -715,7 +797,8 @@ function openContentDialog(mode) {
 function createContentFromDialog() {
   const name = $('content-name').value.trim();
   if (!name) return;
-  if (contentCreationMode === 'class') createClass(name);
+  if (contentCreationMode === 'duplicate') duplicateClass(name);
+  else if (contentCreationMode === 'class') createClass(name);
   else createSpec(classSelect.value, name, $('content-description').value);
   $('content-dialog').close();
 }
@@ -729,7 +812,7 @@ function showJson() {
 function applyJson() {
   try {
     const parsed = mergeProject(project, JSON.parse($('json-output').value));
-    mutate(() => { project = parsed; });
+    if (!mutate(() => { project = parsed; })) return;
     populateSelectors();
     $('json-dialog').close();
   } catch (error) { alert(`Invalid JSON: ${error.message}`); }
@@ -750,27 +833,117 @@ async function importProject() {
   if (!file) return;
   try {
     const imported = mergeProject(project, await readProjectFile(file));
-    mutate(() => { project = imported; });
+    if (!mutate(() => { project = imported; }, { creating: true })) return;
     populateSelectors();
     $('project-file').value = '';
-    setStatus('Imported classes updated; other classes preserved. Saved locally.', 'saved');
   } catch (error) { alert(`Import failed: ${error.message}`); }
 }
 
 async function resetDraft() {
-  if (!confirm('Discard the local draft and restore the repository data?')) return;
+  if (dirty && !confirm('Discard unsaved changes and reload the database? Export a backup first if needed.')) return;
   clearTimeout(saveTimer);
-  await clearDraft();
-  project = normalizeProject(compactProject(baselineProject));
-  selectedNodeId = null;
-  undoStack.length = 0;
-  redoStack.length = 0;
-  populateSelectors();
-  setStatus('Local draft reset.', 'saved');
+  await saving;
+  try {
+    project = await storage.load();
+    dirty = false;
+    selectedNodeId = null;
+    pendingSnapshot = null;
+    undoStack.length = 0;
+    redoStack.length = 0;
+    populateSelectors();
+    setStatus('Loaded latest Supabase data.', 'saved');
+  } catch (error) { setStatus(`Reload failed: ${error.message}`, 'error'); }
 }
 
-async function loadRepositoryProject() {
-  return loadTalentProject();
+async function migrateDraft() {
+  if (!storage.user) return;
+  try {
+    let draft = await loadDraft();
+    const legacy = localStorage.getItem('wow-workbook-abilities-draft');
+    if (!draft && !legacy) throw new Error('No old browser draft exists on this browser and origin.');
+    if (!draft) throw new Error('Only a legacy ability draft exists. Export it with the old app before migrating.');
+    draft = normalizeProject(draft);
+    if (legacy) draft = mergeLegacyAbilities(draft, JSON.parse(legacy));
+    let next = project;
+    let first;
+    for (const className of Object.keys(draft.content)) {
+      let name = className;
+      let index = 1;
+      while (Object.hasOwn(next.content, name)) name = `${className} migrated ${index++}`;
+      next = mergeProject(next, copyClass(draft, className, name));
+      first ||= name;
+    }
+    if (!confirm('Import the old browser draft as your own classes? Existing names get new names. The browser backup will be kept.')) return;
+    if (mutate(() => { project = next; }, { creating: true })) {
+      populateSelectors(first);
+      await saveToDatabase();
+    }
+  } catch (error) { setStatus(`Draft migration failed: ${error.message}`, 'error'); }
+}
+
+async function importBundled() {
+  if (!storage.user) return;
+  try {
+    const bundled = await loadTalentProject();
+    let next = project;
+    let count = 0;
+    for (const name of Object.keys(bundled.content)) {
+      if (Object.hasOwn(next.content, name)) continue;
+      next = mergeProject(next, compactProject(bundled, name));
+      count++;
+    }
+    if (!count) return setStatus('All bundled class names already exist. Duplicate a class to make your own copy.');
+    if (!confirm(`Import ${count} bundled classes into Supabase under your ownership? Existing classes will not be changed.`)) return;
+    if (mutate(() => { project = next; }, { creating: true })) {
+      populateSelectors();
+      await saveToDatabase();
+    }
+  } catch (error) { setStatus(`Bundled import failed: ${error.message}`, 'error'); }
+}
+
+function renderAccount() {
+  $('account-form').hidden = Boolean(storage.user);
+  $('sign-out').hidden = !storage.user;
+  $('account-status').textContent = storage.user
+    ? `Signed in as ${storage.user.email}. Everyone can view your saved classes.`
+    : 'Public viewing. Sign in to create and edit your own classes.';
+  if (project) render();
+}
+
+function wireAccount() {
+  async function authenticate(signUp) {
+    const form = $('account-form');
+    if (!form.reportValidity()) return;
+    $('sign-in').disabled = true;
+    $('sign-up').disabled = true;
+    try {
+      const email = $('account-email').value.trim();
+      const password = $('account-password').value;
+      if (signUp) {
+        const signedIn = await storage.signUp(email, password);
+        renderAccount();
+        if (!signedIn) $('account-status').textContent = 'Check your email to confirm your account, then return here and sign in.';
+      } else {
+        await storage.signIn(email, password);
+        renderAccount();
+      }
+      $('account-password').value = '';
+    } catch (error) { $('account-status').textContent = `Authentication failed: ${error.message}`; }
+    finally { $('sign-in').disabled = false; $('sign-up').disabled = false; }
+  }
+  $('account-form').addEventListener('submit', event => { event.preventDefault(); void authenticate(false); });
+  $('sign-up').addEventListener('click', () => { void authenticate(true); });
+  $('sign-out').addEventListener('click', async () => {
+    if (dirty && !(await saveToDatabase())) return;
+    try {
+      await saving;
+      await storage.signOut();
+      undoStack.length = 0;
+      redoStack.length = 0;
+      pendingSnapshot = null;
+      renderAccount();
+    } catch (error) { $('account-status').textContent = `Sign out failed: ${error.message}`; }
+  });
 }
 
 const TEXT_FIELDS = ['node-name', 'node-description', 'node-icon', 'node-cost', 'node-range', 'node-charges', 'node-cast-time', 'node-cooldown', 'choice-a-name', 'choice-a-description', 'choice-b-name', 'choice-b-description'];
@@ -840,46 +1013,14 @@ async function init() {
   $('node-kind').innerHTML = NODE_KINDS.map(kind => `<option value="${kind}">${kind[0].toUpperCase()}${kind.slice(1)}</option>`).join('');
   $('section-type').innerHTML = SECTION_TYPES.map(type => `<option value="${type}">${type[0].toUpperCase()}${type.slice(1)}</option>`).join('');
 
-  baselineProject = await loadRepositoryProject();
-  project = normalizeProject(compactProject(baselineProject));
-  let draft = null;
-  let draftLoadError = null;
-  try {
-    draft = await loadDraft();
-  } catch (error) {
-    draftLoadError = error;
-  }
-  if (draft) {
-    try {
-      project = normalizeProject(draft);
-      if (!Object.hasOwn(draft, 'abilities')) {
-        project = mergeLegacyAbilities(project, baselineProject.abilities);
-      }
-      setStatus(`Restored local draft · ${new Date(draft.savedAt).toLocaleString()}`, 'saved');
-    } catch {
-      setStatus('Saved draft was incompatible; using repository baseline.', 'error');
-    }
-  } else if (draftLoadError) {
-    setStatus(`Browser draft unavailable: ${draftLoadError.message}. Using repository baseline.`, 'error');
-  } else setStatus('Using repository baseline.', 'saved');
-
-  // Preserve ability edits created by the previous, separate ability editor.
-  try {
-    const legacy = localStorage.getItem('wow-workbook-abilities-draft');
-    if (legacy) {
-      project = mergeLegacyAbilities(project, JSON.parse(legacy));
-      if ('indexedDB' in window) {
-        await saveDraft(projectPayload());
-        localStorage.removeItem('wow-workbook-abilities-draft');
-      }
-    }
-  } catch (error) {
-    setStatus(`Legacy ability draft could not be migrated: ${error.message}`, 'error');
-  }
+  storage = await connectSupabase();
+  project = await storage.load();
+  setStatus('Loaded from Supabase. Changes save directly to the database.', 'saved');
 
   initializeAbilityDesigner({
     getAbilities: () => project.abilities,
-    onChange: abilities => mutate(() => { project.abilities = abilities; })
+    onChange: abilities => mutate(() => { project.abilities = abilities; }),
+    canEdit: editable
   });
   populateSelectors();
 
@@ -890,9 +1031,14 @@ async function init() {
   wireNodeForm();
   wirePanels();
   wireShortcuts();
+  wireAccount();
+  renderAccount();
 
   $('add-node').addEventListener('click', addNode);
   $('add-class').addEventListener('click', () => openContentDialog('class'));
+  $('duplicate-class').addEventListener('click', () => openContentDialog('duplicate'));
+  $('migrate-draft').addEventListener('click', migrateDraft);
+  $('import-bundled').addEventListener('click', importBundled);
   $('add-spec').addEventListener('click', () => openContentDialog('spec'));
   $('create-content').addEventListener('click', createContentFromDialog);
   $('content-form').addEventListener('submit', event => { event.preventDefault(); createContentFromDialog(); });
@@ -903,30 +1049,21 @@ async function init() {
   $('show-json').addEventListener('click', showJson);
   $('apply-json').addEventListener('click', applyJson);
   $('copy-json').addEventListener('click', () => navigator.clipboard.writeText($('json-output').value));
-  $('save-project').addEventListener('click', async () => {
-    if (!classSelect.value) return;
-    const button = $('save-project');
-    const className = classSelect.value;
-    button.disabled = true;
-    try {
-      const result = await saveProjectFile(compactProject(project, className), classFileName(className));
-      setStatus(`${result === 'saved' ? 'Saved to file' : 'Downloaded'}: ${classFileName(className)}`, 'saved');
-    } catch (error) {
-      if (error.name !== 'AbortError') setStatus(`File save failed: ${error.message}`, 'error');
-    } finally {
-      button.disabled = false;
-    }
-  });
+  $('save-project').addEventListener('click', () => { void saveToDatabase(); });
   $('export-project').addEventListener('click', () => {
     if (!classSelect.value) return;
     downloadProject(compactProject(project, classSelect.value), classFileName(classSelect.value));
-    setStatus(`Exported ${classSelect.value} · replace config/class/${classFileName(classSelect.value)} to publish.`, 'saved');
   });
   $('import-project').addEventListener('click', () => $('project-file').click());
   $('project-file').addEventListener('change', importProject);
   $('reset-draft').addEventListener('click', resetDraft);
   $('clear-section').addEventListener('click', clearSection);
   window.addEventListener('resize', () => layoutConnections(treeEl));
+  window.addEventListener('beforeunload', event => {
+    if (!dirty) return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
 
   render();
 }

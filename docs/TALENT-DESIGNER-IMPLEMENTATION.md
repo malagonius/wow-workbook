@@ -8,10 +8,23 @@ What the Talent Designer can do today. For *how* it is built see [ARCHITECTURE.m
 - `js/talent-designer.js` — editing logic, history, persistence.
 - `js/talent-tree-renderer.js` — shared renderer, also used by the calculator.
 - `js/talent-model.js` — canonical schema, construction and validation.
-- `js/talent-designer-storage.js` — IndexedDB drafts, import/export.
+- `js/supabase-storage.js` — public database reads, authentication, ownership,
+  revision-aware transactional saves and class copying.
+- `js/talent-designer-storage.js` — legacy browser-draft migration and optional file import/export.
 - `css/talent-tree.css`, `css/talent-designer.css` — tree visuals and designer chrome.
 
 ## Capabilities
+
+**Database and accounts**
+
+- Everyone can view saved classes; email/password sign-in is required to create.
+- Only the owner can edit/delete a class, including its specs, talents and abilities.
+- Duplicate public classes into your own uniquely named, editable copies.
+- Edits autosave to Supabase; files are optional backups, not a publishing step.
+- One-time import of bundled classes and legacy browser drafts.
+- Explicit save/retry/error status, stale-write protection, atomic multi-class
+  saves, reload from database, and a warning before leaving with unsaved changes.
+- Authentication tokens live only in memory; sign in again after reloading.
 
 **Content**
 
@@ -40,13 +53,12 @@ What the Talent Designer can do today. For *how* it is built see [ARCHITECTURE.m
 
 - Undo/redo (`Ctrl+Z` / `Ctrl+Shift+Z`) across every change, with text edits grouped per field.
 - Live validation: duplicate IDs, overlapping positions, out-of-grid nodes, invalid ranks, broken or circular connections, unreachable nodes, impossible point totals.
-- Autosave to IndexedDB, plus Export, Import, Reset draft and a full JSON view with Apply.
+- Autosave to Supabase, optional backup export/import, Reload database and a full JSON view with Apply (owner-only changes).
 
 ## Current limitations
 
 - Only one section is edited at a time.
 - Icons are entered as a path or a glyph; there is no icon browser.
 - Validation runs on the current section, not the whole project at once.
-- Publishing is manual: export, replace `config/talent-project.json`, commit.
-- Renaming and duplicating use browser `prompt`/`confirm` dialogs rather than styled ones.
-
+- Initial Supabase setup and a first sign-in/import are required; subsequent saves publish automatically.
+- Renaming and some spec operations still use browser `prompt`/`confirm` dialogs; class creation and duplication use styled dialogs.

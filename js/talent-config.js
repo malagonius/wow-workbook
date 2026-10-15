@@ -122,7 +122,7 @@ export function splitProject(project) {
   return files;
 }
 
-function validateClassFile(data, className, path) {
+export function validateClassFile(data, className, path) {
   if (data.format !== TALENT_PROJECT_FORMAT || Object.keys(data.content || {}).length !== 1 ||
       !Object.hasOwn(data.content, className) || !Array.isArray(data.content[className])) {
     throw new Error(`Class mismatch in ${path}: expected only ${className}.`);

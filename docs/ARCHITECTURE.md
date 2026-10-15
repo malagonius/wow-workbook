@@ -1,17 +1,22 @@
 # Architecture
 
-WoW Workbook is a **static site**: plain HTML, CSS and ES modules. There is no build step, no framework and no backend. Open the files through a local web server and they run.
+WoW Workbook is a **static frontend**: plain HTML, CSS and ES modules, with
+Supabase providing PostgreSQL persistence and email/password authentication.
+There is no build step, framework, or application server.
 
 ## The one rule
 
-> **One self-contained JSON per class is the single source of truth, and both apps render its resolved model through the same renderer.**
+> **One owned JSONB document per class in Supabase is the single source of truth,
+> and both apps render its resolved model through the same renderer.**
 
 Everything else follows from that. The Calculator does not own a tree format, the Designer does not own a second one, and neither draws talents its own way.
 
 ```text
-              class index + one complete JSON per class
+              Supabase workbook_classes (owner + revision + JSONB)
                               │
-                      talent-config.js         ← fetch · split · compact · merge
+                      supabase-storage.js      ← auth · public reads · versioned saves
+                              │
+                      talent-config.js         ← validate · split · compact · merge
                               │
                       talent-model.js          ← normalize · validate · construct
                               │
@@ -29,12 +34,13 @@ Everything else follows from that. The Calculator does not own a tree format, th
 
 | File | Responsibility |
 | --- | --- |
-| `js/talent-config.js` | Loads the class index and self-contained class files, serializes shared references, scopes exports to a class, merges class imports and generates repository files. Legacy split manifests remain readable. Pure data plus injectable fetching — no DOM. |
+| `js/supabase-storage.js` | Supabase REST/Auth client, paginated public reads, in-memory auth session/refresh, class copying, changed-class saves, ownership checks and revision tracking. Injectable fetch, no DOM or runtime dependencies. |
+| `js/talent-config.js` | Loads bundled class files for explicit import, validates self-contained classes, serializes shared references, scopes exports, merges imports and generates bundled files. Legacy split manifests remain readable. Pure data plus injectable fetching, no DOM. |
 | `js/talent-model.js` | The schema. Normalizes any supported input into the canonical shape, constructs nodes/sections/trees, and validates them. Pure data — no DOM. |
 | `js/talent-tree-renderer.js` | The only module that turns a section into DOM. Draws the grid, the nodes, the SVG connection lines, and wires interaction callbacks. Has no opinion about game rules. |
 | `js/talent-calculator.js` | Interprets a tree as a playable talent calculator: point spending, ranks, unlock rules, spellbook modal. |
 | `js/talent-designer.js` | Edits the project: node CRUD, drag & drop, connections, sections, classes/specs, undo/redo, import/export. |
-| `js/talent-designer-storage.js` | IndexedDB draft persistence plus file import/export. |
+| `js/talent-designer-storage.js` | Legacy IndexedDB draft access for explicit migration, plus optional file import/export. Its local write helpers remain only for backward compatibility/tests; the live Designer never calls them. |
 | `js/ability-designer.js` | Ability editor connected to the Designer project through callbacks; shares its autosave, history and class export. |
 | `js/app-navigation.js` | Shared page header. |
 
@@ -93,10 +99,37 @@ All configured specializations of a class point to the same class section object
 
 Export and the JSON dialog contain only the selected class. Import merges the included classes, replacing their complete spec registry while leaving all other classes unchanged. Drafts and history still cover the entire workspace.
 
-Class/spec abilities live in the project's `abilities` registry and are scoped into the same class files. The Calculator reads published abilities from these files, not a separate global registry or browser-only overlay. The Designer migrates the old separate ability draft into IndexedDB once, preserving edits.
+Class/spec abilities live in the project's `abilities` registry and are scoped
+into the same class document. The Calculator reads them from Supabase, not a
+separate global registry or browser-only overlay. Explicit browser-draft import
+also merges the old separate ability draft, without deleting the old backup.
+
+## Persistence and ownership
+
+The database migration in `supabase/migrations/` defines public reads and
+authenticated owner-only writes using RLS. A class owns all of its specs,
+abilities and shared sections. The UI disables editing other owners' classes;
+duplicating a class remaps its names, tree keys, shared references and abilities.
+Class names are globally unique. The database validates that nested data cannot
+impersonate another class, and a trigger prevents ownership transfers.
+
+The Designer debounces edits and serializes save requests. Each request sends
+only changed classes with their last-read revision to `save_workbook_classes`.
+PostgreSQL applies the batch atomically and rejects stale revisions. Failed
+saves leave the committed snapshot unchanged and display an error; there is no
+automatic local-storage fallback. Unsaved changes trigger a leave-page warning.
+
+Auth access/refresh tokens stay in memory only. They refresh during an open
+tab's lifetime; reloading requires signing in again, but anonymous reads keep
+working. The public publishable key in `config/supabase.json` is not an admin
+credential. Schema installation is an explicit operator setup step; browser
+clients cannot install tables or bypass RLS.
 
 ## Known constraints
 
 - Editing a node's text patches the tree label in place (`patchSelectedNode`) instead of re-rendering, otherwise the input would lose focus on every keystroke.
-- The designer autosaves to IndexedDB. Publish by replacing the matching class JSON with its export; the maintenance script is optional for imports/new classes and legacy migration. Browser autosave never writes repository files.
+- Both pages read the database on load. Existing open Calculator tabs need a
+  reload to see new saves; realtime subscriptions are not implemented.
+- The Designer's unsaved work is in memory until the database acknowledges it.
+  Offline editing is not a durable workflow; retry the save or export a backup.
 - `normalizeProject` still accepts the legacy v1/v2 shapes, so old exports keep working.

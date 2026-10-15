@@ -1,6 +1,7 @@
 const $ = id => document.getElementById(id);
 let getAbilities = () => ({});
 let updateAbilities = () => {};
+let canEdit = () => true;
 
 const TYPE_ALIASES = new Map([
   ['Class Ability', 'spell'],
@@ -43,6 +44,7 @@ function updateTypeFields() {
 }
 
 function openEditor(entry = null) {
+  if (!canEdit()) return;
   const existing = entry?.ability || {};
   $('ability-name').value = existing.name || '';
   $('ability-scope').value = entry?.key === classKey() ? 'class' : 'spec';
@@ -63,6 +65,7 @@ function openEditor(entry = null) {
 }
 
 function saveAbility() {
+  if (!canEdit()) return;
   const name = $('ability-name').value.trim();
   if (!name) return;
 
@@ -106,6 +109,7 @@ function saveAbility() {
 }
 
 function removeAbility(entry) {
+  if (!canEdit()) return;
   if (!entry) return;
   const data = loadAbilities();
   const list = [...(data[entry.key] || [])];
@@ -141,6 +145,7 @@ export function renderAbilities() {
   element.querySelectorAll('[data-delete]').forEach(button => {
     button.addEventListener('click', () => removeAbility(entries[Number(button.dataset.delete)]));
   });
+  element.querySelectorAll('button').forEach(button => { button.disabled = !canEdit(); });
 }
 
 function inject() {
@@ -202,5 +207,6 @@ function inject() {
 export function initializeAbilityDesigner(options) {
   getAbilities = options.getAbilities;
   updateAbilities = options.onChange;
+  canEdit = options.canEdit || (() => true);
   inject();
 }

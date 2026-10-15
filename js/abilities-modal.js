@@ -1,4 +1,4 @@
-import { loadTalentProject } from './talent-config.js';
+import { loadWorkbook } from './supabase-storage.js';
 
 const get = id => document.getElementById(id);
 const classSelect = get('classSelect');
@@ -11,7 +11,10 @@ let abilitiesPromise;
 
 function loadAbilities() {
   if (!abilitiesPromise) {
-    abilitiesPromise = loadTalentProject().then(project => project.abilities);
+    abilitiesPromise = loadWorkbook().then(project => project.abilities).catch(error => {
+      abilitiesPromise = null;
+      throw error;
+    });
   }
   return abilitiesPromise;
 }

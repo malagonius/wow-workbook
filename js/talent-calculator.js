@@ -1,5 +1,5 @@
 import { nodeLabel } from './talent-model.js';
-import { loadTalentProject } from './talent-config.js';
+import { loadWorkbook } from './supabase-storage.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 import { initializeClassPicker } from './class-picker.js';
 
@@ -11,17 +11,20 @@ const refreshClassPicker=initializeClassPicker(classSelect,specSelect,()=>projec
 
 async function loadConfig(){
   try{
-    project=await loadTalentProject();
+    project=await loadWorkbook();
     const classes=Object.keys(project.content||{});
     classSelect.innerHTML='';
     classes.forEach(name=>classSelect.add(new Option(name,name)));
-    if(!classes.length)throw Error('No classes are defined in the talent project. Open Talent Designer to create one.');
+    if(!classes.length){
+      renderEmptyState(treeContainer,'✦','No classes yet','Open Talent Designer and sign in to create a class or import the bundled workbook.');
+      return;
+    }
     classSelect.value=classes[0];
     populateSpecs();
   }catch(e){
     classSelect.innerHTML='<option value="">Unavailable</option>';
     specSelect.innerHTML='<option value="">Unavailable</option>';
-    treeContainer.innerHTML='<div class="empty"><div class="icon">⚠</div><strong>Configuration could not be loaded</strong><span>'+e.message+'</span></div>';
+    renderEmptyState(treeContainer,'⚠','Configuration could not be loaded',e.message);
     console.error(e);
   }
 }
@@ -116,7 +119,7 @@ function openAbilities(){
   $('modalTitle').textContent=classSelect.value+' / '+specSelect.value+' — Abilities';
   $('spellList').innerHTML=list.length?list.map(a=>{
     const type=a.type||'ability';
-    const details=type==='spell'?'<div class="spell-meta"><span>Range: '+(a.range||'—')+'</span><span>Cost: '+(a.cost||'—')+'</span></div>':'';
+    const details=type==='spell'?'<div class="spell-meta"><span>Range: '+escapeHtml(a.range||'—')+'</span><span>Cost: '+escapeHtml(a.cost||'—')+'</span></div>':'';
     return '<article class="spell"><div class="spell-title"><strong>'+escapeHtml(a.name||'Unnamed ability')+'</strong><span class="badge">'+escapeHtml(type)+'</span></div>'+details+'<p>'+escapeHtml(a.description||'')+'</p></article>';
   }).join(''):'<div class="spell"><p>No abilities are configured for this specialization yet.</p></div>';
   $('spellModal').classList.add('open');$('spellModal').showModal();

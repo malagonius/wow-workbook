@@ -32,7 +32,8 @@ main, .designer { padding: 16px 12px 32px; }
   grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   padding: 12px;
-  position: static;
+  position: relative;
+  z-index: 50;
 }
 .control { display: grid; gap: 6px; letter-spacing: 0; }
 .control select, .designer-toolbar select { width: 100%; min-width: 0; }
@@ -78,6 +79,8 @@ main, .designer { padding: 16px 12px 32px; }
 .talent-detail-dialog .details { padding: 0; margin: 8px 0 0; border: 0; background: transparent; }
 .designer-header { display: block; margin-bottom: 16px; }
 .designer-toolbar {
+  position: relative;
+  z-index: 50;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
@@ -257,9 +260,20 @@ dialog::backdrop { background: #000b; }
   .designer-tools-actions { display: flex; flex-wrap: wrap; }
 }
 dialog#node-dialog { width: min(600px, calc(100% - 24px)); border-radius: 8px; }
+dialog#node-dialog[open] { display: flex; flex-direction: column; max-height: min(85dvh, 820px); }
 #node-dialog .designer-panel { margin: 0; border: 0; border-radius: 0; min-height: 0; }
-#node-dialog .modal-header { text-align: left; }
-#node-dialog .modal-body { max-height: calc(100dvh - 120px); }
+#node-dialog .modal-header { flex-shrink: 0; text-align: left; }
+#node-dialog .modal-body { flex: 1 1 auto; max-height: none; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; }
+#node-dialog .modal-body,
+#node-dialog textarea { scrollbar-width: thin; scrollbar-color: #8d6c27 #10141b; }
+#node-dialog .modal-body::-webkit-scrollbar,
+#node-dialog textarea::-webkit-scrollbar { width: 8px; height: 8px; }
+#node-dialog .modal-body::-webkit-scrollbar-track,
+#node-dialog textarea::-webkit-scrollbar-track { background: #10141b; }
+#node-dialog .modal-body::-webkit-scrollbar-thumb,
+#node-dialog textarea::-webkit-scrollbar-thumb { background: #8d6c27; border: 2px solid #10141b; border-radius: 8px; }
+#node-dialog .modal-body::-webkit-scrollbar-thumb:hover,
+#node-dialog textarea::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 #node-dialog fieldset { min-width: 0; }
 #node-dialog .designer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 body:has(dialog[open]) { overflow: hidden; }

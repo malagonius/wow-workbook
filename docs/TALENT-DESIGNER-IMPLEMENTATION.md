@@ -24,7 +24,9 @@ What the Talent Designer can do today. For *how* it is built see [ARCHITECTURE.m
 - One-time import of bundled classes and legacy browser drafts.
 - Explicit save/retry/error status, stale-write protection, atomic multi-class
   saves, reload from database, and a warning before leaving with unsaved changes.
-- Authentication tokens live only in memory; sign in again after reloading.
+- Login persists across reloads and browser restarts in project-scoped localStorage.
+  Access tokens renew before database operations; sign-out removes the saved login.
+  Server-expired or revoked sessions require signing in again.
 
 **Content**
 

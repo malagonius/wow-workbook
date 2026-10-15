@@ -33,6 +33,92 @@ function login(storage, id = alice) {
   storage.setSession({ access_token: 'test-access', refresh_token: 'test-refresh', expires_in: 3600, user: { id } });
 }
 
+function browserStorage() {
+  const values = new Map();
+  return {
+    getItem: key => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value),
+    removeItem: key => values.delete(key)
+  };
+}
+
+test('login survives a new app instance, stays project-scoped, and sign-out removes it', async () => {
+  const saved = browserStorage();
+  const storage = new SupabaseStorage(config, async () => response(null), saved);
+  login(storage);
+  const restored = new SupabaseStorage(config, async () => response(null), saved);
+  assert.equal(restored.user.id, alice);
+  assert.equal(restored.session.expiresAt, storage.session.expiresAt);
+  const other = new SupabaseStorage({ ...config, url: 'https://other.supabase.co' }, fetch, saved);
+  assert.equal(other.user, null);
+  await restored.signOut();
+  assert.equal(new SupabaseStorage(config, fetch, saved).user, null);
+});
+
+test('restored expired sessions renew once for concurrent requests and persist rotated tokens', async () => {
+  const saved = browserStorage();
+  const original = new SupabaseStorage(config, fetch, saved);
+  login(original);
+  saved.setItem(original.sessionKey, JSON.stringify({ ...original.session, expiresAt: 0 }));
+  let refreshes = 0;
+  const storage = new SupabaseStorage(config, async () => {
+    refreshes++;
+    return response({ access_token: 'rotated', refresh_token: 'rotated-refresh', expires_in: 3600, user: { id: alice } });
+  }, saved);
+  await Promise.all([storage.refreshSession(), storage.refreshSession()]);
+  assert.equal(refreshes, 1);
+  const restored = new SupabaseStorage(config, fetch, saved);
+  assert.equal(restored.session.refresh_token, 'rotated-refresh');
+  assert.ok(restored.session.expiresAt > Date.now());
+});
+
+test('revoked saved sessions are removed and public data remains loadable', async () => {
+  const saved = browserStorage();
+  const original = new SupabaseStorage(config, fetch, saved);
+  login(original);
+  saved.setItem(original.sessionKey, JSON.stringify({ ...original.session, expiresAt: 0 }));
+  const warnings = [];
+  const warn = console.warn;
+  console.warn = (...args) => warnings.push(args);
+  try {
+    const storage = new SupabaseStorage(config, async url =>
+      url.includes('/token?') ? response({ message: 'Refresh token revoked' }, 400) : response([]), saved);
+    await storage.load();
+    assert.equal(storage.user, null);
+    assert.equal(saved.getItem(storage.sessionKey), null);
+    assert.equal(warnings.length, 1);
+  } finally {
+    console.warn = warn;
+  }
+});
+
+test('temporary refresh failures retain the saved login and surface the error', async () => {
+  const saved = browserStorage();
+  const original = new SupabaseStorage(config, fetch, saved);
+  login(original);
+  saved.setItem(original.sessionKey, JSON.stringify({ ...original.session, expiresAt: 0 }));
+  const storage = new SupabaseStorage(config, async () => response({ message: 'Temporarily unavailable' }, 503), saved);
+  await assert.rejects(storage.load(), /Temporarily unavailable/);
+  assert.equal(storage.user.id, alice);
+  assert.notEqual(saved.getItem(storage.sessionKey), null);
+});
+
+test('malformed saved login is cleared with an explicit warning', () => {
+  const saved = browserStorage();
+  const initial = new SupabaseStorage(config, fetch, saved);
+  saved.setItem(initial.sessionKey, '{invalid');
+  const warnings = [];
+  const warn = console.warn;
+  console.warn = (...args) => warnings.push(args);
+  try {
+    assert.equal(new SupabaseStorage(config, fetch, saved).user, null);
+    assert.equal(saved.getItem(initial.sessionKey), null);
+    assert.equal(warnings.length, 1);
+  } finally {
+    console.warn = warn;
+  }
+});
+
 test('copying a class preserves all specs, shared sections, talents and abilities under the new name', () => {
   const original = fixture();
   const copy = normalizeProject(copyClass(original, 'Mage', 'My Mage'));

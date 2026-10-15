@@ -61,10 +61,12 @@ Open <http://localhost:8000/>. Alternatively, Node 20+ users can run `npm start`
 5. Wait for **Saved to Supabase**, then reload the Calculator to verify the data.
    Further edits autosave directly to Supabase after a short debounce.
 
-Authentication tokens are kept **in memory only** and refreshed while the tab
-is open. Sign in again after a page reload; the workbook itself remains in the
-database across reloads, browsers and devices. No new drafts are written to
-IndexedDB or localStorage.
+Login sessions are saved in **localStorage**, scoped to the Supabase project,
+and restored across page reloads and browser restarts. Expired access tokens are
+renewed before database operations; server-expired or revoked sessions require
+signing in again. **Sign out** removes the saved session from this browser.
+Use sign-out on shared computers. Passwords are not stored. The workbook itself
+remains in the database; no new talent drafts are written to browser storage.
 
 Database errors do not fall back silently to local data. Unsaved work stays in
 the current tab, the status displays the error, and leaving the page prompts a

@@ -34,7 +34,7 @@ Everything else follows from that. The Calculator does not own a tree format, th
 
 | File | Responsibility |
 | --- | --- |
-| `js/supabase-storage.js` | Supabase REST/Auth client, paginated public reads, in-memory auth session/refresh, class copying, changed-class saves, ownership checks and revision tracking. Injectable fetch, no DOM or runtime dependencies. |
+| `js/supabase-storage.js` | Supabase REST/Auth client, paginated public reads, persisted auth session/refresh, class copying, changed-class saves, ownership checks and revision tracking. Injectable fetch and session storage, no DOM or runtime dependencies. |
 | `js/talent-config.js` | Loads bundled class files for explicit import, validates self-contained classes, serializes shared references, scopes exports, merges imports and generates bundled files. Legacy split manifests remain readable. Pure data plus injectable fetching, no DOM. |
 | `js/talent-model.js` | The schema. Normalizes any supported input into the canonical shape, constructs nodes/sections/trees, and validates them. Pure data — no DOM. |
 | `js/talent-tree-renderer.js` | The only module that turns a section into DOM. Draws the grid, the nodes, the SVG connection lines, and wires interaction callbacks. Has no opinion about game rules. |
@@ -119,9 +119,12 @@ PostgreSQL applies the batch atomically and rejects stale revisions. Failed
 saves leave the committed snapshot unchanged and display an error; there is no
 automatic local-storage fallback. Unsaved changes trigger a leave-page warning.
 
-Auth access/refresh tokens stay in memory only. They refresh during an open
-tab's lifetime; reloading requires signing in again, but anonymous reads keep
-working. The public publishable key in `config/supabase.json` is not an admin
+Auth access/refresh tokens persist in localStorage under a Supabase-project-scoped
+key, restoring login after reloads and browser restarts. Expired access tokens
+refresh before database operations, and rotated tokens are persisted. Sign-out
+removes the saved login. Rejected refresh tokens clear it with a logged warning;
+anonymous reads keep working. Temporary refresh failures surface without clearing
+the login. Passwords are not stored. The public publishable key in `config/supabase.json` is not an admin
 credential. Schema installation is an explicit operator setup step; browser
 clients cannot install tables or bypass RLS.
 

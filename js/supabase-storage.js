@@ -23,7 +23,7 @@ export function copyClass(project, previous, name) {
 }
 
 export class SupabaseStorage {
-  constructor(config, fetcher = fetch) {
+  constructor(config, fetcher = fetch, sessionStorage = globalThis.localStorage) {
     const url = new URL(config.url);
     if (url.protocol !== 'https:' && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
       throw new Error('Supabase requires an HTTPS project URL.');
@@ -35,8 +35,23 @@ export class SupabaseStorage {
     this.key = config.publishableKey;
     this.fetcher = (...args) => fetcher(...args);
     this.session = null;
+    this.sessionStorage = sessionStorage;
+    this.sessionKey = `wow-workbook-auth:${this.url}`;
+    this.refreshing = null;
     this.rows = new Map();
     this.committed = emptyProject();
+    const saved = this.sessionStorage?.getItem(this.sessionKey);
+    if (saved) {
+      try {
+        const session = JSON.parse(saved);
+        if (!session.access_token || !session.refresh_token || !session.user?.id ||
+            !Number.isFinite(session.expiresAt)) throw new Error('Invalid saved login.');
+        this.session = session;
+      } catch (error) {
+        this.sessionStorage.removeItem(this.sessionKey);
+        console.warn('Saved login could not be restored. Please sign in again.', error);
+      }
+    }
   }
 
   get user() { return this.session?.user || null; }
@@ -57,7 +72,9 @@ export class SupabaseStorage {
     try { data = text ? JSON.parse(text) : null; }
     catch { throw new Error(`Supabase returned an invalid response (${response.status}).`); }
     if (!response.ok) {
-      throw new Error(data?.message || data?.msg || data?.error_description || data?.error || `Supabase request failed (${response.status}).`);
+      const error = new Error(data?.message || data?.msg || data?.error_description || data?.error || `Supabase request failed (${response.status}).`);
+      error.status = response.status;
+      throw error;
     }
     return data;
   }
@@ -65,15 +82,33 @@ export class SupabaseStorage {
   async refreshSession() {
     if (!this.session) throw new Error('Sign in to save your creations.');
     if (Date.now() < this.session.expiresAt - 60000) return;
-    const data = await this.request('/auth/v1/token?grant_type=refresh_token', {
-      method: 'POST', body: { refresh_token: this.session.refresh_token }
-    });
-    this.setSession(data);
+    if (!this.refreshing) {
+      this.refreshing = (async () => {
+        try {
+          const data = await this.request('/auth/v1/token?grant_type=refresh_token', {
+            method: 'POST', body: { refresh_token: this.session.refresh_token }
+          });
+          this.setSession(data);
+        } catch (error) {
+          if ([400, 401, 403].includes(error.status)) {
+            this.sessionStorage?.removeItem(this.sessionKey);
+            this.session = null;
+          }
+          throw error;
+        } finally {
+          this.refreshing = null;
+        }
+      })();
+    }
+    await this.refreshing;
   }
 
   setSession(data) {
-    if (!data.access_token || !data.refresh_token || !data.user?.id) throw new Error('Supabase did not return a valid sign-in session.');
-    this.session = { ...data, expiresAt: Date.now() + data.expires_in * 1000 };
+    if (!data.access_token || !data.refresh_token || !data.user?.id ||
+        !Number.isFinite(data.expires_in) || data.expires_in <= 0) throw new Error('Supabase did not return a valid sign-in session.');
+    const session = { ...data, expiresAt: Date.now() + data.expires_in * 1000 };
+    this.sessionStorage?.setItem(this.sessionKey, JSON.stringify(session));
+    this.session = session;
   }
 
   async signIn(email, password) {
@@ -91,6 +126,7 @@ export class SupabaseStorage {
 
   async signOut() {
     await this.request('/auth/v1/logout', { method: 'POST', authenticated: true });
+    this.sessionStorage?.removeItem(this.sessionKey);
     this.session = null;
   }
 
@@ -99,7 +135,13 @@ export class SupabaseStorage {
   }
 
   async load() {
-    if (this.session) await this.refreshSession();
+    if (this.session) {
+      try { await this.refreshSession(); }
+      catch (error) {
+        if (this.session) throw error;
+        console.warn('Saved login expired or was revoked. Please sign in again.', error);
+      }
+    }
     // Explicit paging avoids PostgREST's default 1000-row truncation.
     const rows = [];
     for (let offset = 0; ; offset += 100) {

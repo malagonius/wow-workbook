@@ -1,0 +1,31 @@
+.rich-text-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.rich-text-bold {
+  min-width: 36px;
+  min-height: 32px;
+  border: 1px solid #ffffff24;
+  border-radius: 6px;
+  background: #171d27;
+  color: #fff;
+  font: bold 16px Georgia, serif;
+  cursor: pointer;
+}
+
+.rich-text-bold:hover {
+  background: #222b38;
+  border-color: #8d6c27;
+}
+
+.rich-text-help {
+  color: #9099a5;
+  font-size: .75rem;
+}
+
+.rich-text-output {
+  line-height: 1.5;
+}

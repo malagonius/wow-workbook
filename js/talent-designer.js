@@ -9,6 +9,7 @@ import { classFileName, compactProject, loadTalentProject, mergeLegacyAbilities,
 import { connectSupabase, copyClass } from './supabase-storage.js';
 import { initializeAbilityDesigner, renderAbilities } from './ability-designer.js';
 import { initializeClassPicker } from './class-picker.js';
+import { initializeRichTextEditors } from './rich-text.js';
 
 const HISTORY_LIMIT = 60;
 const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
@@ -1030,6 +1031,7 @@ async function init() {
     onChange: abilities => mutate(() => { project.abilities = abilities; }),
     canEdit: editable
   });
+  initializeRichTextEditors(document);
   populateSelectors();
 
   classSelect.addEventListener('change', () => updateSpecs());

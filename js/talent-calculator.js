@@ -2,6 +2,7 @@ import { nodeLabel } from './talent-model.js';
 import { loadWorkbook } from './supabase-storage.js';
 import { renderSections, layoutConnections, renderEmptyState } from './talent-tree-renderer.js';
 import { initializeClassPicker } from './class-picker.js';
+import { formatRichText } from './rich-text.js';
 
 let project=null;
 let inspectedNodeId=null;
@@ -85,7 +86,7 @@ function render(){
   refreshClassPicker();
   const tree=getTree();
   $('className').textContent=classSelect.value;$('specName').textContent=specSelect.value;
-  $('specDescription').textContent=tree?.description||'No homebrew talent tree has been defined for this specialization yet.';
+  $('specDescription').innerHTML=formatRichText(tree?.description||'No homebrew talent tree has been defined for this specialization yet.');
   if(!tree){
     $('pointCount').textContent='0 / 0';
     renderDetails([]);
@@ -120,7 +121,7 @@ function openAbilities(){
   $('spellList').innerHTML=list.length?list.map(a=>{
     const type=a.type||'ability';
     const details=type==='spell'?'<div class="spell-meta"><span>Range: '+escapeHtml(a.range||'—')+'</span><span>Cost: '+escapeHtml(a.cost||'—')+'</span></div>':'';
-    return '<article class="spell"><div class="spell-title"><strong>'+escapeHtml(a.name||'Unnamed ability')+'</strong><span class="badge">'+escapeHtml(type)+'</span></div>'+details+'<p>'+escapeHtml(a.description||'')+'</p></article>';
+    return '<article class="spell"><div class="spell-title"><strong>'+escapeHtml(a.name||'Unnamed ability')+'</strong><span class="badge">'+escapeHtml(type)+'</span></div>'+details+'<p class="rich-text-output">'+formatRichText(a.description||'')+'</p></article>';
   }).join(''):'<div class="spell"><p>No abilities are configured for this specialization yet.</p></div>';
   $('spellModal').classList.add('open');$('spellModal').showModal();
 }
@@ -136,7 +137,7 @@ function renderDetails(sections){
   if(!node)return;
   for(const text of [node.description,[node.cost,node.range,node.castTime,node.cooldown,node.charges].filter(Boolean).join(' · '),`Rank ${rankOf(node.id)} / ${node.maxRank}`,node.kind==='choice'?(node.choices||[]).map(choice=>`${choice.name}: ${choice.description||''}`).join('\n'):null]){
     if(!text)continue;
-    const paragraph=document.createElement('p');paragraph.textContent=text;host.append(paragraph);
+    const paragraph=document.createElement('p');paragraph.className='rich-text-output';paragraph.innerHTML=formatRichText(text);host.append(paragraph);
   }
   const status=document.createElement('p');
   status.textContent=nodeState(section,node).tooltipFooter;host.append(status);

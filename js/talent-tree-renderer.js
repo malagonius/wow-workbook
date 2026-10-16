@@ -3,6 +3,7 @@
 // tree always looks exactly like the tree the calculator plays.
 
 import { sectionColumns, sectionRows, nodeAt, nodeLabel, isEmptyNode } from './talent-model.js';
+import { formatRichText } from './rich-text.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const IMAGE_ICON = /^(https?:|data:|\.{0,2}\/)|\.(png|jpe?g|gif|webp|svg)$/i;
@@ -48,7 +49,12 @@ function showTooltip(button, node, label, state) {
   if (node.kind === 'choice') {
     addTooltipText(tooltip, 'talent-tooltip-choice', (node.choices || []).map(choice => choice.name).filter(Boolean).join(' / '));
   }
-  addTooltipText(tooltip, 'talent-tooltip-description', node.description);
+  if (node.description) {
+    const description = document.createElement('span');
+    description.className = 'talent-tooltip-description rich-text-output';
+    description.innerHTML = formatRichText(node.description);
+    tooltip.appendChild(description);
+  }
   addTooltipText(tooltip, 'talent-tooltip-validation', state.validationMessage);
   addTooltipText(tooltip, 'talent-tooltip-footer', state.tooltipFooter);
 

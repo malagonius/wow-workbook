@@ -1,4 +1,5 @@
 import { loadWorkbook } from './supabase-storage.js';
+import { formatRichText } from './rich-text.js';
 
 const get = id => document.getElementById(id);
 const classSelect = get('classSelect');
@@ -37,7 +38,7 @@ function renderAbilities(items) {
     <article class="spell-card">
       <h4>${escapeHtml(ability.name || 'Unnamed ability')}</h4>
       ${ability.type ? `<div class="spell-meta"><span>${escapeHtml(ability.type)}</span></div>` : ''}
-      <p>${escapeHtml(ability.description || '')}</p>
+      <p class="rich-text-output">${formatRichText(ability.description || '')}</p>
     </article>
   `).join('');
 }

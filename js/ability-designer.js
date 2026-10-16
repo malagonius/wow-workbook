@@ -1,3 +1,5 @@
+import { formatRichText, initializeRichTextEditors } from './rich-text.js';
+
 const $ = id => document.getElementById(id);
 let getAbilities = () => ({});
 let updateAbilities = () => {};
@@ -134,7 +136,7 @@ export function renderAbilities() {
     ? entries.map((entry, displayIndex) => '<div class="designer-ability-item">' +
         '<div><strong>' + escapeHtml(entry.ability.name) + '</strong>' +
         '<small>' + (entry.key === classKey() ? 'Class' : 'Spec') + ' · ' + escapeHtml(entry.ability.type || 'ability') + '</small>' +
-        '<p>' + escapeHtml(entry.ability.description || '') + '</p></div>' +
+        '<p class="rich-text-output">' + formatRichText(entry.ability.description || '') + '</p></div>' +
         '<div class="designer-actions"><button type="button" data-edit="' + displayIndex + '">Edit</button><button type="button" data-delete="' + displayIndex + '">Remove</button></div>' +
       '</div>').join('')
     : '<p class="connection-empty">No class/spec abilities created yet.</p>';
@@ -182,7 +184,7 @@ function inject() {
           </fieldset>
         </div>
         <label>Icon<input id="ability-icon" placeholder="icons/ability.png or ✦"></label>
-        <label>Description<textarea id="ability-description" rows="4"></textarea></label>
+        <label>Description<textarea id="ability-description" rows="4" data-rich-text></textarea></label>
         <input type="hidden" id="ability-key">
         <input type="hidden" id="ability-index">
         <div class="modal-footer">
@@ -192,6 +194,7 @@ function inject() {
     </form>
   `;
   document.body.appendChild(dialog);
+  initializeRichTextEditors(dialog);
 
   button.addEventListener('click', () => openEditor());
   const createButton = $('create-ability');

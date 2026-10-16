@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/talent-calculator.css">
   <link rel="stylesheet" href="css/talent-tree.css">
   <link rel="stylesheet" href="css/talent-designer.css">
+  <link rel="stylesheet" href="css/rich-text.css">
   <link rel="stylesheet" href="css/app-navigation.css">
   <link rel="stylesheet" href="css/mobile.css">
 </head>
@@ -87,7 +88,7 @@
         <p id="selection-hint">Select a talent to edit it.</p>
         <form id="node-form" hidden autocomplete="off">
           <label>Name<input id="node-name"></label>
-          <label>Description<textarea id="node-description" rows="4"></textarea></label>
+          <label>Description<textarea id="node-description" rows="4" data-rich-text></textarea></label>
           <label>Icon
             <span class="icon-field">
               <input id="node-icon" placeholder="icons/frost-strike.png or ❄">
@@ -118,9 +119,9 @@
           <fieldset id="choice-fields" hidden>
             <legend>Choice options</legend>
             <label>Option A name<input id="choice-a-name"></label>
-            <label>Option A description<textarea id="choice-a-description" rows="2"></textarea></label>
+            <label>Option A description<textarea id="choice-a-description" rows="2" data-rich-text></textarea></label>
             <label>Option B name<input id="choice-b-name"></label>
-            <label>Option B description<textarea id="choice-b-description" rows="2"></textarea></label>
+            <label>Option B description<textarea id="choice-b-description" rows="2" data-rich-text></textarea></label>
           </fieldset>
 
           <details class="advanced">
@@ -161,7 +162,7 @@
         <details class="panel-group">
           <summary>Tree settings</summary>
           <div class="panel-form">
-            <label>Specialization description<textarea id="tree-description" rows="3"></textarea></label>
+            <label>Specialization description<textarea id="tree-description" rows="3" data-rich-text></textarea></label>
             <div class="designer-actions">
               <button type="button" id="duplicate-spec">Duplicate spec</button>
               <button type="button" id="delete-spec">Delete spec</button>
@@ -198,7 +199,7 @@
           <p>Shared section titles also change in other specs that use the same section.</p>
           <div id="content-section-fields"></div>
         </fieldset>
-        <label id="content-description-label">Description<textarea id="content-description" rows="3"></textarea></label>
+        <label id="content-description-label">Description<textarea id="content-description" rows="3" data-rich-text></textarea></label>
         <div class="modal-footer">
           <button type="button" id="create-content" class="primary">Create</button>
         </div>

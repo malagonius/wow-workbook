@@ -305,54 +305,75 @@ function findCycle(nodes, connections) {
 export function validateSection(section) {
   const errors = [];
   const warnings = [];
+  const issues = [];
+  function report(severity, message, nodeIds = [], connectionIndexes = [], field = null) {
+    (severity === 'error' ? errors : warnings).push(message);
+    issues.push({ severity, message, nodeIds, connectionIndexes, field });
+  }
   const ids = new Set();
   const nodes = section.nodes || [];
   const connections = section.connections || [];
   const columns = sectionColumns(section);
 
   for (const node of nodes) {
-    if (!node.id) errors.push('A node is missing an ID.');
-    else if (ids.has(node.id)) errors.push(`Duplicate node ID: ${node.id}`);
+    if (!node.id) report('error', 'A node is missing an ID.', [node.id]);
+    else if (ids.has(node.id)) report('error', `Duplicate node ID: ${node.id}`, [node.id]);
     else ids.add(node.id);
   }
 
   const occupied = new Map();
   for (const node of nodes) {
     const cell = `${node.row}/${node.column}`;
-    if (occupied.has(cell)) errors.push(`Nodes ${occupied.get(cell)} and ${node.id} share row ${node.row}, column ${node.column}.`);
+    if (occupied.has(cell)) report('error', `Nodes ${occupied.get(cell)} and ${node.id} share row ${node.row}, column ${node.column}.`, [occupied.get(cell), node.id]);
     else occupied.set(cell, node.id);
 
-    if (node.row < 0 || node.column < 0) errors.push(`Node ${node.id} has a negative position.`);
-    if (node.column >= columns) errors.push(`Node ${node.id} sits outside the ${columns}-column grid.`);
-    if (!Number.isInteger(node.maxRank) || node.maxRank < 1) errors.push(`Node ${node.id} has an invalid max rank.`);
+    if (node.row < 0 || node.column < 0) report('error', `Node ${node.id} has a negative position.`, [node.id]);
+    if (node.column >= columns) report('error', `Node ${node.id} sits outside the ${columns}-column grid.`, [node.id]);
+    if (!Number.isInteger(node.maxRank) || node.maxRank < 1) report('error', `Node ${node.id} has an invalid max rank.`, [node.id]);
     if (node.kind === 'choice' && (node.choices || []).filter(choice => choice.name).length < 2) {
-      warnings.push(`Choice node ${node.id} needs two named options.`);
+      report('warning', `Choice node ${node.id} needs two named options.`, [node.id]);
     }
   }
 
-  const seenConnections = new Set();
-  for (const connection of connections) {
-    if (!ids.has(connection.from)) errors.push(`Connection references missing node: ${connection.from}`);
-    if (!ids.has(connection.to)) errors.push(`Connection references missing node: ${connection.to}`);
-    if (connection.from === connection.to) errors.push(`Node cannot connect to itself: ${connection.from}`);
+  const seenConnections = new Map();
+  connections.forEach((connection, index) => {
+    const endpoints = [connection.from, connection.to];
+    if (!ids.has(connection.from)) report('error', `Connection references missing node: ${connection.from}`, endpoints, [index]);
+    if (!ids.has(connection.to)) report('error', `Connection references missing node: ${connection.to}`, endpoints, [index]);
+    if (connection.from === connection.to) report('error', `Node cannot connect to itself: ${connection.from}`, endpoints, [index]);
     const key = `${connection.from}->${connection.to}`;
-    if (seenConnections.has(key)) errors.push(`Duplicate connection: ${key}`);
-    seenConnections.add(key);
-  }
+    if (seenConnections.has(key)) report('error', `Duplicate connection: ${key}`, endpoints, [seenConnections.get(key), index]);
+    else seenConnections.set(key, index);
+  });
 
   const cycle = findCycle(nodes, connections.filter(connection => ids.has(connection.from) && ids.has(connection.to)));
-  if (cycle) errors.push(`Connections form a loop through ${cycle}.`);
+  if (cycle) {
+    const outgoing = new Map(nodes.map(node => [node.id, []]));
+    connections.forEach(connection => {
+      if (ids.has(connection.to)) outgoing.get(connection.from)?.push(connection.to);
+    });
+    function reaches(start, target, visited = new Set()) {
+      if (start === target) return true;
+      if (visited.has(start)) return false;
+      visited.add(start);
+      return (outgoing.get(start) || []).some(next => reaches(next, target, visited));
+    }
+    const cycleIndexes = connections.flatMap((connection, index) =>
+      ids.has(connection.from) && ids.has(connection.to) && reaches(connection.to, connection.from) ? [index] : []);
+    const cycleNodes = [...new Set(cycleIndexes.flatMap(index => [connections[index].from, connections[index].to]))];
+    report('error', `Connections form a loop through ${cycle}.`, cycleNodes, cycleIndexes);
+  }
 
   const totalRanks = nodes.reduce((total, node) => total + (node.maxRank || 1), 0);
-  if (section.maxPoints > totalRanks) warnings.push(`Max points (${section.maxPoints}) exceeds the ${totalRanks} ranks available in this section.`);
+  if (section.maxPoints > totalRanks) report('warning', `Max points (${section.maxPoints}) exceeds the ${totalRanks} ranks available in this section.`, [], [], 'maxPoints');
 
   for (const node of nodes) {
-    if (node.row > 0 && !connections.some(connection => connection.to === node.id)) {
-      warnings.push(`Node ${node.id} has no incoming connection.`);
+    if (!isEmptyNode(node) && node.row > 0 && !connections.some(connection => connection.to === node.id)) {
+      report('warning', `Node ${node.id} has no incoming connection.`, [node.id]);
     }
   }
 
-  return { valid: errors.length === 0, errors, warnings };
+  return { valid: errors.length === 0, errors, warnings, issues };
 }
 
 export function createTree({ className, specName, description = '' }) {

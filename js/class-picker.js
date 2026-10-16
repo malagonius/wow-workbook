@@ -4,13 +4,13 @@ const CLASS_ICONS = {
   Priest: 'priest', Rogue: 'rogue', Shaman: 'shaman', Warlock: 'warlock', Warrior: 'warrior'
 };
 
-export function initializeClassPicker(classSelect, specSelect, getContent) {
+export function initializeClassPicker(classSelect, specSelect, getContent, { onCreateSpec, canCreateSpec = () => false } = {}) {
   const picker = document.createElement('nav');
   picker.className = 'class-picker';
   picker.setAttribute('aria-label', 'Class and specialization');
   classSelect.closest('label').before(picker);
   classSelect.closest('label').hidden = true;
-  specSelect.closest('label').hidden = true;
+  specSelect.closest('label').hidden = !onCreateSpec;
   let signature = '';
 
   function closeMenus() {
@@ -70,6 +70,21 @@ export function initializeClassPicker(classSelect, specSelect, getContent) {
         const title = document.createElement('strong');
         title.textContent = className;
         menu.append(title);
+        if (onCreateSpec) {
+          const create = document.createElement('button');
+          create.type = 'button';
+          create.textContent = '-- NEW SPEC --';
+          create.dataset.createSpec = className;
+          create.addEventListener('click', () => {
+            if (classSelect.value !== className) {
+              classSelect.value = className;
+              classSelect.dispatchEvent(new Event('change'));
+            }
+            closeMenus();
+            onCreateSpec();
+          });
+          menu.append(create);
+        }
         for (const specName of specs) {
           const option = document.createElement('button');
           option.type = 'button';
@@ -123,6 +138,8 @@ export function initializeClassPicker(classSelect, specSelect, getContent) {
       const trigger = group.querySelector('.class-icon-button');
       const selected = trigger.dataset.className === classSelect.value;
       trigger.setAttribute('aria-pressed', String(selected));
+      const create = group.querySelector('[data-create-spec]');
+      if (create) create.disabled = !canCreateSpec(trigger.dataset.className);
       group.querySelectorAll('[data-spec-name]').forEach(option => {
         option.setAttribute('aria-pressed', String(selected && option.dataset.specName === specSelect.value));
       });

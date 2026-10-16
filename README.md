@@ -88,16 +88,23 @@ On a phone, tap a calculator talent to open its details, then use **Add point**,
 **Refund point**, or **Next choice**. Closing the dialog keeps your place in the
 tree. Desktop left-click and right-click still spend and refund directly.
 
-The designer defaults to a readable **List** on phones; **Tree** switches to
-the spatial layout. Both scroll vertically with the page, and tree headings
+The designer always uses the spatial **Tree** view, including on phones.
+Trees scroll vertically with the page, and tree headings
 remain visible when a wide graph pans horizontally. Selecting a talent stays
 in the canvas; **Edit talent** opens its editor below. Edit **Row** and **Column**
 to move it without dragging.
 
 To link talents, choose **Connect** above the canvas, tap the source, then tap
 the target. The source is highlighted and the completed connection appears in
-the list. Choose **Select** or press Escape to leave connection mode.
+the tree. Click a connection line to delete it, or focus it and press Enter,
+Space or Delete. Choose **Edit** or press Escape to leave connection mode.
 **Back to tree** returns from the editor to the canvas. Your classes autosave to Supabase.
+
+Validation problems are highlighted in red directly on talents, connection lines
+and affected section settings, rather than listed in a sidebar. Hover or focus a
+highlighted talent for details; its accessible description also explains the issue.
+A compact count beside the tree heading summarizes errors and warnings.
+Unused empty sockets do not produce missing-connection warnings.
 
 See [mobile accessibility verification](docs/DEVELOPMENT.md#mobile-accessibility-verification)
 for the Playwright and axe results, coverage, and remaining manual checks.
@@ -106,7 +113,10 @@ for the Playwright and axe results, coverage, and remaining manual checks.
 
 1. Open the **Talent Designer**.
 2. Sign in. Pick one of your classes, use **Duplicate class** to copy any public
-   class, or create your own with **＋ Class** / **＋ Spec**.
+   class, or create your own with **＋ Class** beside the class icons. Choose
+   **-- NEW SPEC --**, the first option in the Spec selector or a class icon's
+   specialization menu, to add a specialization. The pencil beside the Spec
+   selector renames the selected spec without losing its talents or abilities.
 3. Click or tap an empty socket to create a talent, then edit it in the panel.
 4. Drag talents to rearrange them, or edit Row and Column. Choose **Connect**,
    select a source, then a target; desktop also supports dragging the gold dot.

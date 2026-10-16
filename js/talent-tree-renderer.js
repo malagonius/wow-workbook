@@ -49,6 +49,7 @@ function showTooltip(button, node, label, state) {
     addTooltipText(tooltip, 'talent-tooltip-choice', (node.choices || []).map(choice => choice.name).filter(Boolean).join(' / '));
   }
   addTooltipText(tooltip, 'talent-tooltip-description', node.description);
+  addTooltipText(tooltip, 'talent-tooltip-validation', state.validationMessage);
   addTooltipText(tooltip, 'talent-tooltip-footer', state.tooltipFooter);
 
   document.body.appendChild(tooltip);
@@ -86,6 +87,8 @@ function buildIcon(node) {
 
 function buildNode(section, node, options) {
   const state = options.getNodeState?.(section, node) || {};
+  const issues = options.validation?.issues.filter(issue => issue.nodeIds.includes(node.id)) || [];
+  state.validationMessage = [...new Set(issues.map(issue => issue.message))].join('\n');
   const button = document.createElement('button');
   button.type = 'button';
   button.dataset.id = node.id;
@@ -99,9 +102,20 @@ function buildNode(section, node, options) {
   if (state.partial) classes.push('partial');
   if (node.id === options.selectedNodeId) classes.push('editing');
   if (node.id === options.connectSourceId) classes.push('connect-source');
+  if (issues.length) classes.push('validation-invalid');
   button.className = classes.join(' ');
   button.setAttribute('aria-label', state.title || label || node.id);
   button.setAttribute('aria-pressed', String(!!state.selected));
+  if (issues.length) {
+    button.setAttribute('aria-invalid', 'true');
+    button.title = state.validationMessage;
+    const detail = document.createElement('span');
+    detail.id = `talent-issue-${section.id}-${section.nodes.indexOf(node)}`;
+    detail.hidden = true;
+    detail.textContent = state.validationMessage;
+    button.appendChild(detail);
+    button.setAttribute('aria-describedby', detail.id);
+  }
 
   button.appendChild(buildIcon(node));
 
@@ -251,6 +265,15 @@ function buildSectionHead(section, options) {
 
   const points = document.createElement('strong');
   points.textContent = options.getSectionSummary?.(section) ?? `${section.maxPoints || 0} points`;
+  if (options.validation?.issues.length) {
+    const validation = document.createElement('span');
+    validation.className = 'section-validation validation-invalid';
+    validation.setAttribute('role', 'status');
+    const { errors, warnings } = options.validation;
+    validation.textContent = `! ${errors.length} errors · ${warnings.length} warnings`;
+    validation.title = options.validation.issues.map(issue => issue.message).join('\n');
+    left.appendChild(validation);
+  }
 
   head.append(left, points);
   return head;
@@ -259,16 +282,35 @@ function buildSectionHead(section, options) {
 function buildConnections(section, options) {
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.setAttribute('class', 'connections');
-  svg.setAttribute('aria-hidden', 'true');
+  if (!options.handlers?.onEdgeClick) svg.setAttribute('aria-hidden', 'true');
+  else {
+    svg.setAttribute('role', 'group');
+    svg.setAttribute('aria-label', 'Talent connections. Select a line to delete it.');
+  }
   svg.setAttribute('preserveAspectRatio', 'none');
 
   (section.connections || []).forEach((connection, index) => {
     const line = document.createElementNS(SVG_NS, 'line');
     line.dataset.from = connection.from;
     line.dataset.to = connection.to;
+    const issues = options.validation?.issues.filter(issue => issue.connectionIndexes.includes(index)) || [];
+    if (issues.length) line.classList.add('validation-invalid');
+    const message = issues.map(issue => issue.message).join('\n');
+    const label = `${connection.from} to ${connection.to}${message ? `: ${message}` : ''}`;
+    const title = document.createElementNS(SVG_NS, 'title');
+    title.textContent = label;
+    line.appendChild(title);
     if (options.handlers?.onEdgeClick) {
       line.classList.add('clickable');
+      line.setAttribute('tabindex', '0');
+      line.setAttribute('role', 'button');
+      line.setAttribute('aria-label', `Delete connection ${label}`);
       line.addEventListener('click', () => options.handlers.onEdgeClick(index, section));
+      line.addEventListener('keydown', event => {
+        if (!['Enter', ' ', 'Delete'].includes(event.key)) return;
+        event.preventDefault();
+        options.handlers.onEdgeClick(index, section);
+      });
     }
     svg.appendChild(line);
   });
@@ -345,11 +387,25 @@ export function layoutConnections(container) {
       const from = section.querySelector(`[data-id="${CSS.escape(line.dataset.from)}"]`);
       const to = section.querySelector(`[data-id="${CSS.escape(line.dataset.to)}"]`);
       if (!from || !to) {
+        const anchor = from || to;
+        if (container.classList.contains('designer-mode')) {
+          const rect = anchor?.getBoundingClientRect();
+          const x = rect ? rect.left + rect.width / 2 - box.left : 8;
+          const y = rect ? rect.top - box.top : 28;
+          line.classList.remove('broken');
+          line.setAttribute('x1', x);
+          line.setAttribute('y1', y);
+          line.setAttribute('x2', x + 24);
+          line.setAttribute('y2', Math.max(2, y - 24));
+          line.setAttribute('stroke-dasharray', '4 3');
+          return;
+        }
         line.classList.add('broken');
         line.removeAttribute('x1');
         return;
       }
       line.classList.remove('broken');
+      line.removeAttribute('stroke-dasharray');
 
       const a = from.getBoundingClientRect();
       const b = to.getBoundingClientRect();
@@ -361,6 +417,14 @@ export function layoutConnections(container) {
         x: b.left + b.width / 2 - box.left,
         y: b.top + b.height / 2 - box.top
       };
+      if (from === to && container.classList.contains('designer-mode')) {
+        line.setAttribute('x1', fromCenter.x);
+        line.setAttribute('y1', a.top - box.top);
+        line.setAttribute('x2', fromCenter.x + 24);
+        line.setAttribute('y2', Math.max(2, a.top - box.top - 24));
+        line.setAttribute('stroke-dasharray', '4 3');
+        return;
+      }
 
       // Start/end the connector at the actual node boundary instead of its
       // center. This makes the visual connection stop at the node border even

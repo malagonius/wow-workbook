@@ -94,6 +94,12 @@ The test command uses Node's built-in test discovery and does not require shell 
 - [ ] Changing columns/rows resizes the grid and warns before deleting talents that fall outside.
 - [ ] Undo/redo (`Ctrl+Z` / `Ctrl+Shift+Z`) covers moves, edits, deletes and structural changes.
 - [ ] Creating a class then a spec produces four empty sections.
+- [ ] Class creation sits beside the class icons; the pencil beside the Spec selector opens Rename spec. The selector and each class icon menu list `-- NEW SPEC --` before existing specs.
+- [ ] Only Tree view is available on desktop and mobile; create talents by selecting empty sockets, without an Add Talent button.
+- [ ] No Connections panel or validation list is shown. Invalid talents and connections turn red, expose issue details, and clear after repair; unused empty sockets remain unmarked.
+- [ ] Duplicate edges and every edge in a loop turn red. A connection to a missing talent appears as a dashed red stub at the remaining endpoint; click it or focus and press Enter/Space/Delete to remove it.
+- [ ] Excessive Max points highlights the section setting in red; the tree heading summarizes errors and warnings, including problems with nodes that cannot be drawn.
+- [ ] Cancelling new-spec creation keeps the selected spec. Renaming a spec preserves its talents and spec abilities through autosave, undo/redo and reload; read-only classes cannot create or rename specs.
 - [ ] Export class → Import classes round-trips the selected class without removing any other class.
 - [ ] Class edits appear when switching specs and survive undo/redo and a page reload.
 - [ ] Shared hero edits appear in the other specs using that hero tree, while different heroes and other classes stay unchanged.
@@ -181,6 +187,14 @@ menus, modal opening, Escape dismissal and keyboard specialization navigation.
 All 22 configuration tests and `check:talents` passed. This follow-up does not
 repeat the earlier axe audit; compact phone talent targets can be narrower than
 44px, and real-device touch/virtual-keyboard checks remain manual.
+
+### Simplified Designer Toolbar (2026-10-16)
+
+The designer now keeps **＋ Class** alongside the class icons and exposes
+spec renaming through an accessible pencil button beside the Spec selector.
+Only the spatial Tree view is available on all screen sizes; the historical
+List-view checks above describe earlier versions. Create talents directly
+through empty sockets; the separate **＋ Talent** command has been removed.
 
 ## Updating optional bundled import sources
 

@@ -31,16 +31,21 @@
       <button id="sign-out" type="button" hidden>Sign out</button>
     </section>
     <section class="designer-toolbar">
-      <label>Class
-        <select id="designer-class"></select>
-      </label>
-      <label>Spec
-        <select id="designer-spec"></select>
-      </label>
+      <div class="designer-class-controls">
+        <label>Class
+          <select id="designer-class"></select>
+        </label>
+        <button id="add-class" type="button">＋ Class</button>
+      </div>
+      <div class="designer-spec-controls">
+        <label>Spec
+          <select id="designer-spec"></select>
+        </label>
+        <button id="rename-spec" type="button" aria-label="Rename spec" title="Rename spec">✎</button>
+      </div>
       <label>Section
         <select id="designer-section"></select>
       </label>
-      <button id="add-node" type="button">＋ Talent</button>
       <button id="undo" type="button" title="Undo (Ctrl+Z)">↶ Undo</button>
       <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
       <button id="save-project" type="button" title="Retry saving unsaved changes to Supabase">Save to database</button>
@@ -48,7 +53,6 @@
       <details class="designer-tools">
         <summary>Tools</summary>
         <div class="designer-tools-actions">
-      <button id="add-class" type="button">＋ Class</button>
       <button id="add-spec" type="button">＋ Spec</button>
       <button id="add-ability" type="button">＋ Ability</button>
       <button id="clear-section" type="button">Clear section</button>
@@ -67,10 +71,6 @@
     <section class="designer-workspace">
       <div class="designer-canvas">
         <div class="canvas-toolbar">
-          <div class="canvas-segments" role="group" aria-label="Canvas view">
-            <button id="view-list" type="button" aria-pressed="false">List</button>
-            <button id="view-tree" type="button" aria-pressed="true">Tree</button>
-          </div>
           <div class="canvas-segments" role="group" aria-label="Talent action">
             <button id="mode-select" type="button" aria-pressed="true">Edit</button>
             <button id="mode-connect" type="button" aria-pressed="false">Connect</button>
@@ -163,7 +163,6 @@
           <div class="panel-form">
             <label>Specialization description<textarea id="tree-description" rows="3"></textarea></label>
             <div class="designer-actions">
-              <button type="button" id="rename-spec">Rename spec</button>
               <button type="button" id="duplicate-spec">Duplicate spec</button>
               <button type="button" id="delete-spec">Delete spec</button>
             </div>
@@ -184,12 +183,6 @@
           </div>
         </details>
 
-        <details class="panel-group" open>
-          <summary>Connections</summary>
-          <div id="connection-list" class="connection-list"></div>
-        </details>
-
-        <div id="validation-panel" class="validation-panel"></div>
       </aside>
     </section>
   </main>

@@ -21,10 +21,10 @@ let changeVersion = 0;
 let selectedNodeId = null;
 let connectSourceId = null;
 let connectMode = false;
-let canvasView = 'tree';
 let connectionReceipt = '';
 let saveTimer;
 let contentCreationMode = null;
+let selectedSpec = '';
 let pendingSnapshot = null;
 const undoStack = [];
 const redoStack = [];
@@ -35,7 +35,10 @@ const specSelect = $('designer-spec');
 const sectionSelect = $('designer-section');
 const treeEl = $('designer-tree');
 const statusEl = $('storage-status');
-const refreshClassPicker = initializeClassPicker(classSelect, specSelect, () => project?.content || {});
+const refreshClassPicker = initializeClassPicker(classSelect, specSelect, () => project?.content || {}, {
+  onCreateSpec: () => openContentDialog('spec'),
+  canCreateSpec: className => storage?.canEdit(className) || false
+});
 
 function currentKey() { return `${classSelect.value}/${specSelect.value}`; }
 function currentTree() { return project.trees[currentKey()]; }
@@ -98,9 +101,11 @@ function updateOwnership() {
     if (!allowed) $(id).disabled = true;
     else $(id).disabled = !classSelect.value;
   }
+  $('rename-spec').disabled = !allowed || !currentTree();
+  specSelect.querySelector('[data-new-spec]').disabled = !allowed;
   document.querySelectorAll('.designer-workspace input, .designer-workspace textarea, .designer-workspace select, .designer-workspace button, #ability-dialog input, #ability-dialog textarea, #ability-dialog select, #save-ability')
     .forEach(control => {
-      if (!allowed && !control.disabled && !['view-list', 'view-tree', 'node-dialog-close'].includes(control.id)) {
+      if (!allowed && !control.disabled && control.id !== 'node-dialog-close') {
         control.dataset.ownershipDisabled = 'true';
         control.disabled = true;
       }
@@ -168,12 +173,15 @@ function populateSelectors(preferredClass = classSelect.value, preferredSpec = s
 
 function updateSpecs(preferredSpec = specSelect.value, preferredSection = sectionSelect.value) {
   const specs = project.content[classSelect.value] || [];
-  specSelect.innerHTML = specs.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+  specSelect.innerHTML = '<option value="" data-new-spec>-- NEW SPEC --</option>'
+    + specs.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
   specSelect.value = specs.includes(preferredSpec) ? preferredSpec : specs[0] || '';
+  if (!specs.length) specSelect.selectedIndex = -1;
   updateSections(preferredSection);
 }
 
 function updateSections(preferredSection = sectionSelect.value) {
+  selectedSpec = specSelect.value;
   const sections = currentTree()?.sections || [];
   sectionSelect.innerHTML = sections.map(section => `<option value="${escapeHtml(section.id)}">${escapeHtml(section.title)}</option>`).join('');
   sectionSelect.value = sections.some(section => section.id === preferredSection) ? preferredSection : sections[0]?.id || '';
@@ -202,12 +210,14 @@ function render() {
   refreshClassPicker();
   refreshSectionOptions();
   const section = currentSection();
+  const validation = section ? validateSection(section) : null;
 
   if (!section) {
     renderEmptyState(treeEl, '＋', 'No specialization tree yet', 'Sign in to create a class, or use Tools > Import bundled classes to migrate the existing workbook.');
   } else {
     renderSections(treeEl, [section], {
       mode: 'designer',
+      validation,
       selectedNodeId,
       connectSourceId,
       getSectionSummary: current => `${current.nodes.length} talents · ${current.maxPoints || 0} points`,
@@ -216,9 +226,6 @@ function render() {
     });
   }
 
-  treeEl.classList.toggle('list-view', canvasView === 'list');
-  $('view-list').setAttribute('aria-pressed', String(canvasView === 'list'));
-  $('view-tree').setAttribute('aria-pressed', String(canvasView === 'tree'));
   $('mode-select').setAttribute('aria-pressed', String(!connectMode));
   $('mode-connect').setAttribute('aria-pressed', String(connectMode));
   const source = section?.nodes.find(node => node.id === connectSourceId);
@@ -229,8 +236,11 @@ function render() {
   updateNodeForm();
   updateSectionForm();
   updateTreeForm();
-  renderConnections();
-  validate();
+  const pointsIssues = validation?.issues.filter(issue => issue.field === 'maxPoints') || [];
+  const pointsField = $('section-max-points');
+  pointsField.classList.toggle('validation-invalid', pointsIssues.length > 0);
+  pointsField.setAttribute('aria-invalid', String(pointsIssues.length > 0));
+  pointsField.title = pointsIssues.map(issue => issue.message).join('\n');
   updateHistoryButtons();
   renderAbilities();
   updateOwnership();
@@ -373,11 +383,6 @@ function updateNodeForm() {
   updateIconPreview(node.icon);
 }
 
-for (const view of ['list', 'tree']) $('view-' + view).addEventListener('click', () => {
-  canvasView = view;
-  render();
-  layoutConnections(treeEl);
-});
 for (const mode of ['select', 'connect']) $('mode-' + mode).addEventListener('click', () => {
   connectMode = mode === 'connect';
   connectSourceId = null;
@@ -456,29 +461,6 @@ function patchSelectedNode() {
   updateIconPreview(node.icon);
 }
 
-function renderConnections() {
-  const section = currentSection();
-  const list = $('connection-list');
-  if (!section) { list.innerHTML = ''; return; }
-
-  const nodes = new Map(section.nodes.map(node => [node.id, node]));
-  const connections = section.connections || [];
-  if (!connections.length) {
-    list.innerHTML = '<p class="connection-empty">No connections</p>';
-    return;
-  }
-
-  list.innerHTML = connections.map((connection, index) => {
-    const from = nodes.get(connection.from)?.name || connection.from;
-    const to = nodes.get(connection.to)?.name || connection.to;
-    return `<div class="connection-item"><span>${escapeHtml(from)} → ${escapeHtml(to)}</span><button type="button" data-delete-connection="${index}" aria-label="Delete connection">×</button></div>`;
-  }).join('');
-
-  list.querySelectorAll('[data-delete-connection]').forEach(button => button.addEventListener('click', () => {
-    onEdgeClick(Number(button.dataset.deleteConnection), section);
-  }));
-}
-
 function newNodeId(section, row, column) {
   const preferred = `${section.id}-${row}-${column}`;
   return section.nodes.some(node => node.id === preferred) ? uniqueNodeId(section, preferred) : preferred;
@@ -493,13 +475,6 @@ function firstFreeCell(section) {
     }
   }
   return { row: rows, column: 0 };
-}
-
-function addNode() {
-  const section = currentSection();
-  if (!section) return alert('Create a specialization before adding talents.');
-  const { row, column } = firstFreeCell(section);
-  onSocketClick(section, row, column);
 }
 
 function duplicateNode() {
@@ -634,7 +609,7 @@ function clearSection() {
 
 function updateTreeForm() {
   const tree = currentTree();
-  ['tree-description', 'rename-spec', 'duplicate-spec', 'delete-spec', 'add-section', 'add-node', 'clear-section'].forEach(id => { $(id).disabled = !tree; });
+  ['tree-description', 'rename-spec', 'duplicate-spec', 'delete-spec', 'add-section', 'clear-section'].forEach(id => { $(id).disabled = !tree; });
   ['rename-class', 'delete-class', 'add-spec'].forEach(id => { $(id).disabled = !classSelect.value; });
   $('tree-description').value = tree?.description || '';
 }
@@ -647,22 +622,31 @@ function applyTreeForm() {
   scheduleSave();
 }
 
-function renameSpec() {
+function renameSpec(name) {
   const tree = currentTree();
-  if (!tree) return;
+  if (!tree) return false;
   const className = classSelect.value;
   const previous = tree.spec;
-  const name = (prompt('New specialization name', previous) || '').trim();
-  if (!name || name === previous) return;
-  if (project.content[className].includes(name)) return alert(`"${name}" already exists for ${className}.`);
+  if (name === previous) return true;
+  if (project.content[className].includes(name)) {
+    $('content-name').setCustomValidity(`"${name}" already exists for ${className}.`);
+    $('content-name').reportValidity();
+    return false;
+  }
 
-  mutate(() => {
+  const renamed = mutate(() => {
     project.content[className] = project.content[className].map(spec => (spec === previous ? name : spec));
     project.trees[`${className}/${name}`] = project.trees[`${className}/${previous}`];
     delete project.trees[`${className}/${previous}`];
     project.trees[`${className}/${name}`].spec = name;
+    const previousKey = `${className}/${previous}`;
+    if (Object.hasOwn(project.abilities, previousKey)) {
+      project.abilities[`${className}/${name}`] = project.abilities[previousKey];
+      delete project.abilities[previousKey];
+    }
   });
-  populateSelectors(className, name, sectionSelect.value);
+  if (renamed) populateSelectors(className, name, sectionSelect.value);
+  return renamed;
 }
 
 function duplicateSpec() {
@@ -781,23 +765,31 @@ function openContentDialog(mode) {
   contentCreationMode = mode;
   const isClass = mode !== 'spec';
   const duplicate = mode === 'duplicate';
-  $('content-dialog-title').textContent = duplicate ? 'Duplicate class' : isClass ? 'Create class' : 'Create specialization';
-  $('content-dialog-help').textContent = duplicate
+  const renaming = mode === 'rename-spec';
+  $('content-dialog-title').textContent = renaming ? 'Rename specialization' : duplicate ? 'Duplicate class' : isClass ? 'Create class' : 'Create specialization';
+  $('content-dialog-help').textContent = renaming
+    ? `Rename ${specSelect.value} for ${classSelect.value}. Its talents and abilities will be preserved.`
+    : duplicate
     ? 'Copy every specialization, talent and ability into your own uniquely named class.'
     : isClass
     ? 'Create a new class. You can add its first specialization immediately afterwards.'
     : `Create a new specialization for ${classSelect.value || 'the selected class'}. An empty class, spec, Apex and Hero tree will be created for you.`;
   $('content-description-label').hidden = isClass;
-  $('content-name').value = duplicate ? `${classSelect.value} copy` : '';
+  $('content-name').setCustomValidity('');
+  $('content-name').value = renaming ? specSelect.value : duplicate ? `${classSelect.value} copy` : '';
   $('content-description').value = '';
+  $('create-content').textContent = renaming ? 'Save name' : 'Create';
   $('content-dialog').showModal();
   $('content-name').focus();
 }
 
 function createContentFromDialog() {
   const name = $('content-name').value.trim();
-  if (!name) return;
-  if (contentCreationMode === 'duplicate') duplicateClass(name);
+  $('content-name').setCustomValidity(name ? '' : 'Enter a name.');
+  if (!$('content-form').reportValidity()) return;
+  if (contentCreationMode === 'rename-spec') {
+    if (!renameSpec(name)) return;
+  } else if (contentCreationMode === 'duplicate') duplicateClass(name);
   else if (contentCreationMode === 'class') createClass(name);
   else createSpec(classSelect.value, name, $('content-description').value);
   $('content-dialog').close();
@@ -816,16 +808,6 @@ function applyJson() {
     populateSelectors();
     $('json-dialog').close();
   } catch (error) { alert(`Invalid JSON: ${error.message}`); }
-}
-
-function validate() {
-  const panel = $('validation-panel');
-  const section = currentSection();
-  if (!section) { panel.innerHTML = ''; return; }
-  const result = validateSection(section);
-  panel.innerHTML = result.valid && !result.warnings.length
-    ? '<span class="validation-ok">✓ Section is valid</span>'
-    : `${result.errors.map(error => `<div class="validation-error">✕ ${escapeHtml(error)}</div>`).join('')}${result.warnings.map(warning => `<div class="validation-warning">⚠ ${escapeHtml(warning)}</div>`).join('')}`;
 }
 
 async function importProject() {
@@ -978,7 +960,7 @@ function wirePanels() {
   $('tree-description').addEventListener('focus', beginEdit);
   $('tree-description').addEventListener('input', applyTreeForm);
   $('tree-description').addEventListener('change', commitEdit);
-  $('rename-spec').addEventListener('click', renameSpec);
+  $('rename-spec').addEventListener('click', () => openContentDialog('rename-spec'));
   $('duplicate-spec').addEventListener('click', duplicateSpec);
   $('delete-spec').addEventListener('click', deleteSpec);
   $('rename-class').addEventListener('click', renameClass);
@@ -1025,7 +1007,12 @@ async function init() {
   populateSelectors();
 
   classSelect.addEventListener('change', () => updateSpecs());
-  specSelect.addEventListener('change', () => updateSections());
+  specSelect.addEventListener('change', () => {
+    if (specSelect.value) return updateSections();
+    specSelect.value = selectedSpec;
+    if (!selectedSpec) specSelect.selectedIndex = -1;
+    if (editable()) openContentDialog('spec');
+  });
   sectionSelect.addEventListener('change', () => { selectedNodeId = null; connectSourceId = null; connectionReceipt = ''; render(); });
 
   wireNodeForm();
@@ -1034,13 +1021,13 @@ async function init() {
   wireAccount();
   renderAccount();
 
-  $('add-node').addEventListener('click', addNode);
   $('add-class').addEventListener('click', () => openContentDialog('class'));
   $('duplicate-class').addEventListener('click', () => openContentDialog('duplicate'));
   $('migrate-draft').addEventListener('click', migrateDraft);
   $('import-bundled').addEventListener('click', importBundled);
   $('add-spec').addEventListener('click', () => openContentDialog('spec'));
   $('create-content').addEventListener('click', createContentFromDialog);
+  $('content-name').addEventListener('input', () => $('content-name').setCustomValidity(''));
   $('content-form').addEventListener('submit', event => { event.preventDefault(); createContentFromDialog(); });
   $('content-dialog-close').addEventListener('click', () => $('content-dialog').close());
   $('json-dialog-close').addEventListener('click', () => $('json-dialog').close());

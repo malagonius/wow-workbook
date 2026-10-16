@@ -627,22 +627,26 @@ function renameSpec(name) {
   if (!tree) return false;
   const className = classSelect.value;
   const previous = tree.spec;
-  if (name === previous) return true;
-  if (project.content[className].includes(name)) {
+  const sectionTitles = Array.from($('content-section-fields').querySelectorAll('input'), input => input.value.trim());
+  if (name === previous && tree.sections.every((section, index) => section.title === sectionTitles[index])) return true;
+  if (name !== previous && project.content[className].includes(name)) {
     $('content-name').setCustomValidity(`"${name}" already exists for ${className}.`);
     $('content-name').reportValidity();
     return false;
   }
 
   const renamed = mutate(() => {
-    project.content[className] = project.content[className].map(spec => (spec === previous ? name : spec));
-    project.trees[`${className}/${name}`] = project.trees[`${className}/${previous}`];
-    delete project.trees[`${className}/${previous}`];
-    project.trees[`${className}/${name}`].spec = name;
-    const previousKey = `${className}/${previous}`;
-    if (Object.hasOwn(project.abilities, previousKey)) {
-      project.abilities[`${className}/${name}`] = project.abilities[previousKey];
-      delete project.abilities[previousKey];
+    tree.sections.forEach((section, index) => { section.title = sectionTitles[index]; });
+    if (name !== previous) {
+      project.content[className] = project.content[className].map(spec => (spec === previous ? name : spec));
+      project.trees[`${className}/${name}`] = tree;
+      delete project.trees[`${className}/${previous}`];
+      tree.spec = name;
+      const previousKey = `${className}/${previous}`;
+      if (Object.hasOwn(project.abilities, previousKey)) {
+        project.abilities[`${className}/${name}`] = project.abilities[previousKey];
+        delete project.abilities[previousKey];
+      }
     }
   });
   if (renamed) populateSelectors(className, name, sectionSelect.value);
@@ -766,9 +770,9 @@ function openContentDialog(mode) {
   const isClass = mode !== 'spec';
   const duplicate = mode === 'duplicate';
   const renaming = mode === 'rename-spec';
-  $('content-dialog-title').textContent = renaming ? 'Rename specialization' : duplicate ? 'Duplicate class' : isClass ? 'Create class' : 'Create specialization';
+  $('content-dialog-title').textContent = renaming ? 'Edit specialization and sections' : duplicate ? 'Duplicate class' : isClass ? 'Create class' : 'Create specialization';
   $('content-dialog-help').textContent = renaming
-    ? `Rename ${specSelect.value} for ${classSelect.value}. Its talents and abilities will be preserved.`
+    ? `Edit the spec name and section titles for ${classSelect.value}. Talents, connections and abilities will be preserved.`
     : duplicate
     ? 'Copy every specialization, talent and ability into your own uniquely named class.'
     : isClass
@@ -776,9 +780,26 @@ function openContentDialog(mode) {
     : `Create a new specialization for ${classSelect.value || 'the selected class'}. An empty class, spec, Apex and Hero tree will be created for you.`;
   $('content-description-label').hidden = isClass;
   $('content-name').setCustomValidity('');
+  $('content-name-label').textContent = renaming ? 'Spec name' : 'Name';
   $('content-name').value = renaming ? specSelect.value : duplicate ? `${classSelect.value} copy` : '';
   $('content-description').value = '';
-  $('create-content').textContent = renaming ? 'Save name' : 'Create';
+  $('content-sections').hidden = !renaming;
+  $('content-sections').disabled = !renaming;
+  $('content-section-fields').replaceChildren();
+  if (renaming) {
+    currentTree().sections.forEach(section => {
+      const label = document.createElement('label');
+      label.textContent = `${section.type} section (${section.id})`;
+      const input = document.createElement('input');
+      input.value = section.title;
+      input.required = true;
+      input.autocomplete = 'off';
+      input.addEventListener('input', () => input.setCustomValidity(''));
+      label.append(input);
+      $('content-section-fields').append(label);
+    });
+  }
+  $('create-content').textContent = renaming ? 'Save changes' : 'Create';
   $('content-dialog').showModal();
   $('content-name').focus();
 }
@@ -786,6 +807,11 @@ function openContentDialog(mode) {
 function createContentFromDialog() {
   const name = $('content-name').value.trim();
   $('content-name').setCustomValidity(name ? '' : 'Enter a name.');
+  if (contentCreationMode === 'rename-spec') {
+    $('content-section-fields').querySelectorAll('input').forEach(input => {
+      input.setCustomValidity(input.value.trim() ? '' : 'Enter a section title.');
+    });
+  }
   if (!$('content-form').reportValidity()) return;
   if (contentCreationMode === 'rename-spec') {
     if (!renameSpec(name)) return;

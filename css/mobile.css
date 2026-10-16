@@ -301,3 +301,7 @@ body:has(dialog[open]) { overflow: hidden; }
 .section-validation.validation-invalid, .talent-tooltip-validation { color: #ff8f8f; }
 .talent-tooltip-validation { white-space: pre-line; }
 .designer-panel input.validation-invalid { border-color: #ff6464; outline: 2px solid #ff6464; }
+
+#content-sections { min-width: 0; margin: 0; padding: 12px; border: 1px solid #505965; border-radius: 6px; }
+#content-sections p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+#content-section-fields { display: flex; flex-direction: column; gap: 12px; }

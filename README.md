@@ -116,7 +116,10 @@ for the Playwright and axe results, coverage, and remaining manual checks.
    class, or create your own with **＋ Class** beside the class icons. Choose
    **-- NEW SPEC --**, the first option in the Spec selector or a class icon's
    specialization menu, to add a specialization. The pencil beside the Spec
-   selector renames the selected spec without losing its talents or abilities.
+   selector opens a dialog to edit the spec name and all its section titles
+   together without losing talents, connections or abilities. Shared section
+   titles also update in other specs using that section. Save changes applies
+   everything as one undoable edit; cancelling leaves the workbook unchanged.
 3. Click or tap an empty socket to create a talent, then edit it in the panel.
 4. Drag talents to rearrange them, or edit Row and Column. Choose **Connect**,
    select a source, then a target; desktop also supports dragging the gold dot.

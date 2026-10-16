@@ -94,7 +94,8 @@ The test command uses Node's built-in test discovery and does not require shell 
 - [ ] Changing columns/rows resizes the grid and warns before deleting talents that fall outside.
 - [ ] Undo/redo (`Ctrl+Z` / `Ctrl+Shift+Z`) covers moves, edits, deletes and structural changes.
 - [ ] Creating a class then a spec produces four empty sections.
-- [ ] Class creation sits beside the class icons; the pencil beside the Spec selector opens Rename spec. The selector and each class icon menu list `-- NEW SPEC --` before existing specs.
+- [ ] Class creation sits beside the class icons; the pencil beside the Spec selector opens Edit specialization and sections. The selector and each class icon menu list `-- NEW SPEC --` before existing specs.
+- [ ] The pencil dialog edits the spec name and every section title together, including custom sections. Section-only edits work without renaming the spec; blank titles and duplicate spec names keep the dialog open. Cancel changes nothing; Save is one undoable edit, retains the selected section, and preserves shared section identity across save/reload.
 - [ ] Only Tree view is available on desktop and mobile; create talents by selecting empty sockets, without an Add Talent button.
 - [ ] No Connections panel or validation list is shown. Invalid talents and connections turn red, expose issue details, and clear after repair; unused empty sockets remain unmarked.
 - [ ] Duplicate edges and every edge in a loop turn red. A connection to a missing talent appears as a dashed red stub at the remaining endpoint; click it or focus and press Enter/Space/Delete to remove it.

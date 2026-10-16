@@ -41,7 +41,7 @@
         <label>Spec
           <select id="designer-spec"></select>
         </label>
-        <button id="rename-spec" type="button" aria-label="Rename spec" title="Rename spec">✎</button>
+        <button id="rename-spec" type="button" aria-label="Edit spec and section names" title="Edit spec and section names">✎</button>
       </div>
       <label>Section
         <select id="designer-section"></select>
@@ -192,7 +192,12 @@
       <header class="modal-header"><h2 id="content-dialog-title">Create</h2><button type="button" class="modal-close" id="content-dialog-close" aria-label="Close">×</button></header>
       <div class="modal-body">
         <p id="content-dialog-help"></p>
-        <label>Name<input id="content-name" required autocomplete="off"></label>
+        <label><span id="content-name-label">Name</span><input id="content-name" required autocomplete="off"></label>
+        <fieldset id="content-sections" hidden disabled>
+          <legend>Section titles</legend>
+          <p>Shared section titles also change in other specs that use the same section.</p>
+          <div id="content-section-fields"></div>
+        </fieldset>
         <label id="content-description-label">Description<textarea id="content-description" rows="3"></textarea></label>
         <div class="modal-footer">
           <button type="button" id="create-content" class="primary">Create</button>

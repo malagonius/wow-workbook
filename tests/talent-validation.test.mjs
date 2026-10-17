@@ -1,11 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createTree, makeNode, makeSection, validateSection } from '../js/talent-model.js';
+import { createEmptySection, createTree, makeNode, makeSection, validateSection } from '../js/talent-model.js';
 
 test('unused sockets do not report missing incoming connections', () => {
   for (const section of createTree({ className: 'Test', specName: 'Test' }).sections) {
-    assert.deepEqual(validateSection(section).issues, []);
+    const result = validateSection(section);
+    assert.equal(result.valid, true);
+    assert.deepEqual(result.issues.map(issue => issue.field), ['maxPoints']);
   }
+  const placeholders = createEmptySection({ id: 'legacy', type: 'spec', selectableEmpty: true, maxPoints: 34 });
+  assert.deepEqual(validateSection(placeholders).issues, []);
 });
 
 test('validation identifies incomplete choices, disconnected talents and section settings', () => {

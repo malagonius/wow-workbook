@@ -152,6 +152,7 @@ The `abilities` object uses the class name for class-wide abilities and `Class/S
 - Resolved projects, class files and compact exports use project version `6`; the class index has independent manifest version `2`.
 - A node ID is stable identity; row/column are layout information and may change.
 - Empty talent sockets are real nodes and must not be represented by `null` when they are selectable.
+- Newly created class, spec, Apex, hero and custom sections start with `nodes: []`, `connections: []` and `selectableEmpty: false`. Grid dimensions and point budgets are retained; clicking an unused socket in the Designer creates a talent. Existing authored placeholder nodes remain unchanged.
 - Connections belong to their section. There is no separate canonical connection file.
 - Class exports and IndexedDB drafts use the compact representation above; renderers receive resolved sections.
 - The Calculator and Designer use `loadTalentProject` and normalize through the shared model.

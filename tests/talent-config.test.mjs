@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createTree, normalizeProject } from '../js/talent-model.js';
+import { createEmptySection, createTree, makeNode, normalizeProject, sectionColumns, sectionRows } from '../js/talent-model.js';
 import { classFileName, compactProject, fileSlug, loadTalentProject, mergeLegacyAbilities, mergeProject, splitProject } from '../js/talent-config.js';
 import { saveProjectFile, saveDraft } from '../js/talent-designer-storage.js';
 
@@ -81,6 +81,9 @@ test('Priest baseline matches the captured Wowhead nodes, positions, choices and
 
 function fixture() {
   const blood = createTree({ className: 'Death Knight', specName: 'Blood' });
+  for (const section of blood.sections) {
+    section.nodes.push(makeNode({ id: `${section.id}-0-0`, name: `${section.title} talent` }));
+  }
   const frost = structuredClone(blood);
   frost.spec = 'Frost';
   const mage = createTree({ className: 'Mage', specName: 'Frost' });
@@ -95,6 +98,46 @@ function fixture() {
     trees: { 'Death Knight/Blood': blood, 'Death Knight/Frost': frost, 'Mage/Frost': mage }
   });
 }
+
+test('new trees start with empty grids and retain their section settings after export and reload', () => {
+  const tree = createTree({ className: 'Test', specName: 'Test Spec', description: 'New tree' });
+  assert.deepEqual(tree.sections.map(section => [
+    section.id, section.title, sectionRows(section), sectionColumns(section), section.maxPoints
+  ]), [
+    ['class', 'Test', 10, 7, 34],
+    ['spec', 'Test Spec', 10, 7, 34],
+    ['apex', 'Apex', 3, 7, 4],
+    ['hero', 'Hero Talents', 5, 7, 13]
+  ]);
+  for (const section of tree.sections) {
+    assert.deepEqual(section.nodes, []);
+    assert.deepEqual(section.connections, []);
+    assert.equal(section.selectableEmpty, false);
+  }
+  const project = normalizeProject({
+    content: { Test: ['Test Spec'] },
+    trees: { 'Test/Test Spec': tree }
+  });
+  assert.deepEqual(normalizeProject(JSON.parse(JSON.stringify(compactProject(project)))), project);
+});
+
+test('new custom sections start empty and explicit placeholders survive normalization', () => {
+  const empty = createEmptySection({ id: 'custom', type: 'spec', rows: 6, maxPoints: 10 });
+  assert.deepEqual(empty.nodes, []);
+  assert.equal(sectionRows(empty), 6);
+  assert.equal(sectionColumns(empty), 7);
+  assert.equal(empty.maxPoints, 10);
+  assert.equal(empty.selectableEmpty, false);
+  const placeholders = createEmptySection({ id: 'legacy', type: 'spec', rows: 2, selectableEmpty: true });
+  assert.equal(placeholders.nodes.length, 14);
+  const tree = createTree({ className: 'Test', specName: 'Test Spec' });
+  tree.sections.push(placeholders);
+  const project = normalizeProject({
+    content: { Test: ['Test Spec'] },
+    trees: { 'Test/Test Spec': tree }
+  });
+  assert.deepEqual(project.trees['Test/Test Spec'].sections.at(-1), placeholders);
+});
 
 function memoryFetch(files) {
   return async path => {

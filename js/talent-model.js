@@ -86,11 +86,13 @@ export function nodeLabel(node) {
   return choiceNames.join(' / ');
 }
 
-export function createEmptySection({ id, title, type, rows = 10, columns = DEFAULT_COLUMNS, maxPoints = 0, selectableEmpty = true }) {
+export function createEmptySection({ id, title, type, rows = 10, columns = DEFAULT_COLUMNS, maxPoints = 0, selectableEmpty = false }) {
   const nodes = [];
-  for (let row = 0; row < rows; row += 1) {
-    for (let column = 0; column < columns; column += 1) {
-      nodes.push(makeNode({ id: `${id}-${row}-${column}`, row, column }));
+  if (selectableEmpty) {
+    for (let row = 0; row < rows; row += 1) {
+      for (let column = 0; column < columns; column += 1) {
+        nodes.push(makeNode({ id: `${id}-${row}-${column}`, row, column }));
+      }
     }
   }
   return makeSection({ id, title, type, maxPoints, columns, rowCount: rows, selectableEmpty, nodes, connections: [] });

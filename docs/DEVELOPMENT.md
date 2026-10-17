@@ -52,7 +52,7 @@ action; bundled source updates do not replace already saved database classes.
 
 - **Never draw a tree outside the renderer.** If the designer and calculator ever diverge visually, the architecture has been broken.
 - **Never infer connections.** They are authored data.
-- **Empty talent sockets are real nodes**, not `null`. A blank Lichborn slot is a deliberate placeholder with an ID.
+- **Authored empty talents are real nodes**, not `null`. A blank Lichborn talent is a deliberate placeholder with an ID. New sections instead start with no nodes; unused grid sockets are only insertion targets in the Designer.
 - **Normalize on the way in.** Anything entering the app (fetch, import, JSON paste, undo snapshot) goes through `normalizeProject`, so the rest of the code can assume a complete object.
 - **Editor logic stays out of game logic.** The designer manipulates data; the calculator interprets it. Neither hardcodes a class, spec or talent name.
 - Keep new code in the existing plain-ES-module style. No framework, no dependencies.
@@ -93,7 +93,7 @@ The test command uses Node's built-in test discovery and does not require shell 
 - [ ] Clicking a connection line deletes it.
 - [ ] Changing columns/rows resizes the grid and warns before deleting talents that fall outside.
 - [ ] Undo/redo (`Ctrl+Z` / `Ctrl+Shift+Z`) covers moves, edits, deletes and structural changes.
-- [ ] Creating a class then a spec produces four empty sections.
+- [ ] Creating a class then a spec produces four empty sections with no placeholder talents, retaining their grid dimensions and point budgets. Clicking an unused socket creates just one talent; adding a custom section also starts with no talents.
 - [ ] Class creation sits beside the class icons; the pencil beside the Spec selector opens Edit specialization and sections. The selector and each class icon menu list `-- NEW SPEC --` before existing specs.
 - [ ] The pencil dialog edits the spec name and every section title together, including custom sections. Section-only edits work without renaming the spec; blank titles and duplicate spec names keep the dialog open. Cancel changes nothing; Save is one undoable edit, retains the selected section, and preserves shared section identity across save/reload.
 - [ ] Only Tree view is available on desktop and mobile; create talents by selecting empty sockets, without an Add Talent button.
